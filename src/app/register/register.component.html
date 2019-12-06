@@ -1,0 +1,58 @@
+<div class="card">
+  <div class="card-header">
+    {{pageTitle}}
+  </div>
+
+  <div class="card-body">
+    <form (ngSubmit)="registerUser()"
+          [formGroup]="registerForm">
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label"
+              for="emailId">Email</label>
+        <div class="col-md-8">
+          <input class="form-control"
+              id="emailId"
+              autofocus
+              type="text"
+              placeholder="Email (required)"
+              formControlName="email"/>
+        </div>
+      </div>
+
+    <div class="form-group row mb-2">
+      <label class="col-md-2 col-form-label"
+            for="usernameId">Username</label>
+      <div class="col-md-8">
+        <input class="form-control"
+            id="usernameId"
+            type="text"
+            placeholder="Username (required)"
+            formControlName="username"/>
+      </div>
+    </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label"
+              for="passwordId">Password</label>
+        <div class="col-md-8">
+          <input class="form-control"
+              id="passwordId"
+              type="text"
+              placeholder="Password (required)"
+              formControlName="password"/>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <div class="offset-md-2 col-md-4">
+          <button class="btn btn-primary mr3"
+                  style="width: 80px;"
+                  type="submit">
+          Register
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,8 +1,9 @@
 {
   "/api": {
-    "target": "http://localhost:8080",
+    "target": "https://tranquil-temple-75724.herokuapp.com",
     "secure": false,
     "logLevel": "debug",
+    "changeOrigin": true,
     "pathRewrite": {
       "^/api": ""
     }

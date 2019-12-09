@@ -1,0 +1,7 @@
+<div class="items-block row" *ngIf="recipes && recipes.length">
+  <div class="recipe col-md-3 col-sm-6 col-9" *ngFor="let recipe of recipes">
+    <span class="recipeName">{{recipe.name}}</span>
+    <span class="recipeDesription">{{recipe.description}}</span>
+    <span class="recipeDesription">{{recipe.difficulty}}</span>
+  </div>
+</div>

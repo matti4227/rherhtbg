@@ -1,0 +1,99 @@
+<div class="card">
+  <div class="card-header">
+    {{pageTitle}}
+  </div>
+
+  <div class="card-body">
+    <form (ngSubmit)="saveRecipe()"
+          [formGroup]="recipeForm">
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label"
+               for="nameId">Nazwa przepisu</label>
+        <div class="col-md-8">
+          <input class="form-control"
+                 id="nameId"
+                 type="text"
+                 placeholder="Podaj nazwę przepisu"
+                 formControlName="name" />
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label"
+               for="difficultyId">Trudność wykonania</label>
+
+        <div class="col-md-8">
+          <input class="form-control"
+                 id="difficultyId"
+                 type="text"
+                 placeholder="Podaj wartość z zakresu 1 - 5"
+                 formControlName="difficulty" />
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label"
+               for="preparationTimeId">Czas przygotowania</label>
+
+        <div class="col-md-8">
+          <input class="form-control"
+                 id="preparationTimeId"
+                 type="text"
+                 placeholder="Podaj czas na przygotowanie posiłku"
+                 formControlName="preparationTime" />
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label"
+               for="recipeDescriptionId">Opis</label>
+        <div class="col-md-8">
+          <textarea class="form-control"
+                 id="recipeDescriptionId"
+                 rows=3
+                 placeholder="Krótki opis przepisu"
+                 formControlName="description" ></textarea>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label"
+               for="preparationId">Przygotowanie</label>
+
+        <div class="col-md-8">
+          <textarea class="form-control"
+                 id="preparationId"
+                 rows="10"
+                 placeholder="Etapy przygotowania przepisu"
+                 formControlName="preparation" ></textarea>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label"
+                for="pictureId">Wybierz zdjęcie</label>
+          <div class="col-md-8">
+            <input id="pictureId"
+                  type="file"
+                  accept="image/*"
+                  (change)="patchFormWithPicture($event)" />
+            <div class="imagePreview" *ngIf="imageURL">
+              <img class="image" [src]="imageURL">
+            </div>
+          </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <div class="offset-md-2 col-md-4">
+          <button class="btn btn-primary mr-3"
+                  style="width:80px;"
+                  type="submit"
+                  [disabled]="!recipeForm.valid">
+            Save
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

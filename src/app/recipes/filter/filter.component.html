@@ -1,0 +1,66 @@
+<div class="parent">
+  <div class="categories">
+
+    <label>Kategorie</label>
+    <mat-radio-group
+      class="radio-group"
+      [(ngModel)]="category">
+      <mat-radio-button
+        class="radio-button"
+        *ngFor="let category of categories | enumToArray"
+        [value]="category">
+        {{ category | titlecase }}
+      </mat-radio-button>
+    </mat-radio-group>
+
+  </div>
+
+  <div class="difficulties">
+
+    <label style="font-size: large">Trudność</label>
+    <mat-radio-group
+      class="radio-group"
+      [(ngModel)]="difficulty">
+      <mat-radio-button
+        class="radio-button"
+        *ngFor="let difficulty of difficulties"
+        [value]="difficulty">
+        {{ difficulty | titlecase }}
+      </mat-radio-button>
+    </mat-radio-group>
+
+  </div>
+
+  <div class="prepTimes">
+
+    <label style="font-size: large">Czas przygotowania</label>
+    <mat-radio-group
+      class="radio-group"
+      [(ngModel)]="prepTime">
+      <mat-radio-button
+        class="radio-button"
+        *ngFor="let prepTime of prepTimes"
+        [value]="prepTime">
+        {{ prepTime | titlecase }}
+      </mat-radio-button>
+    </mat-radio-group>
+
+  </div>
+
+  <div class="sorts">
+
+    <label style="font-size: large">Sortowanie</label>
+    <mat-radio-group
+      class="radio-group"
+      [(ngModel)]="sort">
+      <mat-radio-button
+        class="radio-button"
+        *ngFor="let sort of sorts"
+        [value]="sort">
+        {{ sort | titlecase }}
+      </mat-radio-button>
+    </mat-radio-group>
+
+  </div>
+
+</div>

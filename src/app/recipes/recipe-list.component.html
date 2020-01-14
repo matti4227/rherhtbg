@@ -1,7 +1,99 @@
-<div class="items-block row" *ngIf="recipes && recipes.length">
-  <div class="recipe col-md-3 col-sm-6 col-9" *ngFor="let recipe of recipes">
-    <span class="recipeName">{{recipe.name}}</span>
-    <span class="recipeDesription">{{recipe.description}}</span>
-    <span class="recipeDesription">{{recipe.difficulty}}</span>
+<div class="parent">
+  <div class="filter">
+    <app-filter #filter ></app-filter>
   </div>
+
+  <div class="recipes">
+
+    <div class="search">
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control ml-3 mr-3"
+          placeholder="Wpisz szukaną frazę"
+          [(ngModel)]="searchText">
+        <div class="input-group-append">
+        </div>
+      </div>
+      <button
+        class="btn btn-primary mr-3"
+        type="button"
+        (click)="searchRecipes(filter, fridge)">
+        Szukaj
+      </button>
+      <!-- <div class="additionalInfo">
+        <div style="margin-left: 20px;" *ngIf="searchFlag">
+          <div style="display: inline-block;">
+            <p class="font">Przepisy z: &nbsp;</p>
+          </div>
+          <div style="display: inline-block;">
+            <p class="font-italic">{{ filterData.search }}&nbsp;&nbsp;</p>
+          </div>
+          <div style="display: inline-block;">
+            <p class="font"> znaleziono {{ recipePage.totalResults }}&nbsp;&nbsp;</p>
+          </div>
+          <button
+          style="display: inline-block;"
+            class="btn btn-outline-primary mr-3"
+            type="button"
+            (click)="reset()">
+            Reset
+          </button>
+        </div>
+
+        <div style="margin-left: 20px;" *ngIf="searchFlag">
+          <div style="display: inline-block;">
+            <p class="font">Przepisy z: &nbsp;</p>
+          </div>
+          <div style="display: inline-block;" *ngFor="let ing of selectedIngredients">
+            <p class="font-italic">{{ selectedIngredients[ing].name }}&nbsp;&nbsp;</p>
+          </div>
+          <div style="display: inline-block;">
+            <p class="font"> znaleziono {{ recipePage.totalResults }}&nbsp;&nbsp;</p>
+          </div>
+          <button
+          style="display: inline-block;"
+            class="btn btn-outline-primary mr-3"
+            type="button"
+            (click)="reset()">
+            Reset
+          </button>
+        </div>
+      </div> -->
+
+    </div>
+
+    <div class="items-block row" *ngIf="recipePage && recipePage.content.length">
+      <div class="recipe col-md-3 col-sm-6 col-9" *ngFor="let recipe of recipePage.content">
+        <h3 class="recipeName"><b>{{recipe.name}}</b></h3>
+        <span class="recipeDesription"><b>Opis:</b> {{recipe.description}}</span>
+        <div class="recipeDifficulty">
+          <span><b>Trudność:</b> {{recipe.difficulty}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!pageNav()" class="page">
+      <button
+        class="btn btn-primary mr-3"
+        style="width:100px;"
+        [disabled]="checkPreviousPage()"
+        (click)="previousPage()">
+        Poprzednia
+      </button>
+      <button
+        class="btn btn-primary mr-3"
+        style="width:100px;"
+        [disabled]="checkNextPage()"
+        (click)="nextPage()">
+        Następna
+      </button>
+    </div>
+
+  </div>
+
+  <div class="fridge">
+    <app-fridge #fridge></app-fridge>
+  </div>
+
 </div>

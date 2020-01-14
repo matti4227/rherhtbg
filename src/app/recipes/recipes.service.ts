@@ -1,3 +1,4 @@
+import { RecipePage } from './recipe-page';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -10,8 +11,22 @@ export class RecipesService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getAllRecipes(): Observable<Recipe[]> {
-    return this.httpClient.get<Recipe[]>('/api/recipes');
+  getRecipesByParameters(
+    search: string,
+    category: string,
+    difficulty: number,
+    prepTime: number,
+    sort: number,
+    page: number,
+    ingredients: object
+    ): Observable<RecipePage> {
+    return this.httpClient.post<RecipePage>(
+      `/api/recipes?text=${search}&category=${category}&diff=${difficulty}&prepTime=${prepTime}&sort=${sort}&page=${page}`
+      , ingredients);
+  }
+
+  getRecipesBySearch(name: string, page: number): Observable<RecipePage> {
+    return this.httpClient.get<RecipePage>(`/api/recipes/search?name=${name}&page=${page}`);
   }
 
   createRecipe(recipe: Recipe): Observable<Recipe> {

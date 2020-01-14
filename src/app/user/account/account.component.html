@@ -1,0 +1,60 @@
+<div class="card">
+  <div class="card-header">
+    {{pageTitle}}
+  </div>
+
+  <div class="card-body">
+    <form (ngSubmit)="saveAccount()"
+          [formGroup]="accountForm">
+      <fieldset>
+        <legend>Twój profil</legend>
+
+        <div class="image">
+          <div *ngIf="!imageURL">
+            <img class="round-image" [src]="defaultImage">
+          </div>
+          <div *ngIf="imageURL">
+            <img class="round-image" [src]="imageURL">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-3 col-form-label"
+                for="pictureId">Wybierz avatar</label>
+          <div class="col-md-8">
+            <input id="pictureId"
+                  class="form-control"
+                  #avatar
+                  type="file"
+                  accept="image/*"
+                  (change)="selectPicture($event)"
+                  formControlName="avatar" />
+
+            <div *ngIf="imageURL">
+              <button class="btn btn-primary"
+                      style="width:120px"
+                      type="button"
+                      title="Usuń zdjęcie"
+                      (click)="removeAvatar()">
+                      Usuń avatar
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </fieldset>
+
+      <div class="form-group row mb-2">
+          <div class="offset-md-5 col-md-4">
+            <button class="btn btn-primary mr-3"
+                    style="width:90px;"
+                    type="submit"
+                    [disabled]="!accountForm.valid">
+              Zapisz zmiany
+            </button>
+          </div>
+        </div>
+    </form>
+
+  </div>
+</div>

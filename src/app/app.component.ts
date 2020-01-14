@@ -1,6 +1,6 @@
 import { SecurityService } from './security/security.service';
 import { Component, OnInit } from '@angular/core';
-import { UserAuth } from './security/user-auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,8 @@ export class AppComponent {
 
   pageTitle = 'App';
 
-  constructor(private securityService: SecurityService) { }
+  constructor(private securityService: SecurityService,
+              private router: Router) { }
 
   get isLoggedIn(): boolean {
     return this.securityService.isLoggedIn;
@@ -25,5 +26,6 @@ export class AppComponent {
 
   logout(): void {
     this.securityService.logout();
+    this.router.navigate(['/recipes']);
   }
 }

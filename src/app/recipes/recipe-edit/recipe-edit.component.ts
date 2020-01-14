@@ -1,8 +1,10 @@
-import { NumberValidators } from '../../shared/number-validator';
 import { Component, OnInit } from '@angular/core';
-import { Recipe } from '../recipe';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { Recipe } from '../recipe';
 import { RecipesService } from '../recipes.service';
+import { NumberValidators } from '../../shared/number-validator';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -18,7 +20,8 @@ export class RecipeEditComponent implements OnInit {
   pageTitle: string;
 
   constructor(private formBuilder: FormBuilder,
-              private recipesService: RecipesService) { }
+              private recipesService: RecipesService,
+              private router: Router) { }
 
   ngOnInit() {
     this.recipe = null;
@@ -62,6 +65,7 @@ export class RecipeEditComponent implements OnInit {
         .subscribe({
           next: response => {
             console.log(response);
+            this.router.navigate(['/recipes']);
           },
           error: error => {
             console.error(error);

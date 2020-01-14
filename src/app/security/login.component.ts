@@ -1,6 +1,8 @@
-import { SecurityService } from './security.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { SecurityService } from './security.service';
 
 @Component({
   selector: 'app-login',
@@ -9,11 +11,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  pageTitle = 'Login';
+  pageTitle = 'Logowanie';
   loginForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
-              private securityService: SecurityService) { }
+              private securityService: SecurityService,
+              private router: Router) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -37,6 +40,7 @@ export class LoginComponent implements OnInit {
         .subscribe({
           next: response => {
             console.log(response);
+            this.router.navigate(['/recipes']);
           },
           error: error => {
             console.error(error);

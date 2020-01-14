@@ -1,0 +1,27 @@
+.parent {
+  border: solid;
+
+  .categories, .difficulties, .prepTimes, .sorts {
+
+    label {
+      font-size: large;
+      font-weight: 600;
+    }
+
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-bottom: 20px;
+
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      margin: 5px 0;
+    }
+
+    .radio-button {
+      margin: 1px;
+      scale: 0.5;
+    }
+  }
+}
+

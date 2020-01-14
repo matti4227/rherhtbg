@@ -27,6 +27,7 @@ export class SecurityService {
           this.securityObject = { ...response };
           localStorage.setItem('bearerToken', JSON.stringify(this.securityObject.bearerToken));
           localStorage.setItem('username', JSON.stringify(this.securityObject.userName));
+          localStorage.setItem('id', JSON.stringify(this.securityObject.id));
         })
       );
   }

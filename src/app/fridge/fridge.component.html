@@ -1,0 +1,51 @@
+<div class="container my-4">
+
+  <label>Lodówka</label>
+
+  <div class="form">
+    <mat-form-field class="full-width">
+      <input
+        type="text"
+        placeholder="Wybierz składnik"
+        matInput
+        [formControl]="myControl"
+        [(ngModel)]="selectedIngredient"
+        [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <button
+      [disabled]="selectedIngredientDisabled()"
+      class="btn btn-primary mr-3"
+      style="width:100px;"
+      (click)="addIngredientToFridge()">
+      Dodaj składnik
+    </button>
+  </div>
+
+  <mat-selection-list [(ngModel)]="selectedIngredients">
+    <mat-list-option *ngFor="let ingredient of ingredients" [value]="ingredient.name">
+      {{ ingredient.name }}
+    </mat-list-option>
+
+    <button
+      [disabled]="ingredientsSelectedDisabled()"
+      class="btn btn-primary mr-3"
+      style="width:100px;"
+      (click)="removeSelected()">
+      Usuń wybrane
+    </button>
+    <button
+      [disabled]="ingredientsDisabled()"
+      class="btn btn-primary mr-3"
+      style="width:100px;"
+      (click)="saveFridge()">
+      Zapisz lodówkę
+    </button>
+  </mat-selection-list>
+
+</div>

@@ -1,7 +1,7 @@
-import { RecipeListComponent } from './recipe-list.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { RecipeListComponent } from './recipe-list.component';
 import { RecipeEditComponent } from './recipe-edit/recipe-edit.component';
 
 

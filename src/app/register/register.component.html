@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-header">
-    {{pageTitle}}
+    <b>{{pageTitle}}</b>
   </div>
 
   <div class="card-body">
@@ -8,51 +8,53 @@
           [formGroup]="registerForm">
 
       <div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
+        <label class="col-md-4 col-form-label"
               for="emailId">Email</label>
-        <div class="col-md-8">
+        <div class="col-md-6">
           <input class="form-control"
               id="emailId"
               autofocus
               type="text"
-              placeholder="Email (required)"
               formControlName="email"/>
         </div>
       </div>
 
     <div class="form-group row mb-2">
-      <label class="col-md-2 col-form-label"
-            for="usernameId">Username</label>
-      <div class="col-md-8">
+      <label class="col-md-4 col-form-label"
+            for="usernameId">Nazwa użytkownika</label>
+      <div class="col-md-6">
         <input class="form-control"
             id="usernameId"
             type="text"
-            placeholder="Username (required)"
             formControlName="username"/>
       </div>
     </div>
 
-      <div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-              for="passwordId">Password</label>
-        <div class="col-md-8">
+      <div class="form-group row mb-4">
+        <label class="col-md-4 col-form-label"
+              for="passwordId">Hasło</label>
+        <div class="col-md-6">
           <input class="form-control"
               id="passwordId"
-              type="text"
-              placeholder="Password (required)"
+              type="password"
               formControlName="password"/>
         </div>
       </div>
 
       <div class="form-group row mb-2">
-        <div class="offset-md-2 col-md-4">
+        <div class="offset-md-4 col-md-4">
           <button class="btn btn-primary mr3"
-                  style="width: 80px;"
+                  style="width: 130px;"
                   type="submit">
-          Register
+          Zarejestruj się
           </button>
         </div>
       </div>
     </form>
+  </div>
+
+  <div class="card-footer">
+    <a class="nav-link"
+         [routerLink]="['/authenticate']">Posiadasz już konto? Zaloguj się klikając tutaj!</a>
   </div>
 </div>

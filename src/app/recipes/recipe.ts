@@ -1,11 +1,14 @@
+import { Comment } from './comment';
+import { RecipeIngredient } from './recipe-ingredient';
 export interface Recipe {
-  userId?: number;
+  id: number;
   name: string;
   description: string;
   preparation: string;
   preparationTime: number;
   difficulty: number;
   rating?: number;
-  ingredients?: object[];
+  recipeIngredients?: RecipeIngredient[];
+  comments?: Comment[];
   picture?: object;
 }

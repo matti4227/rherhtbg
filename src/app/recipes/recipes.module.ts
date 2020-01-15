@@ -10,16 +10,22 @@ import { RecipeListComponent } from './recipe-list.component';
 import { RecipeEditComponent } from './recipe-edit/recipe-edit.component';
 import { RecipesRoutingModule } from './recipes-routing.module';
 import { FilterComponent } from './filter/filter.component';
+import { RecipeComponent } from './recipe/recipe.component';
 
 
 @NgModule({
-  declarations: [RecipeListComponent, RecipeEditComponent, FilterComponent],
+  declarations: [
+    RecipeListComponent,
+    RecipeEditComponent,
+    RecipeComponent,
+    FilterComponent,
+  ],
   imports: [
     SharedModule,
     CommonModule,
-    RecipesRoutingModule,
     ReactiveFormsModule,
-    FridgeModule
+    FridgeModule,
+    RecipesRoutingModule
   ],
   providers: [RecipesService]
 })

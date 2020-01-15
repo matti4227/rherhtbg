@@ -32,4 +32,12 @@ export class RecipesService {
   createRecipe(recipe: Recipe): Observable<Recipe> {
     return this.httpClient.post<Recipe>('/api/recipes/create', recipe);
   }
+
+  getRecipe(recipeId: number): Observable<Recipe> {
+    return this.httpClient.get<Recipe>(`/api/recipes/${recipeId}`);
+  }
+
+  commentRecipe(comment: object, recipeId: number): Observable<object> {
+    return this.httpClient.post<object>(`/api/recipes/${recipeId}/comment`, comment);
+  }
 }

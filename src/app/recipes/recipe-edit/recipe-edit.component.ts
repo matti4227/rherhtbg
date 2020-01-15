@@ -76,13 +76,13 @@ export class RecipeEditComponent implements OnInit {
 
   get setTemporary(): Recipe {
     return {
-      userId: 1,
+      id: 1,
       name: null,
       description: null,
       preparation: null,
       preparationTime: null,
       difficulty: null,
-      ingredients: [],
+      // ingredients: [],
       picture: null
     };
   }

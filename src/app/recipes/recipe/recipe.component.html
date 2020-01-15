@@ -1,0 +1,87 @@
+<div class="parent">
+  <mat-card class="card">
+    <mat-card-header>
+      <!-- <div mat-card-avatar class="example-header-image"></div> -->
+    <mat-card-title>{{ recipe.name }}</mat-card-title>
+    <mat-card-subtitle>{{ recipe.description }}</mat-card-subtitle>
+
+    </mat-card-header>
+
+    <hr>
+
+    <img class="image" mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+
+    <hr>
+
+    <div class="recipeInfo">
+      <mat-card class="info">{{ recipe.rating }}</mat-card>
+      <mat-card class="info">{{ recipe.difficulty }}</mat-card>
+      <mat-card class="info">{{ recipe.preparationTime }}</mat-card>
+    </div>
+
+
+    <hr>
+
+    <mat-card-content>
+
+      <mat-card-title>Składniki</mat-card-title>
+      <div class="ingredients" *ngIf="recipeExists()">
+        <ul class="list-group list-group-flush">
+          <li
+            class="list-group-item"
+            *ngFor="let ingredient of recipe.recipeIngredients">
+            <div style="display: inline-block;">{{ ingredient.name }}&nbsp;&nbsp;</div>
+            <div style="display: inline-block;">{{ ingredient.amount }}</div>
+          </li>
+        </ul>
+      </div>
+
+      <hr>
+
+      <mat-card-title>Przygotowanie</mat-card-title>
+      <div class="preparation">
+        <p>{{ recipe.preparation }}</p>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card class="card">
+    <mat-form-field class="textarea">
+      <textarea
+        name="comment"
+        [(ngModel)]="comment"
+        matInput
+        rows="5"
+        placeholder="Twój komentarz"></textarea>
+    </mat-form-field>
+
+    <button
+      class="btn btn-primary mr-3"
+      style="width:100px;"
+      (click)="commentRecipe()">
+      Skomentuj
+    </button>
+
+    <div class="comments" *ngIf="recipeExists()">
+      <mat-card class="card1" *ngFor="let commment of recipe.comments">
+        <mat-card-header>
+          skomentował
+        </mat-card-header>
+        <div class="card" >
+          <div class="card-body">
+            {{ commment.comment }}
+          </div>
+        </div>
+        <mat-card-footer class="commentDate">
+          {{ commment.createdDate | date:'medium' }}
+        </mat-card-footer>
+      </mat-card>
+    </div>
+
+
+    </mat-card>
+
+
+</div>

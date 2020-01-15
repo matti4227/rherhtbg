@@ -64,7 +64,7 @@
     </div>
 
     <div class="items-block row" *ngIf="recipePage && recipePage.content.length">
-      <div class="recipe col-md-3 col-sm-6 col-9" *ngFor="let recipe of recipePage.content">
+      <div class="recipe col-md-3 col-sm-6 col-9" *ngFor="let recipe of recipePage.content" [routerLink]="['/recipes/recipe', recipe.id]">
         <h3 class="recipeName"><b>{{recipe.name}}</b></h3>
         <span class="recipeDesription"><b>Opis:</b> {{recipe.description}}</span>
         <div class="recipeDifficulty">

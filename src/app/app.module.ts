@@ -28,10 +28,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     RecipesModule,
     RouterModule,
     UserModule,
-    AppRoutingModule,
     MaterialModule,
     FridgeModule,
     BrowserAnimationsModule,
+    AppRoutingModule,
   ],
   providers: [MaterialModule],
   bootstrap: [AppComponent]

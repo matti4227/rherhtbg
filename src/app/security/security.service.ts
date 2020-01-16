@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { UserAuth, UserLogin } from '../shared/interfaces';
 
-import { UserLogin } from './user-login';
-import { UserAuth } from './user-auth';
 
 @Injectable()
 export class SecurityService {
+
   securityObject: UserAuth;
+  redirectUrl: string;
 
   get isLoggedIn(): boolean {
     return !!localStorage.getItem('username');
@@ -27,7 +28,6 @@ export class SecurityService {
           this.securityObject = { ...response };
           localStorage.setItem('bearerToken', JSON.stringify(this.securityObject.bearerToken));
           localStorage.setItem('username', JSON.stringify(this.securityObject.userName));
-          localStorage.setItem('id', JSON.stringify(this.securityObject.id));
         })
       );
   }

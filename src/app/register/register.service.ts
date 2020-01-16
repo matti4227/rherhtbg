@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-import { UserRegister } from './user-register';
+import { UserRegister } from '../shared/interfaces';
 
 @Injectable()
 export class RegisterService {

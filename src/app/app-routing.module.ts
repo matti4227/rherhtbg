@@ -3,9 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 
 
 const routes: Routes = [
-  { path: 'recipes',
-    loadChildren: () => import('./recipes/recipes.module').then(m => m.RecipesModule) },
-  { path: '',  pathMatch: 'full', redirectTo: 'authenticate'},
+  {
+    path: 'recipes',
+    loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
+  },
+  { path: '',  pathMatch: 'full', redirectTo: 'recipes'},
   { path: '**', pathMatch: 'full',  redirectTo: 'authenticate' }
 ];
 

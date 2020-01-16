@@ -1,0 +1,21 @@
+.parent {
+  display: flex;
+
+  .filter {
+    width: 200px;
+    background: lightblue;
+    /* Just so it's visible */
+  }
+
+  .recipes {
+
+    flex: 1;
+    /* Grow to rest of container */
+    background: lightgreen;
+    /* Just so it's visible */
+  }
+
+  .fridge {
+    background: lightcoral;
+  }
+}

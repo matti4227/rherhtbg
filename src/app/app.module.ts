@@ -10,9 +10,9 @@ import { CoreModule } from './core/core.module';
 import { SecurityModule } from './security/security.module';
 import { RecipesModule } from './recipes/recipes.module';
 import { UserModule } from './user/user.module';
-import { MaterialModule } from './shared/material.module';
-import { FridgeModule } from './fridge/fridge.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HomeModule } from './home/home.module';
+import { MaterialModule } from './shared/material.module';
 
 
 @NgModule({
@@ -28,12 +28,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     RecipesModule,
     RouterModule,
     UserModule,
-    MaterialModule,
-    FridgeModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    HomeModule,
+    MaterialModule
   ],
-  providers: [MaterialModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

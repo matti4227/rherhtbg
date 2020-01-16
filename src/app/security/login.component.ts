@@ -40,7 +40,11 @@ export class LoginComponent implements OnInit {
         .subscribe({
           next: response => {
             console.log(response);
-            this.router.navigate(['/recipes']);
+            if (this.securityService.redirectUrl) {
+              this.router.navigateByUrl(this.securityService.redirectUrl);
+            } else {
+              this.router.navigate(['/recipes']);
+            }
           },
           error: error => {
             console.error(error);

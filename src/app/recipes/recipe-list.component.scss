@@ -1,27 +1,5 @@
-.parent {
-  display: flex;
-
-  .filter {
-    width: 200px;
-    background: lightblue;
-    /* Just so it's visible */
-  }
-
-  .recipes {
-
-    .search {
-      margin-top: 10px;
-    }
-
-    flex: 1;
-    /* Grow to rest of container */
-    background: lightgreen;
-    /* Just so it's visible */
-  }
-
-  .fridge {
-    background: lightcoral;
-  }
+.search {
+  margin-top: 10px;
 }
 
 

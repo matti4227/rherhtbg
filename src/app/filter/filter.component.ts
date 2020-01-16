@@ -1,6 +1,6 @@
-import { FilterData } from './filter-data';
+import { Component } from '@angular/core';
 import { Categories } from './categories.enum';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { FilterData } from './filter-data';
 
 @Component({
   selector: 'app-filter',
@@ -82,5 +82,4 @@ export class FilterComponent {
       this.filterData.sort = 4;
     }
   }
-
 }

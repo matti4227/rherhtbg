@@ -5,11 +5,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { SharedModule } from '../shared/shared.module';
 
-import { RecipesService } from './recipes.service';
 import { RecipeListComponent } from './recipe-list.component';
 import { RecipeEditComponent } from './recipe-edit/recipe-edit.component';
 import { RecipesRoutingModule } from './recipes-routing.module';
-import { FilterComponent } from './filter/filter.component';
 import { RecipeComponent } from './recipe/recipe.component';
 
 
@@ -17,8 +15,7 @@ import { RecipeComponent } from './recipe/recipe.component';
   declarations: [
     RecipeListComponent,
     RecipeEditComponent,
-    RecipeComponent,
-    FilterComponent,
+    RecipeComponent
   ],
   imports: [
     SharedModule,
@@ -27,6 +24,8 @@ import { RecipeComponent } from './recipe/recipe.component';
     FridgeModule,
     RecipesRoutingModule
   ],
-  providers: [RecipesService]
+  exports: [
+    RecipeListComponent
+  ]
 })
 export class RecipesModule { }

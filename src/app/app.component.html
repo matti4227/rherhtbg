@@ -1,3 +1,4 @@
+<mat-spinner class="loader" *ngIf="loading"></mat-spinner>
 <nav class="navbar navbar-expand navbar-light" style="background-color:bisque;">
   <a class="navbar-brand"><b>{{pageTitle}}</b></a>
   <ul class="navbar-nav">
@@ -17,7 +18,7 @@
     <li class="nav-item"
         *ngIf="isLoggedIn">
       <a class="nav-link"
-         [routerLink]="['/recipes/recipe/0/edit']"
+         [routerLink]="['/recipe/0/edit']"
          routerLinkActive="active">Stwórz własny przepis</a>
     </li>
 
@@ -25,12 +26,6 @@
         *ngIf="isLoggedIn">
       <a class="nav-link"
          routerLinkActive="active">Książka kucharska</a>
-    </li>
-
-    <li class="nav-item"
-        *ngIf="isLoggedIn">
-      <a class="nav-link"
-         routerLinkActive="active">Lodówka</a>
     </li>
 
   </ul>
@@ -63,5 +58,5 @@
 </nav>
 
 <div class="container">
-  <router-outlet></router-outlet>
+  <router-outlet *ngIf="!loading"></router-outlet>
 </div>

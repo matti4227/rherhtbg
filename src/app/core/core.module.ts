@@ -1,19 +1,22 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { throwIfAlreadyLoaded } from './module-import-guard';
 import { HttpContentTypeInterceptor } from './http-content-type-interceptor';
 import { HttpTokenInterceptor } from './http-token-interceptor';
+import { DataService } from './data.service';
 
 
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule
+    CommonModule,
+    HttpClientModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: HttpContentTypeInterceptor, multi: true },
+    DataService,
+    // { provide: HTTP_INTERCEPTORS, useClass: HttpContentTypeInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true }
   ]
 })

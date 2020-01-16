@@ -10,6 +10,8 @@ import {
   MatAutocompleteModule,
   MatFormFieldModule,
   MatInputModule,
+  MatSelectModule,
+  MatProgressSpinnerModule,
 } from '@angular/material';
 
 
@@ -25,7 +27,9 @@ import {
     MatListModule,
     MatAutocompleteModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatSelectModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatButtonModule,
@@ -37,7 +41,9 @@ import {
     MatListModule,
     MatAutocompleteModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatSelectModule,
+    MatProgressSpinnerModule
   ]
 })
 export class MaterialModule { }

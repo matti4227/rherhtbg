@@ -1,0 +1,90 @@
+<div class="parent">
+  <div class="filter">
+    <app-filter #filter ></app-filter>
+  </div>
+
+  <div class="recipes">
+    <div class="search">
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control ml-3 mr-3"
+          placeholder="Wpisz szukaną frazę"
+          [(ngModel)]="searchText">
+      </div>
+      <!-- <div class="additionalInfo">
+        <div style="margin-left: 20px;" *ngIf="searchFlag">
+          <div style="display: inline-block;">
+            <p class="font">Przepisy z: &nbsp;</p>
+          </div>
+          <div style="display: inline-block;">
+            <p class="font-italic">{{ filterData.search }}&nbsp;&nbsp;</p>
+          </div>
+          <div style="display: inline-block;">
+            <p class="font"> znaleziono {{ recipePage.totalResults }}&nbsp;&nbsp;</p>
+          </div>
+          <button
+          style="display: inline-block;"
+            class="btn btn-outline-primary mr-3"
+            type="button"
+            (click)="reset()">
+            Reset
+          </button>
+        </div> -->
+
+        <!-- <div style="margin-left: 20px;" *ngIf="searchFlag">
+          <div style="display: inline-block;">
+            <p class="font">Przepisy z: &nbsp;</p>
+          </div>
+          <div style="display: inline-block;" *ngFor="let ing of selectedIngredients">
+            <p class="font-italic">{{ selectedIngredients[ing].name }}&nbsp;&nbsp;</p>
+          </div>
+          <div style="display: inline-block;">
+            <p class="font"> znaleziono {{ recipePage.totalResults }}&nbsp;&nbsp;</p>
+          </div>
+          <button
+          style="display: inline-block;"
+            class="btn btn-outline-primary mr-3"
+            type="button"
+            (click)="reset()">
+            Reset
+          </button>
+        </div>
+      </div> -->
+
+    </div>
+    <button
+      class="btn btn-primary mr-3"
+      type="button"
+      (click)="searchRecipes(filter, fridge)">
+      Szukaj
+    </button>
+
+    <app-recipe-list [recipePage]="recipePage"></app-recipe-list>
+    
+    <div class="page" *ngIf="!pageNav()">
+      <button
+        class="btn btn-primary mr-3"
+        style="width:100px;"
+        [disabled]="checkPreviousPage()"
+        (click)="previousPage()">
+        Poprzednia
+      </button>
+      <button
+        class="btn btn-primary mr-3"
+        style="width:100px;"
+        [disabled]="checkNextPage()"
+        (click)="nextPage()">
+        Następna
+      </button>
+    </div>
+  </div>
+
+  <div class="fridge">
+    <app-fridge #fridge></app-fridge>
+  </div>
+</div>
+
+
+
+

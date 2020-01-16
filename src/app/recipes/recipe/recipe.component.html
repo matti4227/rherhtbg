@@ -25,7 +25,7 @@
     <mat-card-content>
 
       <mat-card-title>Składniki</mat-card-title>
-      <div class="ingredients" *ngIf="recipeExists()">
+      <div class="ingredients">
         <ul class="list-group list-group-flush">
           <li
             class="list-group-item"
@@ -64,7 +64,7 @@
       Skomentuj
     </button>
 
-    <div class="comments" *ngIf="recipeExists()">
+    <div class="comments" >
       <mat-card class="card1" *ngFor="let commment of recipe.comments">
         <mat-card-header>
           skomentował

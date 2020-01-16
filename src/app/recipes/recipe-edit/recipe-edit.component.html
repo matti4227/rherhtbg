@@ -70,6 +70,131 @@
         </div>
       </div>
 
+      <hr>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-3 col-form-label"
+               for="preparationId">Kategorie</label>
+
+        <div class="col-md-8">
+          <mat-form-field class="full-width">
+            <input
+              type="text"
+              placeholder="Wybierz kategorię"
+              matInput
+              [formControl]="myCategoryControl"
+              [(ngModel)]="selectedCategory"
+              [matAutocomplete]="autoCat">
+            <mat-autocomplete #autoCat="matAutocomplete">
+              <mat-option *ngFor="let option of filteredCategoryOptions | async" [value]="option">
+                {{ option }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <button
+            class="btn btn-primary mr-3 offset-md-1"
+            style="width:100px;"
+            (click)="addCategory()">
+            Dodaj
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-3 col-form-label"
+               for="preparationId"></label>
+
+        <div class="col-md-8">
+          <span *ngFor="let category of selectedCategories; let i = index">
+            <button class="btn btn-outline-secondary"
+                    style="font-size:smaller;margin-bottom:12px;margin-right:2px"
+                    title="Kliknij, aby usunąć tą kategorię"
+                    (click)="removeCategory(i)">
+              {{ category.name }}
+              <span>x</span>
+            </button>
+          </span>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-3 col-form-label"
+               for="preparationId">Składniki</label>
+      </div>
+      <div class="form-group row mb-2">
+        <div class="col-md-3 offset-md-1">
+          <mat-form-field class="full-width">
+            <input
+              type="text"
+              placeholder="Wybierz składnik"
+              matInput
+              [formControl]="myIngredientControl"
+              [(ngModel)]="selectedIngredient"
+              [matAutocomplete]="autoIng">
+            <mat-autocomplete #autoIng="matAutocomplete">
+              <mat-option *ngFor="let option of filteredIngredientOptions | async" [value]="option">
+                {{ option }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-3">
+          <mat-form-field>
+            <input matInput placeholder="Ilość" [(ngModel)]="selectedAmount" [ngModelOptions]="{ standalone: true }">
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-2">
+          <mat-form-field style="width: 100px;">
+            <mat-select [(ngModel)]="selectedType" [ngModelOptions]="{ standalone: true }">
+              <mat-option *ngFor="let type of amountTypes" [value]="type" >
+                {{ type }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-1">
+          <button
+            class="btn btn-primary mr-3"
+            style="width:150px;margin-top: 10px;margin-left: 10px;"
+
+            (click)="addIngredient()">
+            Dodaj składnik
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-3 col-form-label"
+               for="preparationId"></label>
+
+        <div class="form-group row mb-2">
+          <mat-list>
+            <mat-list-item *ngFor="let ingredient of selectedIngredients;let i = index">
+              <div>
+                <span style="text-align: left;">{{ ingredient.name }}&nbsp;&nbsp;</span>
+                <span>{{ ingredient.amount }}</span>
+                <button
+                  class="btn btn-primary mr-3"
+                  style="width:100px;"
+                  (click)="removeSelected(i)">
+                  Usuń wybrane
+                </button>
+              </div>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </div>
+
+
+
+      <hr>
+
       <div class="form-group row mb-3">
           <label class="col-md-3 col-form-label"
                 for="pictureId">Wybierz zdjęcie</label>
@@ -88,8 +213,7 @@
         <div class="offset-md-5 col-md-4">
           <button class="btn btn-primary mr-3"
                   style="width:90px;"
-                  type="submit"
-                  [disabled]="!recipeForm.valid">
+                  type="submit">
             Utwórz!
           </button>
         </div>
@@ -97,3 +221,46 @@
     </form>
   </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="card">
+  <div class="card-header">
+    <b>{{pageTitle}}</b>
+  </div>
+
+  <div class="card-body">
+    <form (ngSubmit)="saveRecipe()"
+          [formGroup]="recipeForm">
+
+    <mat-card>
+      <mat-form-field>
+        <mat-label>Nazwa przepisu</mat-label>
+        <input
+          matInput
+          placeholder="Input"
+          [(ngModel)]="currentRecipe.name">
+      </mat-form-field>
+    </mat-card>
+    </form>
+</div> -->
+
+
+
+
+<!-- <mat-form-field>
+  <mat-label>Favorite food</mat-label>
+  <mat-select [(ngModel)]="selectedType">
+    <mat-option *ngFor="let type of amountTypes" [value]="type" >
+      {{ type }}
+    </mat-option>
+  </mat-select>
+</mat-form-field> -->

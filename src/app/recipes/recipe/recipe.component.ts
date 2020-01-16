@@ -1,9 +1,7 @@
-import { RecipeIngredient } from './../recipe-ingredient';
-import { Comment } from './../comment';
 import { Component, OnInit } from '@angular/core';
-import { RecipesService } from '../recipes.service';
 import { ActivatedRoute } from '@angular/router';
-import { Recipe } from '../recipe';
+import { DataService } from 'src/app/core/data.service';
+import { Recipe, RecipeIngredient } from 'src/app/shared/interfaces';
 
 @Component({
   selector: 'app-recipe',
@@ -17,14 +15,14 @@ export class RecipeComponent implements OnInit {
   comments: Comment[];
   comment: string;
 
-  constructor(private recipesService: RecipesService,
+  constructor(private dataService: DataService,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       const id = Number.parseInt(params['id']);
 
-      this.recipesService.getRecipe(id)
+      this.dataService.getRecipe(id)
       .subscribe({
         next: response => {
           console.log(response);
@@ -41,7 +39,7 @@ export class RecipeComponent implements OnInit {
 
   commentRecipe(): void {
     console.log({ comment: this.comment })
-    this.recipesService.commentRecipe({ comment: this.comment }, this.recipe.id)
+    this.dataService.commentRecipe({ comment: this.comment }, this.recipe.id)
       .subscribe({
         next: response => {
           console.log(response);

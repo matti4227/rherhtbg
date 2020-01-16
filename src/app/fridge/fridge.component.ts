@@ -1,10 +1,9 @@
-import { Ingredient } from './ingredient';
 import { Component, OnInit } from '@angular/core';
-import { FridgeService } from './fridge.service';
-import { Fridge } from './fridge';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { Fridge, Ingredient } from '../shared/interfaces';
+import { DataService } from '../core/data.service';
 
 @Component({
   selector: 'app-fridge',
@@ -16,9 +15,6 @@ export class FridgeComponent implements OnInit {
   fridge: Fridge;
   ingredients: Ingredient[];
   selectedIngredients: string[];
-
-  constructor(private fridgeService: FridgeService) { }
-
   selectedIngredient: string;
   myControl = new FormControl();
   arrayIngredients = [
@@ -28,6 +24,8 @@ export class FridgeComponent implements OnInit {
     'Mandarynka'
   ];
 
+  constructor(private dataService: DataService) { }
+
   filteredOptions: Observable<string[]>;
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
@@ -35,12 +33,12 @@ export class FridgeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.fridgeService.getFridge()
+    this.dataService.getFridge()
       .subscribe({
         next: response => {
           this.fridge = response;
           this.ingredients = this.fridge.ingredients;
-          console.log(this.ingredients);
+          console.log('składniki w lodówce - ' + this.ingredients);
         },
         error: error => {
           console.log(error);
@@ -55,7 +53,7 @@ export class FridgeComponent implements OnInit {
   }
 
   getData(): Ingredient[] {
-    if (this.ingredientsSelectedDisabled()) {
+    if (!this.ingredientsSelectedDisabled()) {
       return this.getSelectedIngredients();
     } else {
       return [];
@@ -63,7 +61,7 @@ export class FridgeComponent implements OnInit {
   }
 
   saveFridge(): void {
-    this.fridgeService.updateFridge(this.ingredients)
+    this.dataService.updateFridge(this.ingredients)
     .subscribe({
       next: response => {
         this.fridge = response;
@@ -132,11 +130,11 @@ export class FridgeComponent implements OnInit {
     }
     for (let i of ingToRemove) {
       this.ingredients.splice(i, 1);
-      console.log(this.ingredients);
     }
   }
 
   getSelectedIngredients(): Ingredient[] {
+    console.log('wybrane składniki - ' + this.selectedIngredients)
     let ingredients: Ingredient[] = [];
     for (let ing of this.selectedIngredients) {
       ingredients.push({ name: ing });

@@ -1,7 +1,7 @@
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
-import { UserService } from './../user.service';
+import { DataService } from 'src/app/core/data.service';
 
 
 @Component({
@@ -21,14 +21,13 @@ export class AccountComponent implements OnInit {
   avatar: ElementRef;
 
   constructor(private formBuilder: FormBuilder,
-              private userService: UserService) { }
+              private dataService: DataService) { }
 
   ngOnInit() {
     this.accountForm = this.formBuilder.group({
       avatar: ['', []]
     });
-    const userId = JSON.parse(localStorage.getItem('id'));
-    this.userService.getUser(userId)
+    this.dataService.getUser()
       .subscribe({
         next: response => {
           console.log(response);
@@ -67,7 +66,7 @@ export class AccountComponent implements OnInit {
       const avatarData = new FormData();
       avatarData.append('file', this.imageURL);
 
-      this.userService.updateAvatar(avatarData)
+      this.dataService.updateAvatar(avatarData)
         .subscribe({
           next: response => {
             console.log(response);

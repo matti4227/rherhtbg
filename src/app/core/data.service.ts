@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
@@ -14,6 +15,10 @@ export class DataService {
 
   updateAvatar(avatar: FormData): Observable<any> {
     return this.httpClient.post(`/api/user/avatar`, avatar);
+  }
+
+  getOwnRecipes(page: number): Observable<RecipePage> {
+    return this.httpClient.get<RecipePage>(`/api/recipes?page=${page}`);
   }
 
   getRecipesByParameters(
@@ -51,6 +56,10 @@ export class DataService {
 
   commentRecipe(comment: object, recipeId: number): Observable<object> {
     return this.httpClient.post<object>(`/api/recipes/${recipeId}/comment`, comment);
+  }
+
+  getCookbook(page: number): Observable<RecipePage> {
+    return this.httpClient.get<RecipePage>(`/api/cookbook?page=${page}`);
   }
 
   getFridge(): Observable<Fridge> {

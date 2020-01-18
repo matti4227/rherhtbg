@@ -13,6 +13,7 @@ import { UserModule } from './user/user.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeModule } from './home/home.module';
 import { MaterialModule } from './shared/material.module';
+import { CookbookModule } from './cookbook/cookbook.module';
 
 
 @NgModule({
@@ -29,9 +30,10 @@ import { MaterialModule } from './shared/material.module';
     RouterModule,
     UserModule,
     BrowserAnimationsModule,
+    CookbookModule,
     AppRoutingModule,
     HomeModule,
-    MaterialModule
+    MaterialModule,
   ],
   bootstrap: [AppComponent]
 })

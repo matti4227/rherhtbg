@@ -3,11 +3,15 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EnumToArrayPipe } from './enum-to-array.pipe';
 import { MaterialModule } from './material.module';
+import { StarComponent } from './star/star.component';
+import { PageNavComponent } from './page-nav/page-nav.component';
 
 
 @NgModule({
   declarations: [
-  EnumToArrayPipe
+  EnumToArrayPipe,
+  StarComponent,
+  PageNavComponent
   ],
   imports: [
     CommonModule,
@@ -17,7 +21,9 @@ import { MaterialModule } from './material.module';
     CommonModule,
     FormsModule,
     EnumToArrayPipe,
-    MaterialModule
+    MaterialModule,
+    StarComponent,
+    PageNavComponent
   ]
 })
 export class SharedModule { }

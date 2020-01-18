@@ -1,0 +1,13 @@
+<div class="recipes">
+
+  <app-recipe-list [recipePage]="recipePage"></app-recipe-list>
+
+  <div class="page-nav" *ngIf="!pageNav()">
+    <app-page-nav
+      [page]="recipePage?.currentPage"
+      [totalPages]="recipePage?.totalPages"
+      (changePage)="changePage($event)">
+    </app-page-nav>
+  </div>
+
+</div>

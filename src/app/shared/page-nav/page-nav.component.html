@@ -1,0 +1,16 @@
+<div class="page">
+  <button
+    class="btn btn-primary mr-3"
+    style="width:100px;"
+    [disabled]="checkPreviousPage()"
+    (click)="previousPage()">
+    Poprzednia
+  </button>
+  <button
+    class="btn btn-primary mr-3"
+    style="width:100px;"
+    [disabled]="checkNextPage()"
+    (click)="nextPage()">
+    Następna
+  </button>
+</div>

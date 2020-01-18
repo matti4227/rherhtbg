@@ -1,24 +1,44 @@
 <div class="parent">
   <mat-card class="card">
     <mat-card-header>
-      <!-- <div mat-card-avatar class="example-header-image"></div> -->
-    <mat-card-title>{{ recipe.name }}</mat-card-title>
-    <mat-card-subtitle>{{ recipe.description }}</mat-card-subtitle>
+    <div mat-card-avatar class="header-image"></div>
+    <mat-card-title>{{ recipe?.username }}</mat-card-title>
+    <!-- <mat-card-subtitle>{{ recipe?.description }}</mat-card-subtitle> -->
 
     </mat-card-header>
 
-    <hr>
-
-    <img class="image" mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-
-    <hr>
-
-    <div class="recipeInfo">
-      <mat-card class="info">{{ recipe.rating }}</mat-card>
-      <mat-card class="info">{{ recipe.difficulty }}</mat-card>
-      <mat-card class="info">{{ recipe.preparationTime }}</mat-card>
+    <div style="text-align: center; margin-bottom: 15px;">
+      <mat-card-title>{{ recipe?.name }}</mat-card-title>
+      <mat-label>{{ recipe?.description }}</mat-label>
     </div>
 
+
+    <div style="margin: 10px; border-radius: 10%;padding: 10px;">
+      <img class="image" mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg">
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm" style="text-align: center;">
+          <mat-card class="info">
+            <span>Ocena: </span>
+            <app-star [rating]="recipe?.rating"></app-star>
+          </mat-card>
+        </div>
+        <div class="col-sm" style="text-align: center;">
+          <mat-card class="info">
+            <span>Trudność wykonania: </span>
+            {{ difficulty }}
+          </mat-card>
+        </div>
+        <div class="col-sm" style="text-align: center;">
+          <mat-card class="info">
+            <span>Czas przygotowania: </span>
+            {{ prepTime }}
+          </mat-card>
+        </div>
+      </div>
+    </div>
 
     <hr>
 
@@ -29,9 +49,9 @@
         <ul class="list-group list-group-flush">
           <li
             class="list-group-item"
-            *ngFor="let ingredient of recipe.recipeIngredients">
-            <div style="display: inline-block;">{{ ingredient.name }}&nbsp;&nbsp;</div>
-            <div style="display: inline-block;">{{ ingredient.amount }}</div>
+            *ngFor="let ingredient of recipe?.recipeIngredients">
+            <div style="display: inline-block;">{{ ingredient?.name }}&nbsp;&nbsp;</div>
+            <div style="display: inline-block;">{{ ingredient?.amount }}</div>
           </li>
         </ul>
       </div>
@@ -40,7 +60,7 @@
 
       <mat-card-title>Przygotowanie</mat-card-title>
       <div class="preparation">
-        <p>{{ recipe.preparation }}</p>
+        <p>{{ recipe?.preparation }}</p>
       </div>
     </mat-card-content>
     <mat-card-actions>
@@ -64,24 +84,24 @@
       Skomentuj
     </button>
 
-    <div class="comments" >
-      <mat-card class="card1" *ngFor="let commment of recipe.comments">
+    <div class="comments">
+      <mat-card class="card1" *ngFor="let comment of recipe?.comments">
         <mat-card-header>
-          skomentował
+          Skomentował: {{ comment?.username }}
         </mat-card-header>
         <div class="card" >
           <div class="card-body">
-            {{ commment.comment }}
+            {{ comment?.comment }}
           </div>
         </div>
         <mat-card-footer class="commentDate">
-          {{ commment.createdDate | date:'medium' }}
+          {{ comment?.createdDate | date:'medium' }}
         </mat-card-footer>
       </mat-card>
     </div>
 
 
-    </mat-card>
+  </mat-card>
 
 
 </div>

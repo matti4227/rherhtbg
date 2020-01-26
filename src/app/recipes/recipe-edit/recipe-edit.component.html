@@ -100,7 +100,7 @@
             [matAutocomplete]="autoCat">
           <mat-autocomplete #autoCat="matAutocomplete">
             <mat-option *ngFor="let option of filteredCategoryOptions | async" [value]="option">
-              {{ option }}
+              {{ option | titlecase }}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>

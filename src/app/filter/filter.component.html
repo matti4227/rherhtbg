@@ -7,7 +7,7 @@
       [(ngModel)]="category">
       <mat-radio-button
         class="radio-button"
-        *ngFor="let category of categories | enumToArray"
+        *ngFor="let category of categories"
         [value]="category">
         {{ category | titlecase }}
       </mat-radio-button>

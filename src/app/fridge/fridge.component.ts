@@ -17,12 +17,7 @@ export class FridgeComponent implements OnInit {
   selectedIngredients: string[];
   selectedIngredient: string;
   myControl = new FormControl();
-  arrayIngredients = [
-    'Arbuz',
-    'Ananas',
-    'Winogrono',
-    'Mandarynka'
-  ];
+  arrayIngredients = [];
 
   constructor(private dataService: DataService) { }
 
@@ -45,11 +40,19 @@ export class FridgeComponent implements OnInit {
         }
       });
 
-    this.filteredOptions = this.myControl.valueChanges
-    .pipe(
-      startWith(''),
-      map(value => this._filter(value))
-    );
+    this.dataService.getIngredients()
+      .subscribe({
+        next: response => {
+          console.log(response);
+          for (let ingredient of response) {
+            this.arrayIngredients.push(ingredient.name);
+          }
+          this.startFiltering();
+        },
+        error: error => {
+          console.error(error);
+        }
+      });
   }
 
   getData(): Ingredient[] {
@@ -142,4 +145,11 @@ export class FridgeComponent implements OnInit {
     return ingredients;
   }
 
+  private startFiltering(): void {
+    this.filteredOptions = this.myControl.valueChanges
+    .pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    );
+  }
 }

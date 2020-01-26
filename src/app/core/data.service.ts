@@ -1,4 +1,4 @@
-import { InfoChange } from './../shared/interfaces';
+import { InfoChange, Category } from './../shared/interfaces';
 import { concatMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -107,6 +107,14 @@ export class DataService {
 
   rateRecipe(score: object, recipeId: number): Observable<any> {
     return this.httpClient.post<any>(`/api/recipes/${recipeId}/rate`, score);
+  }
+
+  getIngredients(): Observable<any> {
+    return this.httpClient.get<any>(`/api/ingredients`);
+  }
+
+  getCategories(): Observable<Category[]> {
+    return this.httpClient.get<Category[]>(`/api/recipeCategories`);
   }
 
   getCookbook(page: number): Observable<RecipePage> {

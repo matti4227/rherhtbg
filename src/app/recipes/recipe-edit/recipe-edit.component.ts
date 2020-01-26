@@ -24,20 +24,11 @@ export class RecipeEditComponent implements OnInit {
   difficulties = ['łatwe', 'średnie', 'trudne'];
   prepTimes = ['do 30 min', '30 do 60 min', 'powyżej 60 min'];
 
-  categories = [
-      'polska',
-      'azjatycka',
-      'indyjska'
-  ];
+  categories = [];
   selectedCategories: Category[] = [];
   selectedCategory: string;
 
-  arrayIngredients = [
-    'Arbuz',
-    'Ananas',
-    'Winogrono',
-    'Mandarynka'
-  ];
+  arrayIngredients = [];
   selectedIngredients: RecipeIngredient[] = [];
   selectedIngredient: string;
   selectedAmount: string;
@@ -49,7 +40,6 @@ export class RecipeEditComponent implements OnInit {
     'g',
     'ml'
   ];
-
 
   get isDirty(): boolean {
     return JSON.stringify(this.originalRecipe) !== JSON.stringify(this.currentRecipe);
@@ -109,16 +99,33 @@ export class RecipeEditComponent implements OnInit {
       this.errorMessage = resolvedData.errorMessage;
       this.onRecipeRetrieved(resolvedData.recipe);
     });
-    this.filteredCategoryOptions = this.myCategoryControl.valueChanges
-    .pipe(
-      startWith(''),
-      map(value => this._cfilter(value))
-    );
-    this.filteredIngredientOptions = this.myIngredientControl.valueChanges
-    .pipe(
-      startWith(''),
-      map(value => this._ifilter(value))
-    );
+
+    this.dataService.getCategories()
+      .subscribe({
+        next: response => {
+          console.log(response);
+          for (let category of response) {
+            this.categories.push(category.name);
+          }
+        },
+        error: error => {
+          console.error(error);
+        }
+      });
+
+    this.dataService.getIngredients()
+      .subscribe({
+        next: response => {
+          console.log(response);
+          for (let ingredient of response) {
+            this.arrayIngredients.push(ingredient.name);
+          }
+          this.startFiltering();
+        },
+        error: error => {
+          console.error(error);
+        }
+      });
   }
 
   onRecipeRetrieved(recipe: Recipe): void {
@@ -337,5 +344,18 @@ export class RecipeEditComponent implements OnInit {
       this.recipe.picture = reader.result as string;
     };
     reader.readAsDataURL(file);
+  }
+
+  private startFiltering(): void {
+    this.filteredCategoryOptions = this.myCategoryControl.valueChanges
+    .pipe(
+      startWith(''),
+      map(value => this._cfilter(value))
+    );
+    this.filteredIngredientOptions = this.myIngredientControl.valueChanges
+    .pipe(
+      startWith(''),
+      map(value => this._ifilter(value))
+    );
   }
 }

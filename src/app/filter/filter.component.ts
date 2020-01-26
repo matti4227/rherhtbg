@@ -1,15 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Categories } from './categories.enum';
 import { FilterData } from './filter-data';
+import { DataService } from '../core/data.service';
+import { Category } from '../shared/interfaces';
 
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss']
 })
-export class FilterComponent {
+export class FilterComponent implements OnInit {
 
-  categories = Categories;
+  categories = ['wszystkie'];
   difficulties = ['wszystkie', 'łatwe', 'średnie', 'trudne'];
   prepTimes = ['wszystkie', 'do 30 min', '30 do 60 min', 'powyżej 60 min'];
   sorts = ['wszystkie', 'najnowsze', 'najwyżej oceniane'];
@@ -19,6 +21,23 @@ export class FilterComponent {
   difficulty = 'wszystkie';
   prepTime = 'wszystkie';
   sort = 'wszystkie';
+
+  constructor(private dataService: DataService) { }
+
+  ngOnInit(): void {
+    this.dataService.getCategories()
+      .subscribe({
+        next: response => {
+          console.log(response);
+          for (let category of response) {
+            this.categories.push(category.name);
+          }
+        },
+        error: error => {
+          console.error(error);
+        }
+      });
+  }
 
   getData(): FilterData {
     this.filterData = new FilterData();

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Categories } from './categories.enum';
 import { FilterData } from './filter-data';
 import { DataService } from '../core/data.service';
-import { Category } from '../shared/interfaces';
 
 @Component({
   selector: 'app-filter',

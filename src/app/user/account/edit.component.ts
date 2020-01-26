@@ -1,6 +1,7 @@
+import { PasswordChange, InfoChange } from './../../shared/interfaces';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { DataService } from 'src/app/core/data.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-edit',
@@ -10,26 +11,41 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 export class EditComponent implements OnInit {
 
   pageTitle = 'Zarządzaj kontem';
-  accountForm: FormGroup;
 
   defaultImage = 'assets/blank_portrait.png';
-  imageURL: string;
+  selectedFile: any;
+  imageURL: any;
 
-  @ViewChild('avatar', {static: false})
+  base64Data: any;
+
+  @ViewChild('avatar', { static: false })
   avatar: ElementRef;
 
-  constructor(private formBuilder: FormBuilder,
-              private dataService: DataService) { }
+  passwordForm: FormGroup;
+
+  infoForm: FormGroup;
+  username: string;
+  email: string;
+
+  constructor(private dataService: DataService,
+              private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.accountForm = this.formBuilder.group({
-      avatar: ['', []]
-    });
+
+    this.buildInfoForm();
+
+    this.buildPasswordForm();
 
     this.dataService.getUser()
       .subscribe({
         next: response => {
-          console.log(response);
+          this.imageURL = response.avatar;
+          this.infoForm.patchValue({
+            firstName: response.firstName,
+            lastName: response.lastName
+          });
+          this.username = response.username;
+          this.email = response.email;
         },
         error: error => {
           console.error(error);
@@ -38,34 +54,32 @@ export class EditComponent implements OnInit {
   }
 
   selectPicture(event: any): void {
-    const file = (event.target as HTMLInputElement).files[0];
+    this.selectedFile = event.target.files[0];
 
-    if (file) {
-      this.showPreview(file);
+    if (this.selectedFile) {
+      this.showPreview(event);
     }
   }
 
-  showPreview(file: any): void {
+  showPreview(event: any): void {
     const reader = new FileReader();
-
+    reader.readAsDataURL(event.target.files[0]);
     reader.onload = () => {
-      this.imageURL = reader.result as string;
+      this.imageURL = reader.result;
     };
-
-    reader.readAsDataURL(file);
   }
 
   removeAvatar(): void {
     this.avatar.nativeElement.value = null;
     this.imageURL = '';
+    this.selectedFile = null;
   }
 
-  saveAccount(): void {
-    if (this.imageURL) {
-      const avatarData = new FormData();
-      avatarData.append('file', this.imageURL);
-
-      this.dataService.updateAvatar(avatarData)
+  saveAvatar(): void {
+    if (this.selectedFile) {
+      const uploadData = new FormData();
+      uploadData.append('avatar', this.selectedFile, this.selectedFile.name);
+      this.dataService.updateAvatar(uploadData)
         .subscribe({
           next: response => {
             console.log(response);
@@ -75,6 +89,80 @@ export class EditComponent implements OnInit {
           }
         });
     }
+    if (!this.imageURL) {
+      this.dataService.removeAvatar()
+        .subscribe({
+          next: response => {
+            console.log(response);
+          },
+          error: error => {
+            console.error(error);
+          }
+        });
+    }
+  }
+
+  private buildPasswordForm(): void {
+    this.passwordForm = this.formBuilder.group({
+      oldPassword: ['', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(24)
+      ]],
+      newPassword: ['', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(24)
+      ]],
+      newPasswordAgain: ['', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(24)
+      ]]
+    });
+  }
+
+  savePassword(): void {
+    const passwords: PasswordChange = this.passwordForm.value;
+    if (passwords.newPassword === passwords.newPasswordAgain) {
+      this.dataService.updatePassword(passwords.oldPassword, passwords.newPassword)
+      .subscribe({
+        next: response => {
+          console.log(response);
+        },
+        error: error => {
+          console.error(error);
+        }
+      });
+    } else {
+      console.error('hasła się różnią')
+    }
+  }
+
+  private buildInfoForm(): void {
+    this.infoForm = this.formBuilder.group({
+      firstName: ['', [
+        Validators.minLength(6),
+        Validators.maxLength(24)
+      ]],
+      lastName: ['', [
+        Validators.minLength(6),
+        Validators.maxLength(24)
+      ]]
+    });
+  }
+
+  saveInfo(): void {
+    const info: InfoChange = this.infoForm.value;
+    this.dataService.updateInfo(info)
+    .subscribe({
+      next: response => {
+        console.log(response);
+      },
+      error: error => {
+        console.error(error);
+      }
+    });
   }
 
 }

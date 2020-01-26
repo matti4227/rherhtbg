@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { RecipePage } from 'src/app/shared/interfaces';
+import { Component, OnInit, Input } from '@angular/core';
 import { DataService } from 'src/app/core/data.service';
+import { RecipePage } from 'src/app/shared/interfaces';
 
 @Component({
-  selector: 'app-my-recipes',
+  selector: 'app-user-recipes',
   template: `
     <div class="recipes">
 
@@ -21,21 +21,23 @@ import { DataService } from 'src/app/core/data.service';
   `,
   styles: []
 })
-export class MyRecipesComponent implements OnInit {
+export class UserRecipesComponent implements OnInit {
 
   recipePage: RecipePage;
   page = 0;
-  size = 12;
+  size = 3;
+
+  @Input() username: string;
 
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
-    this.getOwnRecipes();
+    console.log(this.username)
+    this.getUserRecipes();
   }
 
-  getOwnRecipes(): void {
-    const username = JSON.parse(localStorage.getItem('username'));
-    this.dataService.getUserRecipes(username, this.page, this.size)
+  getUserRecipes(): void {
+    this.dataService.getUserRecipes(this.username, this.page, this.size)
     .subscribe({
       next: response => {
         console.log(response);
@@ -49,10 +51,11 @@ export class MyRecipesComponent implements OnInit {
 
   changePage(page: number): void {
     this.page = page;
-    this.getOwnRecipes();
+    this.getUserRecipes();
   }
 
   pageNav(): boolean {
     return typeof this.recipePage === 'undefined' || this.recipePage.totalPages < 2;
   }
+
 }

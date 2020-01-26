@@ -11,3 +11,7 @@
     max-width: 400px;
   }
 }
+
+.custom-file-input ~ .custom-file-label::after {
+  content: "Przeglądaj";
+}

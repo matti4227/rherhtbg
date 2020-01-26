@@ -1,1 +1,36 @@
-<p>profile works!</p>
+<div class="parent">
+  <div class="card profile">
+    <div class="card-header">
+      {{pageTitle}}
+    </div>
+
+    <div class="card-body">
+      <fieldset>
+        <h3 style="text-align: center;">{{ user?.username }}</h3>
+
+        <div class="image">
+          <div *ngIf="user?.avatar">
+            <img class="round-image" [src]="user?.avatar">
+          </div>
+        </div>
+
+
+        <hr>
+        <div class="form-group">
+          <span style="display: block;margin-bottom: 5px;">Imię i nazwisko: {{ user?.firstName }} {{ user?.lastName }}</span>
+          <span style="display: block;">Email: {{ user?.email }}</span>
+        </div>
+
+      </fieldset>
+    </div>
+  </div>
+
+
+  <div class="card recipes">
+    <div class="card-header">
+      Przepisy użytkownika
+    </div>
+    <app-user-recipes [username]="username"></app-user-recipes>
+  </div>
+
+</div>

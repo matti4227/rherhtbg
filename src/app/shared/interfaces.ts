@@ -16,12 +16,25 @@ export interface UserLogin {
   password: string;
 }
 
+export interface PasswordChange {
+  oldPassword: string;
+  newPassword: string;
+  newPasswordAgain: string;
+}
+
+export interface InfoChange {
+  firstName: string;
+  lastName: string;
+}
+
 export interface User {
   id: number;
   username: string;
   firstName: string;
   lastName: string;
   email: string;
+  avatar?: any;
+  recipes?: Recipe[];
 }
 
 export interface RecipeIngredient {
@@ -31,10 +44,10 @@ export interface RecipeIngredient {
 }
 
 export interface Comment {
-  id: number;
   comment: string;
   createdDate: Date;
   username: string;
+  avatar?: any;
 }
 
 export interface Category {
@@ -46,14 +59,16 @@ export interface Recipe {
   name: string;
   description: string;
   preparation: string;
-  preparationTime: number;
-  difficulty: number;
+  preparationTime: any;
+  difficulty: any;
   rating?: number;
+  userRate?: number;
   createdDate?: Date;
   username?: string;
+  avatar?: any;
   recipeIngredients?: RecipeIngredient[];
   comments?: Comment[];
-  picture?: object;
+  picture?: any;
   categories?: Category[];
 }
 

@@ -1,6 +1,18 @@
 .card {
 
-  min-height: 1000px;
+  .account-edit {
+
+    display: flex;
+
+
+    .avatar-edit {
+
+    }
+
+    .info-edit {
+      flex: 1;
+    }
+  }
 
   .round-image {
     width: 250px;

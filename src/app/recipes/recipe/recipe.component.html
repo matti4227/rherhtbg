@@ -1,9 +1,17 @@
 <div class="parent">
   <mat-card class="card">
+
     <mat-card-header>
-    <div mat-card-avatar class="header-image"></div>
-    <mat-card-title>{{ recipe?.username }}</mat-card-title>
-    <!-- <mat-card-subtitle>{{ recipe?.description }}</mat-card-subtitle> -->
+
+      <div mat-card-avatar class="header-image">
+        <img *ngIf="recipe?.avatar" mat-card-image [src]="recipe?.avatar" class="avatar">
+      </div>
+
+      <mat-card-title [routerLink]="['/profile', recipe?.username]" class="username">
+        <div class="user">
+          {{ recipe?.username }}
+        </div>
+      </mat-card-title>
 
     </mat-card-header>
 
@@ -14,8 +22,38 @@
 
 
     <div style="margin: 10px; border-radius: 10%;padding: 10px;">
-      <img class="image" mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg">
+      <img class="image" mat-card-image [src]="recipe?.picture">
     </div>
+
+
+    <!-- <ng-template #t let-fill="fill">
+      <span class="star" [class.full]="fill === 100">
+        <span class="half" [style.width.%]="fill">&hearts;</span>&hearts;
+      </span>
+    </ng-template> -->
+
+    <div class="form-group star-rating">
+      <ngb-rating [(rate)]="currentRate" max="5" (hover)="hoveredRate=$event">
+        <ng-template let-fill="fill" let-index="index">
+          <span
+            class="star"
+            [class.filled]="fill === 100"
+            [class.bad]="index == 0"
+            [class.good]="index == 4"
+            [title]="hoveredRate">
+            &#9733;
+          </span>
+        </ng-template>
+      </ngb-rating>
+
+      <button
+        class="btn btn-warning mr-3 offset-md-1"
+        (click)="rateRecipe()">
+        Oceń przepis
+      </button>
+
+    </div>
+
 
     <div class="container">
       <div class="row">
@@ -78,16 +116,25 @@
     </mat-form-field>
 
     <button
-      class="btn btn-primary mr-3"
-      style="width:100px;"
+      class="btn btn-primary mr-3 offset-md-5"
+      style="width:120px;"
       (click)="commentRecipe()">
       Skomentuj
     </button>
 
+    <hr>
+
     <div class="comments">
       <mat-card class="card1" *ngFor="let comment of recipe?.comments">
         <mat-card-header>
-          Skomentował: {{ comment?.username }}
+          <div mat-card-avatar class="header-image">
+            <img *ngIf="comment?.avatar" mat-card-image [src]="comment?.avatar" class="avatar">
+          </div>
+          <mat-card-title [routerLink]="['/profile', comment?.username]" class="username">
+            <div class="user">
+              {{ comment?.username }}
+            </div>
+          </mat-card-title>
         </mat-card-header>
         <div class="card" >
           <div class="card-body">

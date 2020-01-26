@@ -1,9 +1,56 @@
 <div class="items-block row" *ngIf="recipePage && recipePage.content.length">
+  <!-- <mat-card class="recipe" *ngFor="let recipe of recipePage.content" [routerLink]="['/recipe', recipe.id]">
+
+    <mat-card-header>
+      <h3 class="recipeName"><b>{{recipe.name}}</b></h3>
+      <span class="recipeDesription"><b>Opis:</b> {{recipe.description}}</span>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-card>
+        <div [ngStyle]="{ 'background-image': 'url(' + 'data:image/jpeg;base64,' + recipe.picture + ')'}">
+
+      </div>
+      </mat-card>
+
+
+    </mat-card-content>
+
+    <mat-card-footer>
+      <span><b>Trudność:</b> {{recipe.difficulty}}</span>
+    </mat-card-footer>
+
+  </mat-card >
+
   <div class="recipe col-md-3 col-sm-6 col-9" *ngFor="let recipe of recipePage.content" [routerLink]="['/recipe', recipe.id]">
+
     <h3 class="recipeName"><b>{{recipe.name}}</b></h3>
     <span class="recipeDesription"><b>Opis:</b> {{recipe.description}}</span>
+
     <div class="recipeDifficulty">
       <span><b>Trudność:</b> {{recipe.difficulty}}</span>
     </div>
+
+  </div> -->
+  <div class="card recipe" *ngFor="let recipe of recipePage.content" [routerLink]="['/recipe', recipe.id]">
+
+    <div class="card-header">
+      <span class="recipeName"><b>{{recipe.name}}</b></span>
+      <!-- <span class="recipeDesription"><b>Opis:</b> {{recipe.description}}</span> -->
+    </div>
+
+    <div class="card-body picture"
+      [ngStyle]="{ 'background-image': 'url(' + 'data:image/jpeg;base64,' + recipe.picture + ')'}">
+
+    </div>
+
+    <div class="card-footer">
+      <span><b>Trudność:</b> {{recipe.difficulty}}</span>
+    </div>
+
   </div>
+
 </div>
+
+
+

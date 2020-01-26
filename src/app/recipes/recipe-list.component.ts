@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { RecipePage, Recipe } from '../shared/interfaces';
+import { RecipePage } from '../shared/interfaces';
 
 @Component({
   selector: 'app-recipe-list',

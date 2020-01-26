@@ -1,224 +1,258 @@
 <div class="card">
   <div class="card-header">
-    <b>{{pageTitle}}</b>
+    <b>{{ pageTitle }}</b>
   </div>
 
   <div class="card-body">
-    <form (ngSubmit)="saveRecipe()"
-          [formGroup]="recipeForm">
 
-      <div class="form-group row mb-2">
-        <label class="col-md-3 col-form-label"
-               for="nameId">Nazwa przepisu</label>
-        <div class="col-md-8">
-          <input class="form-control"
-                 id="nameId"
-                 type="text"
-                 placeholder="Podaj nazwę przepisu"
-                 formControlName="name" />
-        </div>
+    <div class="form-group row mb-2">
+      <label class="col-md-3 col-form-label"
+              for="nameId">Nazwa przepisu</label>
+      <div class="col-md-8">
+        <input
+          class="form-control"
+          id="nameId"
+          type="text"
+          placeholder="Podaj nazwę przepisu"
+          [(ngModel)]="currentRecipe.name" />
       </div>
+    </div>
 
-      <div class="form-group row mb-2">
-        <label class="col-md-3 col-form-label"
-               for="difficultyId">Trudność wykonania</label>
+    <hr>
 
-        <div class="col-md-8">
-          <input class="form-control"
-                 id="difficultyId"
-                 type="text"
-                 placeholder="Podaj wartość z zakresu 1 - 5"
-                 formControlName="difficulty" />
+    <div class="form-group row mb-2">
+
+        <label
+          class="col-md-3 col-form-label"
+          for="difficultyId">Trudność wykonania</label>
+        <div class="col-md-2">
+          <select
+            class="form-control"
+            id="difficultyId"
+            [(ngModel)]="currentRecipe.difficulty">
+            <option
+              *ngFor="let option of difficulties"
+              [value]="option">{{ option | titlecase }}</option>
+          </select>
         </div>
-      </div>
 
-      <div class="form-group row mb-2">
         <label class="col-md-3 col-form-label"
-               for="preparationTimeId">Czas przygotowania</label>
-
-        <div class="col-md-8">
-          <input class="form-control"
-                 id="preparationTimeId"
-                 type="text"
-                 placeholder="Podaj czas na przygotowanie posiłku"
-                 formControlName="preparationTime" />
-        </div>
-      </div>
-
-      <div class="form-group row mb-2">
-        <label class="col-md-3 col-form-label"
-               for="recipeDescriptionId">Opis</label>
-        <div class="col-md-8">
-          <textarea class="form-control"
-                 id="recipeDescriptionId"
-                 rows="3"
-                 placeholder="Krótki opis przepisu"
-                 formControlName="description" ></textarea>
-        </div>
-      </div>
-
-      <div class="form-group row mb-2">
-        <label class="col-md-3 col-form-label"
-               for="preparationId">Przygotowanie</label>
-
-        <div class="col-md-8">
-          <textarea class="form-control"
-                 id="preparationId"
-                 rows="9"
-                 placeholder="Etapy przygotowania przepisu"
-                 formControlName="preparation" ></textarea>
-        </div>
-      </div>
-
-      <hr>
-
-      <div class="form-group row mb-2">
-        <label class="col-md-3 col-form-label"
-               for="preparationId">Kategorie</label>
-
-        <div class="col-md-8">
-          <mat-form-field class="full-width">
-            <input
-              type="text"
-              placeholder="Wybierz kategorię"
-              matInput
-              [formControl]="myCategoryControl"
-              [(ngModel)]="selectedCategory"
-              [matAutocomplete]="autoCat">
-            <mat-autocomplete #autoCat="matAutocomplete">
-              <mat-option *ngFor="let option of filteredCategoryOptions | async" [value]="option">
-                {{ option }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-
-          <button
-            class="btn btn-primary mr-3 offset-md-1"
-            style="width:100px;"
-            (click)="addCategory()">
-            Dodaj
-          </button>
-        </div>
-      </div>
-
-      <div class="form-group row mb-2">
-        <label class="col-md-3 col-form-label"
-               for="preparationId"></label>
-
-        <div class="col-md-8">
-          <span *ngFor="let category of selectedCategories; let i = index">
-            <button class="btn btn-outline-secondary"
-                    style="font-size:smaller;margin-bottom:12px;margin-right:2px"
-                    title="Kliknij, aby usunąć tą kategorię"
-                    (click)="removeCategory(i)">
-              {{ category.name }}
-              <span>x</span>
-            </button>
-          </span>
-        </div>
-      </div>
-
-      <hr>
-
-      <div class="form-group row mb-2">
-        <label class="col-md-3 col-form-label"
-               for="preparationId">Składniki</label>
-      </div>
-      <div class="form-group row mb-2">
-        <div class="col-md-3 offset-md-1">
-          <mat-form-field class="full-width">
-            <input
-              type="text"
-              placeholder="Wybierz składnik"
-              matInput
-              [formControl]="myIngredientControl"
-              [(ngModel)]="selectedIngredient"
-              [matAutocomplete]="autoIng">
-            <mat-autocomplete #autoIng="matAutocomplete">
-              <mat-option *ngFor="let option of filteredIngredientOptions | async" [value]="option">
-                {{ option }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-        </div>
+              for="preparationTimeId">Czas przygotowania</label>
 
         <div class="col-md-3">
-          <mat-form-field>
-            <input matInput placeholder="Ilość" [(ngModel)]="selectedAmount" [ngModelOptions]="{ standalone: true }">
-          </mat-form-field>
+          <select
+            class="form-control"
+            id="preparationTimeid"
+            [(ngModel)]="currentRecipe.preparationTime">
+            <option
+              *ngFor="let option of prepTimes"
+              [value]="option">{{ option }}</option>
+          </select>
         </div>
 
-        <div class="col-md-2">
-          <mat-form-field style="width: 100px;">
-            <mat-select [(ngModel)]="selectedType" [ngModelOptions]="{ standalone: true }">
-              <mat-option *ngFor="let type of amountTypes" [value]="type" >
-                {{ type }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+    </div>
 
-        <div class="col-md-1">
-          <button
-            class="btn btn-primary mr-3"
-            style="width:150px;margin-top: 10px;margin-left: 10px;"
+    <hr>
 
-            (click)="addIngredient()">
-            Dodaj składnik
-          </button>
-        </div>
+    <div class="form-group row mb-2">
+      <label class="col-md-3 col-form-label"
+              for="recipeDescriptionId">Opis</label>
+      <div class="col-md-8">
+        <textarea
+          class="form-control"
+          id="recipeDescriptionId"
+          rows="3"
+          placeholder="Krótki opis przepisu"
+          [(ngModel)]="currentRecipe.description" ></textarea>
       </div>
+    </div>
+
+    <hr>
+
+    <div class="form-group row mb-2">
+      <label class="col-md-3 col-form-label"
+              for="preparationId">Przygotowanie</label>
+
+      <div class="col-md-8">
+        <textarea
+          class="form-control"
+          id="preparationId"
+          rows="9"
+          placeholder="Etapy przygotowania przepisu"
+          [(ngModel)]="currentRecipe.preparation" ></textarea>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="form-group row mb-2">
+      <label class="col-md-3 col-form-label"
+              for="preparationId">Kategorie</label>
+
+      <div class="col-md-8">
+        <mat-form-field class="full-width">
+          <input
+            type="text"
+            placeholder="Wybierz kategorię"
+            matInput
+            [formControl]="myCategoryControl"
+            [(ngModel)]="selectedCategory"
+            [matAutocomplete]="autoCat">
+          <mat-autocomplete #autoCat="matAutocomplete">
+            <mat-option *ngFor="let option of filteredCategoryOptions | async" [value]="option">
+              {{ option }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <button
+          class="btn btn-primary mr-3 offset-md-1"
+          style="width:100px;"
+          (click)="addCategory()">
+          Dodaj
+        </button>
+      </div>
+    </div>
+
+    <div class="form-group row mb-2">
+      <label class="col-md-3 col-form-label"
+              for="preparationId"></label>
+
+      <div class="col-md-8">
+        <span *ngFor="let category of recipe.categories; let i = index">
+          <button class="btn btn-outline-secondary"
+                  style="font-size:smaller;margin-bottom:12px;margin-right:2px"
+                  title="Kliknij, aby usunąć tą kategorię"
+                  (click)="removeCategory(i)">
+            {{ category.name }}
+            <span>x</span>
+          </button>
+        </span>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="form-group row mb-2">
+      <label class="col-md-3 col-form-label"
+              for="preparationId">Składniki</label>
+    </div>
+    <div class="form-group row mb-2">
+      <div class="col-md-3 offset-md-1">
+        <mat-form-field class="full-width">
+          <input
+            type="text"
+            placeholder="Wybierz składnik"
+            matInput
+            [formControl]="myIngredientControl"
+            [(ngModel)]="selectedIngredient"
+            [matAutocomplete]="autoIng">
+          <mat-autocomplete #autoIng="matAutocomplete">
+            <mat-option *ngFor="let option of filteredIngredientOptions | async" [value]="option">
+              {{ option }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-3">
+        <mat-form-field>
+          <input matInput placeholder="Ilość" [(ngModel)]="selectedAmount" [ngModelOptions]="{ standalone: true }">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-2">
+        <mat-form-field style="width: 100px;">
+          <mat-select [(ngModel)]="selectedType" [ngModelOptions]="{ standalone: true }">
+            <mat-option *ngFor="let type of amountTypes" [value]="type" >
+              {{ type }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-1">
+        <button
+          class="btn btn-primary mr-3"
+          style="width:150px;margin-top: 10px;margin-left: 10px;"
+          (click)="addIngredient()">
+          Dodaj składnik
+        </button>
+      </div>
+    </div>
+
+    <div class="form-group row mb-2">
+      <label class="col-md-3 col-form-label"
+              for="preparationId"></label>
 
       <div class="form-group row mb-2">
-        <label class="col-md-3 col-form-label"
-               for="preparationId"></label>
-
-        <div class="form-group row mb-2">
-          <mat-list>
-            <mat-list-item *ngFor="let ingredient of selectedIngredients;let i = index">
-              <div>
-                <span style="text-align: left;">{{ ingredient.name }}&nbsp;&nbsp;</span>
-                <span>{{ ingredient.amount }}</span>
-                <button
-                  class="btn btn-primary mr-3"
-                  style="width:100px;"
-                  (click)="removeSelected(i)">
-                  Usuń wybrane
-                </button>
-              </div>
-            </mat-list-item>
-          </mat-list>
-        </div>
-      </div>
-
-
-
-      <hr>
-
-      <div class="form-group row mb-3">
-          <label class="col-md-3 col-form-label"
-                for="pictureId">Wybierz zdjęcie</label>
-          <div class="col-md-8">
-            <input id="pictureId"
-                  type="file"
-                  accept="image/*"
-                  (change)="patchFormWithPicture($event)" />
-            <div class="imagePreview" *ngIf="imageURL">
-              <img class="image" [src]="imageURL">
+        <mat-list>
+          <mat-list-item *ngFor="let ingredient of recipe.recipeIngredients;let i = index">
+            <div>
+              <span style="text-align: left;">{{ ingredient.name }}&nbsp;&nbsp;</span>
+              <span>{{ ingredient.amount }}</span>
+              <button
+                class="btn btn-primary mr-3"
+                style="width:100px;"
+                (click)="removeSelectedIngredient(i)">
+                Usuń wybrane
+              </button>
             </div>
-          </div>
+          </mat-list-item>
+        </mat-list>
       </div>
+    </div>
 
-      <div class="form-group row mb-2">
-        <div class="offset-md-5 col-md-4">
-          <button class="btn btn-primary mr-3"
-                  style="width:90px;"
-                  type="submit">
-            Utwórz!
-          </button>
+    <hr>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label"
+              for="pictureId">Wybierz zdjęcie</label>
+        <!-- <div class="col-md-8">
+          <input
+            class="form-control"
+            id="pictureId"
+            type="file"
+            accept="image/*"
+            (change)="selectPicture($event)" />
+          <div class="imagePreview" *ngIf="recipe.picture">
+            <img class="image" [src]="recipe.picture">
+          </div>
+        </div> -->
+        <div class="col-md-8 input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Wybierz zdjęcie</span>
+          </div>
+          <div class="custom-file">
+            <input
+              class="form-control"
+              type="file"
+              class="custom-file-input"
+              id="inputGroupFile01"
+              accept="image/*"
+              (change)="selectPicture($event)">
+            <label class="custom-file-label" for="inputGroupFile01">Wybierz plik</label>
+
+          </div>
         </div>
+    </div>
+    <div class="form-group row mb-3">
+      <label class="col-md-3 col-form-label"
+            for="pictureId"></label>
+      <div class="imagePreview" *ngIf="recipe.picture">
+        <img class="image" [src]="recipe.picture">
       </div>
-    </form>
+    </div>
+
+    <div class="form-group row mb-2">
+      <div class="offset-md-5 col-md-4">
+        <button class="btn btn-primary mr-3"
+                style="width:90px;"
+                (click)="saveRecipe()">
+          Utwórz!
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 

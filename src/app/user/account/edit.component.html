@@ -5,57 +5,218 @@
     </div>
 
     <div class="card-body">
-      <form (ngSubmit)="saveAccount()"
-            [formGroup]="accountForm">
         <fieldset>
-          <legend>Twój profil</legend>
 
-          <div class="image">
-            <div *ngIf="!imageURL">
-              <img class="round-image" [src]="defaultImage">
-            </div>
-            <div *ngIf="imageURL">
-              <img class="round-image" [src]="imageURL">
-            </div>
-          </div>
+          <h2>Twój profil</h2>
 
-          <div class="form-group">
-            <label class="col-md-3 col-form-label"
-                  for="pictureId">Wybierz avatar</label>
-            <div class="col-md-8">
-              <input id="pictureId"
-                    class="form-control"
-                    #avatar
-                    type="file"
-                    accept="image/*"
-                    (change)="selectPicture($event)"
-                    formControlName="avatar" />
+          <hr>
 
-              <div *ngIf="imageURL">
-                <button class="btn btn-primary"
+          <div class="account-edit container">
+
+            <div class="avatar-edit">
+
+              <legend>Zmiana avatara</legend>
+
+              <div class="image" style="margin-left: 15%; margin-top: 10%;">
+                <div *ngIf="!imageURL">
+                  <img class="round-image" [src]="defaultImage">
+                </div>
+                <div *ngIf="imageURL">
+                  <img class="round-image" [src]="imageURL">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-10" style="margin-top: 10px;">
+
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Wybierz avatar</span>
+                    </div>
+                    <div class="custom-file">
+                      <input
+                        class="form-control"
+                        type="file"
+                        class="custom-file-input"
+                        id="inputGroupFile01"
+                        #avatar
+                        accept="image/*"
+                        (change)="selectPicture($event)">
+                      <label class="custom-file-label" for="inputGroupFile01">Wybierz plik</label>
+                    </div>
+                  </div>
+
+                  <div class="form-group row mb-2" style="margin-top: 2%;">
+
+                    <div *ngIf="imageURL" class="offset-md-2" style="display: inline-block; margin-right: 5px;">
+                      <button
+                        class="btn btn-primary"
                         style="width:120px"
                         type="button"
                         title="Usuń zdjęcie"
                         (click)="removeAvatar()">
                         Usuń avatar
-                </button>
+                      </button>
+                    </div>
+
+                    <div *ngIf="!imageURL" class="offset-md-2" style="display: inline-block; margin-right: 5px;">
+                      <button
+                        class="btn btn-primary"
+                        style="width:120px"
+                        type="button"
+                        disabled>
+                        Usuń avatar
+                      </button>
+                    </div>
+
+                    <div style="display: inline-block;">
+                      <button
+                        class="btn btn-primary mr-3"
+                        style="width:130px"
+                        (click)="saveAvatar()">
+                        Zapisz
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
               </div>
+
             </div>
+
+            <div class="info-edit">
+
+              <legend>Zmiana hasła</legend>
+
+              <form
+                (ngSubmit)="savePassword()"
+                [formGroup]="passwordForm">
+
+                <div class="password" style="display: flex;">
+                  <div class="password-edit">
+                    <div class="form-group row mb-2">
+                      <label class="col-md-4 col-form-label"
+                            for="oldPasswordId">Podaj stare hasło</label>
+                      <div class="col-md-6">
+                        <input class="form-control"
+                              id="oldPasswordId"
+                              formControlName="oldPassword"
+                              type="password" />
+                      </div>
+                    </div>
+
+                    <div class="form-group row mb-2">
+                      <label class="col-md-4 col-form-label"
+                            for="newPasswordId">Podaj nowe hasło</label>
+                      <div class="col-md-6">
+                        <input class="form-control"
+                              id="newPasswordId"
+                              formControlName="newPassword"
+                              placeholder="6 - 24 znaków"
+                              type="password" />
+                      </div>
+                    </div>
+
+                    <div class="form-group row mb-2">
+                      <label class="col-md-4 col-form-label"
+                            for="newPasswordAgainId">Powtórz nowe hasło</label>
+                      <div class="col-md-6">
+                        <input class="form-control"
+                              id="newPasswordAgainId"
+                              formControlName="newPasswordAgain"
+                              placeholder="6 - 24 znaków"
+                              type="password" />
+                      </div>
+                      <div class="col-md-2">
+                        <button
+                          class="btn btn-primary mr-3"
+                          type="submit"
+                          [disabled]="!passwordForm?.valid">
+                          Zmień
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </form>
+
+
+
+              <hr>
+
+              <legend>Twoje dane</legend>
+
+              <form
+                (ngSubmit)="saveInfo()"
+                [formGroup]="infoForm">
+
+                <div class="form-group row mb-2">
+                  <label class="col-md-3 col-form-label"
+                        for="firstNameId">Imię</label>
+                  <div class="col-md-8">
+                    <input class="form-control"
+                          id="firstNameId"
+                          formControlName="firstName"
+                          type="text" />
+                  </div>
+                </div>
+
+                <div class="form-group row mb-2">
+                  <label class="col-md-3 col-form-label"
+                        for="lastNameId">Nazwisko</label>
+                  <div class="col-md-8">
+                    <input class="form-control"
+                          id="lastNameId"
+                          formControlName="lastName"
+                          type="text" />
+                  </div>
+                </div>
+
+                <div class="form-group row mb-2">
+                  <label class="col-md-3 col-form-label"
+                        for="usernameId">Nazwa</label>
+                  <div class="col-md-8">
+                    <input class="form-control"
+                          id="usernameId"
+                          type="text"
+                          [(ngModel)]="username"
+                          [ngModelOptions]="{ standalone: true }"
+                          disabled />
+                  </div>
+                </div>
+
+                <div class="form-group row mb-2">
+                  <label class="col-md-3 col-form-label"
+                        for="emailId">Email</label>
+                  <div class="col-md-8">
+                    <input class="form-control"
+                          id="emailId"
+                          type="text"
+                          [(ngModel)]="email"
+                          [ngModelOptions]="{ standalone: true }"
+                          disabled />
+                  </div>
+                </div>
+
+                <div class="form-group row mb-2" style="margin-top: 5%;">
+                  <div class="offset-md-4">
+                    <button
+                      class="btn btn-primary mr-3"
+                      style="width:130px"
+                      type="submit">
+                      Zapisz
+                    </button>
+                  </div>
+                </div>
+
+              </form>
+
+            </div>
+
           </div>
 
         </fieldset>
-
-        <div class="form-group row mb-2">
-            <div class="offset-md-5 col-md-4">
-              <button class="btn btn-primary mr-3"
-                      style="width:90px;"
-                      type="submit"
-                      [disabled]="!accountForm.valid">
-                Zapisz zmiany
-              </button>
-            </div>
-          </div>
-      </form>
 
     </div>
   </div>

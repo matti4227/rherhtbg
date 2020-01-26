@@ -1,6 +1,10 @@
 <div class="recipes">
 
-  <app-recipe-list [recipePage]="recipePage"></app-recipe-list>
+  <h2 style="margin: 20px">Twoje ulubione przepisy</h2>
+
+  <div style="margin-left: 10%;">
+    <app-recipe-list [recipePage]="recipePage"></app-recipe-list>
+  </div>
 
   <div class="page-nav" *ngIf="!pageNav()">
     <app-page-nav

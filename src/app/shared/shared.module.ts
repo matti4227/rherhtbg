@@ -5,6 +5,7 @@ import { EnumToArrayPipe } from './enum-to-array.pipe';
 import { MaterialModule } from './material.module';
 import { StarComponent } from './star/star.component';
 import { PageNavComponent } from './page-nav/page-nav.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { PageNavComponent } from './page-nav/page-nav.component';
   ],
   imports: [
     CommonModule,
-    MaterialModule
+    MaterialModule,
+    NgbModule
   ],
   exports: [
     CommonModule,
@@ -23,7 +25,8 @@ import { PageNavComponent } from './page-nav/page-nav.component';
     EnumToArrayPipe,
     MaterialModule,
     StarComponent,
-    PageNavComponent
+    PageNavComponent,
+    NgbModule
   ]
 })
 export class SharedModule { }

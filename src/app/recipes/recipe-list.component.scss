@@ -1,6 +1,5 @@
 .items-block {
   margin-top: 30px;
-  margin-left: 100px;
 
   .recipe {
     background-color: lightslategrey;
@@ -8,14 +7,14 @@
     border-radius: 2%;
     border-style: solid;
     width: 250px;
-    height: 250px;
+    height: 350px;
     margin: 5px;
     opacity: 0.9;
     cursor: pointer;
 
-    .recipeDifficulty {
-      position: absolute;
-      bottom: 10px;
+
+    .picture {
+      background-size: 100% 100%;
     }
   }
 }

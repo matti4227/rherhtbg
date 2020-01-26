@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AccountComponent } from './account/account.component';
 import { AuthGuard } from '../core/auth.guard';
+import { ProfileComponent } from './profile/profile.component';
 
 
 const routes: Routes = [
@@ -17,6 +18,11 @@ const routes: Routes = [
       { path: 'my-recipes', component: MyRecipesComponent },
       { path: 'edit', component: EditComponent }
     ]
+  },
+  {
+    path: 'profile/:username',
+    canActivate: [AuthGuard],
+    component: ProfileComponent
   }
 ];
 

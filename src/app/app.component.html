@@ -1,6 +1,6 @@
 <mat-spinner class="loader" *ngIf="loading"></mat-spinner>
 <nav class="navbar navbar-expand navbar-light" style="background-color:bisque;">
-  <a class="navbar-brand"><b>{{pageTitle}}</b></a>
+  <a class="navbar-brand"><b>{{ pageTitle }}</b></a>
   <ul class="navbar-nav">
 
     <li class="nav-item">
@@ -58,6 +58,4 @@
   </ul>
 </nav>
 
-<div class="container">
-  <router-outlet *ngIf="!loading"></router-outlet>
-</div>
+<router-outlet *ngIf="!loading"></router-outlet>

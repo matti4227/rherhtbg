@@ -1,9 +1,8 @@
 import { Category } from './../../shared/interfaces';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { FormControl } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
-import { NumberValidators } from '../../shared/number-validator';
 import { Recipe, RecipeResolved, RecipeIngredient } from 'src/app/shared/interfaces';
 import { DataService } from 'src/app/core/data.service';
 import { Observable } from 'rxjs';
@@ -16,8 +15,14 @@ import { startWith, map } from 'rxjs/operators';
 })
 export class RecipeEditComponent implements OnInit {
 
-  difficulties = ['wszystkie', 'łatwe', 'średnie', 'trudne'];
-  prepTimes = ['wszystkie', 'do 30 min', '30 do 60 min', 'powyżej 60 min'];
+  name: string;
+  description: string;
+  preparation: string;
+  preparationTime: string;
+  difficulty: string;
+
+  difficulties = ['łatwe', 'średnie', 'trudne'];
+  prepTimes = ['do 30 min', '30 do 60 min', 'powyżej 60 min'];
 
   categories = [
       'polska',
@@ -45,10 +50,36 @@ export class RecipeEditComponent implements OnInit {
     'ml'
   ];
 
-  recipe: Recipe;
-  recipeForm: FormGroup;
 
-  imageURL: string;
+  get isDirty(): boolean {
+    return JSON.stringify(this.originalRecipe) !== JSON.stringify(this.currentRecipe);
+  }
+
+  currentRecipe: Recipe;
+  originalRecipe: Recipe;
+
+  get recipe(): Recipe {
+    return this.currentRecipe;
+  }
+  set recipe(value: Recipe) {
+    this.currentRecipe = {
+      ...value,
+      difficulty: this.getDifficultyName(value.difficulty),
+      preparationTime: this.getPrepTimeName(value.preparationTime)
+    };
+    // Clone the object to retain a copy
+    this.originalRecipe = {
+      ...value,
+      difficulty: this.getDifficultyName(value.difficulty),
+      preparationTime: this.getPrepTimeName(value.preparationTime)
+    };
+  }
+
+  imageURL: any;
+  selectedFile: any;
+
+  base64Data: any;
+
   pageTitle: string;
   errorMessage: string;
 
@@ -68,17 +99,11 @@ export class RecipeEditComponent implements OnInit {
     return this.arrayIngredients.filter(option => option.toLowerCase().includes(filterValue));
   }
 
-  get isDirty(): boolean {
-    return this.recipeForm.dirty || this.ingCatFlag;
-  }
-
   constructor(private dataService: DataService,
-              private formBuilder: FormBuilder,
-              private route: ActivatedRoute,
-              private router: Router) { }
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.buildForm();
+    // this.buildForm();
     this.route.data.subscribe(data => {
       const resolvedData: RecipeResolved = data['resolvedData'];
       this.errorMessage = resolvedData.errorMessage;
@@ -96,49 +121,9 @@ export class RecipeEditComponent implements OnInit {
     );
   }
 
-  private buildForm(): void {
-    this.recipeForm = this.formBuilder.group({
-      name: ['', [
-        Validators.required,
-        Validators.maxLength(100)
-      ]],
-      description: ['', [
-        Validators.required,
-        Validators.maxLength(1000)
-      ]],
-      preparation: ['', [
-        Validators.required,
-        Validators.maxLength(50000)
-      ]],
-      preparationTime: ['', [
-        Validators.required,
-        Validators.min(1),
-        Validators.pattern('^-?[0-9]\\d*(\\.\\d{1,*})?$')
-      ]],
-      difficulty: ['', [
-        Validators.required,
-        NumberValidators.range(1, 5),
-        Validators.pattern('^-?[0-9]\\d*(\\.\\d{1,*})?$')
-      ]],
-      // picture: ['', [
-      //   // Validators.required,
-      //   // required file type
-      // ]]
-    });
-  }
-
   onRecipeRetrieved(recipe: Recipe): void {
+    recipe.avatar = null;
     this.recipe = recipe;
-    this.recipeForm.patchValue({
-      name: this.recipe.name,
-      description: this.recipe.description,
-      preparation: this.recipe.preparation,
-      preparationTime: this.recipe.preparationTime,
-      difficulty: this.recipe.difficulty
-    });
-
-    this.selectedCategories = this.recipe.categories;
-    this.selectedIngredients = this.recipe.recipeIngredients;
 
     if (!this.recipe) {
       this.pageTitle = 'Nie znaleziono przepisu';
@@ -151,25 +136,64 @@ export class RecipeEditComponent implements OnInit {
     }
   }
 
+  getDifficultyName(difficulty: number): string {
+    if (difficulty === 1) {
+      return 'łatwe';
+    } else if (difficulty === 2) {
+      return 'średnie';
+    } else if (difficulty === 3) {
+      return 'trudne';
+    }
+  }
+
+  getDifficultyNumber(difficulty: string): number {
+    if (difficulty === 'łatwe') {
+      return 1;
+    } else if (difficulty === 'średnie') {
+      return 2;
+    } else if (difficulty === 'trudne') {
+      return 3;
+    }
+  }
+
+  getPrepTimeName(prepTime: number): string {
+    if (prepTime === 30) {
+      return 'do 30 min';
+    } else if (prepTime === 3060) {
+      return '30 do 60 min';
+    } else if (prepTime === 60) {
+      return 'powyżej 60 min';
+    }
+  }
+
+  getPrepTimeNumber(prepTime: string): number {
+    if (prepTime === 'do 30 min') {
+      return 30;
+    } else if (prepTime === '30 do 60 min') {
+      return 3060;
+    } else if (prepTime === 'powyżej 60 min') {
+      return 60;
+    }
+  }
+
   saveRecipe(): void {
-    if (this.recipeForm.valid) {
-      // console.log(this.ingredients)
-      // // console.log(this.setTemporary)
-      // console.log(this.recipeForm.value)
-      const recipe: Recipe = { ...this.recipeForm.value, };
-      recipe.categories = this.selectedCategories;
-      recipe.recipeIngredients = this.selectedIngredients;
-      console.log(this.selectedCategories)
-      console.log(this.selectedIngredients)
-      console.log(recipe.recipeIngredients)
-      // console.log(recipe.categories)
-      // console.log(recipe)
-      // console.log(this.recipe.id)
+    // if (this.recipeForm.valid) {
+      const recipe: Recipe = {
+        ...this.recipe,
+        difficulty: this.getDifficultyNumber(this.recipe.difficulty),
+        preparationTime: this.getPrepTimeNumber(this.recipe.preparationTime),
+        picture: null
+       };
+       console.log(this.getPrepTimeNumber(this.recipe.preparationTime))
+       console.log(recipe)
+
       if (this.recipe.id === 0) {
         this.dataService.createRecipe(recipe)
           .subscribe({
             next: response => {
               console.log(response);
+              const id = response.id;
+              this.updateImage(id);
               this.onSaveComplete();
             },
             error: error => {
@@ -181,38 +205,45 @@ export class RecipeEditComponent implements OnInit {
           .subscribe({
             next: response => {
               console.log(response);
+              const id = response.id;
+              this.updateImage(id);
               this.onSaveComplete();
             },
             error: error => {
               console.error(error);
             }
-          })
+          });
       }
+    // }
+  }
+
+  updateImage(id: number): void {
+    if (this.selectedFile) {
+      const uploadData = new FormData();
+      uploadData.append('image', this.selectedFile, this.selectedFile.name);
+      this.dataService.updateRecipeImage(id, uploadData)
+        .subscribe({
+          next: response => {
+            console.log(response);
+          },
+          error: error => {
+            console.error(error);
+          }
+        });
     }
   }
 
   onSaveComplete(): void {
-    this.recipeForm.reset();
+    this.currentRecipe = null;
+    this.originalRecipe = null;
     this.ingCatFlag = false;
-    this.router.navigate(['/recipes']);
+    // this.router.navigate(['/recipes']);
   }
-
-  // get setTemporary(): Recipe {
-  //   return {
-  //     name: null,
-  //     description: null,
-  //     preparation: null,
-  //     preparationTime: null,
-  //     difficulty: null,
-  //     // ingredients: [],
-  //     // picture: null
-  //   };
-  // }
 
   addCategory(): void {
     if (this.categoryValid()) {
       if (this.categoryAlreadyInRecipe()) {
-        this.selectedCategories.push({ name: this.selectedCategory });
+        this.recipe.categories.push({ name: this.selectedCategory });
         this.selectedCategory = '';
         this.ingCatFlag = true;
       } else {
@@ -224,7 +255,7 @@ export class RecipeEditComponent implements OnInit {
   }
 
   removeCategory(i: number): void {
-    this.selectedCategories.splice(i, 1);
+    this.recipe.categories.splice(i, 1);
     this.ingCatFlag = true;
   }
 
@@ -241,7 +272,7 @@ export class RecipeEditComponent implements OnInit {
 
   categoryAlreadyInRecipe(): boolean {
     let flag = true;
-    for (let i of this.selectedCategories) {
+    for (let i of this.recipe.categories) {
       if (this.selectedCategory === i.name) {
         flag = false;
       }
@@ -251,8 +282,8 @@ export class RecipeEditComponent implements OnInit {
 
   addIngredient(): void {
     if (this.ingredientValid()) {
-      if (this.ingredientAlreadyInFridge()) {
-        this.selectedIngredients.push({ name: this.selectedIngredient, amount: `${this.selectedAmount} ${this.selectedType}` });
+      if (this.ingredientAlreadyInRecipe()) {
+        this.recipe.recipeIngredients.push({ name: this.selectedIngredient, amount: `${this.selectedAmount} ${this.selectedType}` });
         this.selectedIngredient = '';
         this.selectedType = '';
         this.selectedAmount = '';
@@ -265,8 +296,8 @@ export class RecipeEditComponent implements OnInit {
     }
   }
 
-  removeSelected(index: number): void {
-    this.selectedIngredients.splice(index, 1);
+  removeSelectedIngredient(index: number): void {
+    this.recipe.recipeIngredients.splice(index, 1);
   }
 
   ingredientValid(): boolean {
@@ -280,9 +311,9 @@ export class RecipeEditComponent implements OnInit {
     return flag;
   }
 
-  ingredientAlreadyInFridge(): boolean {
+  ingredientAlreadyInRecipe(): boolean {
     let flag = true;
-    for (let i of this.selectedIngredients) {
+    for (let i of this.recipe.recipeIngredients) {
       if (this.selectedIngredient === i.name) {
         flag = false;
       }
@@ -290,25 +321,21 @@ export class RecipeEditComponent implements OnInit {
     return flag;
   }
 
-  patchFormWithPicture(event: any): void {
-    const file = (event.target as HTMLInputElement).files[0];
-
-    this.recipeForm.patchValue({
-      picture: file
-    });
-
-    this.recipeForm.get('picture').updateValueAndValidity();
-    this.showPreview(file);
+  selectPicture(event: any): void {
+    // const file = (event.target as HTMLInputElement).files[0];
+    this.selectedFile = event.target.files[0];
+    // this.recipeForm.patchValue({
+    //   picture: this.selectedFile
+    // });
+    // this.recipeForm.get('picture').updateValueAndValidity();
+    this.showPreview(this.selectedFile);
   }
 
   showPreview(file: any): void {
     const reader = new FileReader();
-
     reader.onload = () => {
-      this.imageURL = reader.result as string;
+      this.recipe.picture = reader.result as string;
     };
-
     reader.readAsDataURL(file);
   }
-
 }

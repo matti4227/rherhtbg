@@ -1,4 +1,5 @@
-import { map } from 'rxjs/operators';
+import { InfoChange } from './../shared/interfaces';
+import { concatMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
@@ -10,15 +11,47 @@ export class DataService {
   constructor(private httpClient: HttpClient) { }
 
   getUser(): Observable<User> {
-    return this.httpClient.get<User>(`/api/user`);
+    return this.httpClient.get<User>(`/api/user`)
+      .pipe(
+        concatMap(response => {
+          response = this.setAvatar(response);
+          return of(response);
+        })
+      );
+  }
+
+  getUserByName(username: string): Observable<User> {
+    return this.httpClient.get<User>(`/api/user/${username}`)
+      .pipe(
+        concatMap(response => {
+          response = this.setAvatar(response);
+          return of(response);
+        })
+       );
   }
 
   updateAvatar(avatar: FormData): Observable<any> {
     return this.httpClient.post(`/api/user/avatar`, avatar);
   }
 
-  getOwnRecipes(page: number): Observable<RecipePage> {
-    return this.httpClient.get<RecipePage>(`/api/recipes?page=${page}`);
+  removeAvatar(): Observable<any> {
+    return this.httpClient.post(`/api/user/avatar/remove`, null);
+  }
+
+  updatePassword(oldPassword: string, newPassword: string): Observable<any> {
+    return this.httpClient.post(`/api/user/password`,
+    {
+      oldPassword: oldPassword,
+      newPassword: newPassword
+    });
+  }
+
+  updateInfo(info: InfoChange): Observable<any> {
+    return this.httpClient.post(`/api/user/info`, info);
+  }
+
+  getUserRecipes(username: string, page: number, size: number): Observable<RecipePage> {
+    return this.httpClient.get<RecipePage>(`/api/recipes/user/${username}?page=${page}&size=${size}`);
   }
 
   getRecipesByParameters(
@@ -47,15 +80,33 @@ export class DataService {
     return this.httpClient.post<Recipe>(`/api/recipes/${id}/edit`, recipe);
   }
 
+  updateRecipeImage(id: number, image: FormData): Observable<any> {
+    return this.httpClient.post(`/api/recipes/${id}/edit/image`, image);
+  }
+
   getRecipe(recipeId: number): Observable<Recipe> {
     if (recipeId === 0) {
       return of(this.initializeRecipe());
     }
-    return this.httpClient.get<Recipe>(`/api/recipes/${recipeId}`);
+    return this.httpClient.get<Recipe>(`/api/recipes/${recipeId}`)
+      .pipe(
+        concatMap(response => {
+          response = { ...response, picture: 'data:image/jpeg;base64,' + response.picture };
+          response = this.setAvatar(response);
+          for (let i = 0; i < response.comments.length; i++) {
+            response.comments[i] = this.setAvatar(response.comments[i]);
+          }
+          return of(response);
+        })
+      );
   }
 
   commentRecipe(comment: object, recipeId: number): Observable<object> {
     return this.httpClient.post<object>(`/api/recipes/${recipeId}/comment`, comment);
+  }
+
+  rateRecipe(score: object, recipeId: number): Observable<any> {
+    return this.httpClient.post<any>(`/api/recipes/${recipeId}/rate`, score);
   }
 
   getCookbook(page: number): Observable<RecipePage> {
@@ -82,5 +133,14 @@ export class DataService {
       recipeIngredients: [],
       categories: []
     };
+  }
+
+  private setAvatar(data: any): any {
+    console.log(data)
+    if (data.avatar === null) {
+      return { ...data, avatar: 'assets/blank_portrait.png' };
+    } else {
+      return { ...data, avatar: 'data:image/jpeg;base64,' + data.avatar };
+    }
   }
 }

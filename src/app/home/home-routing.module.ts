@@ -1,12 +1,14 @@
 import { HomeComponent } from './home.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { RecipesResolver } from './recipes-resolver.service';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: HomeComponent,
+    resolve: { resolvedData: RecipesResolver }
   },
 ];
 

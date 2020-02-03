@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FilterData } from '../filter/filter-data';
 import { DataService } from '../core/data.service';
 import { RecipePage, Ingredient } from '../shared/interfaces';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -17,11 +18,21 @@ export class HomeComponent implements OnInit {
   totalPages: number;
   searchText: string;
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.setDefaultParameters();
-    this.getRecipes();
+
+    this.route.data.subscribe(data => {
+      const resolvedData: RecipePage = data['resolvedData'];
+      this.onRecipesRetrieved(resolvedData);
+    });
+  }
+
+  onRecipesRetrieved(recipePage: RecipePage): void {
+    this.recipePage = recipePage;
+    this.totalPages = this.recipePage.totalPages;
   }
 
   getRecipes(): void {
@@ -81,6 +92,11 @@ export class HomeComponent implements OnInit {
 
   nextPage(): void {
     this.page = this.page + 1;
+    this.getRecipes();
+  }
+
+  goToPage(page: number): void {
+    this.page = this.page + page;
     this.getRecipes();
   }
 

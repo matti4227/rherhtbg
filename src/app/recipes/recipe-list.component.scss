@@ -2,7 +2,7 @@
   margin-top: 30px;
 
   .recipe {
-    background-color: lightslategrey;
+    background-color: dimgray;
     border-color: black;
     border-radius: 2%;
     border-style: solid;
@@ -12,9 +12,8 @@
     opacity: 0.9;
     cursor: pointer;
 
-
     .picture {
-      background-size: 100% 100%;
+      background-size: 100%;
     }
   }
 }

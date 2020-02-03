@@ -45,4 +45,8 @@ export class AppComponent {
     this.securityService.logout();
     this.router.navigate(['/recipes']);
   }
+
+  get isAdmin(): boolean {
+     return this.securityService.getRole === '[ADMIN]';
+  }
 }

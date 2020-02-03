@@ -1,0 +1,20 @@
+<div class="card-body container">
+
+  <div class="nav mb-2 nav-pills" role="tablist">
+    <a
+      class="nav-link"
+      [routerLink]="['users']"
+      routerLinkActive="active">Uzytkownicy</a>
+    <a
+      class="nav-link"
+      [routerLink]="['ingredients']"
+      routerLinkActive="active">Składniki</a>
+      <a
+      class="nav-link"
+      [routerLink]="['categories']"
+      routerLinkActive="active">Kategorie</a>
+  </div>
+
+  <router-outlet></router-outlet>
+
+</div>

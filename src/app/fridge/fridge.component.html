@@ -1,4 +1,4 @@
-<div class="container my-4">
+<div class="container my-2">
 
   <label>Lodówka</label>
 
@@ -13,7 +13,7 @@
         [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete">
         <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-          {{ option }}
+          {{ option | titlecase }}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
@@ -29,7 +29,7 @@
 
   <mat-selection-list [(ngModel)]="selectedIngredients">
     <mat-list-option *ngFor="let ingredient of ingredients" [value]="ingredient.name">
-      {{ ingredient.name }}
+      {{ ingredient.name | titlecase }}
     </mat-list-option>
 
     <button

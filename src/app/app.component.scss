@@ -1,14 +1,22 @@
 .nav-link {
   font-size: large;
   cursor: pointer;
+  user-select: none;
 }
 
 .navbar-brand {
   font-size: xx-large;
+  cursor: default;
+  user-select: none;
 }
 
 .navbar-light .navbar-nav .nav-link.active {
-  color: #007ACC
+  cursor: default;
+}
+
+.nav-link.active {
+  cursor: default;
+  user-select: none;
 }
 
 .loader {
@@ -16,4 +24,17 @@
   top: 50%;
   left: 50%;
   margin-left: -4em;
+}
+
+.content {
+  margin: auto;
+  width: 75%;
+}
+
+.user {
+  padding-top: 3px;
+  cursor: default;
+  user-select: none;
+  padding-right: 20px;
+  color: lightgoldenrodyellow;
 }

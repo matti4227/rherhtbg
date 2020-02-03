@@ -28,13 +28,20 @@ export interface InfoChange {
 }
 
 export interface User {
-  id: number;
+  id?: number;
   username: string;
   firstName: string;
   lastName: string;
   email: string;
   avatar?: any;
   recipes?: Recipe[];
+}
+
+export interface UserPage {
+  content: User[];
+  currentPage: number;
+  totalPages: number;
+  totalResults: number;
 }
 
 export interface RecipeIngredient {
@@ -70,6 +77,7 @@ export interface Recipe {
   comments?: Comment[];
   picture?: any;
   categories?: Category[];
+  inCookbook?: boolean;
 }
 
 export interface RecipeResolved {
@@ -90,5 +98,13 @@ export interface Fridge {
 }
 
 export interface Ingredient {
+  id?: number;
   name: string;
+}
+
+export interface IngredientPage {
+  content: Ingredient[];
+  currentPage: number;
+  totalPages: number;
+  totalResults: number;
 }

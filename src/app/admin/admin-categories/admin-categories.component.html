@@ -1,0 +1,45 @@
+<div class="container">
+
+  <div class="search">
+    <div class="input-group mb-3" style="max-width: 400px;">
+      <input
+        type="text"
+        class="form-control ml-3 mr-2"
+        placeholder="Dodaj kategorię"
+        [(ngModel)]="categoryText">
+
+        <button
+          class="btn btn-primary mr-3"
+          (click)="addCategory()">
+          Dodaj
+        </button>
+    </div>
+  </div>
+
+  <div class="categories container">
+    <table class="table table-striped" style="max-width: 300px;">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Nazwa</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let category of categories">
+          <th scope="row">{{ category.id }}</th>
+          <td>{{ category.name | titlecase }}</td>
+          <td>
+            <button
+              class="btn btn-sm btn-outline-danger mr-3"
+              (click)="deleteCategory(category)">
+              Usuń
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+

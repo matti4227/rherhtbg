@@ -1,7 +1,8 @@
-import { PasswordChange, InfoChange } from './../../shared/interfaces';
+import { PasswordChange, InfoChange, User } from './../../shared/interfaces';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { DataService } from 'src/app/core/data.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-edit',
@@ -28,7 +29,8 @@ export class EditComponent implements OnInit {
   email: string;
 
   constructor(private dataService: DataService,
-              private formBuilder: FormBuilder) { }
+              private formBuilder: FormBuilder,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
 
@@ -36,21 +38,36 @@ export class EditComponent implements OnInit {
 
     this.buildPasswordForm();
 
-    this.dataService.getUser()
-      .subscribe({
-        next: response => {
-          this.imageURL = response.avatar;
-          this.infoForm.patchValue({
-            firstName: response.firstName,
-            lastName: response.lastName
-          });
-          this.username = response.username;
-          this.email = response.email;
-        },
-        error: error => {
-          console.error(error);
-        }
-      });
+    this.route.data.subscribe(data => {
+      const resolvedData: User = data['resolvedData'];
+      this.onUserRetrieved(resolvedData);
+    });
+
+    // this.dataService.getUser()
+    //   .subscribe({
+    //     next: response => {
+    //       this.imageURL = response.avatar;
+    //       this.infoForm.patchValue({
+    //         firstName: response.firstName,
+    //         lastName: response.lastName
+    //       });
+    //       this.username = response.username;
+    //       this.email = response.email;
+    //     },
+    //     error: error => {
+    //       console.error(error);
+    //     }
+      // });
+  }
+
+  onUserRetrieved(user: User): void {
+    this.imageURL = user.avatar;
+    this.infoForm.patchValue({
+      firstName: user.firstName,
+      lastName: user.lastName
+    });
+    this.username = user.username;
+    this.email = user.email;
   }
 
   selectPicture(event: any): void {

@@ -1,21 +1,53 @@
 .parent {
   display: flex;
+  margin-top: 5px;
 
   .filter {
     width: 200px;
-    background: lightblue;
-    /* Just so it's visible */
+    // background: lightblue;
   }
 
   .recipes {
 
     flex: 1;
-    /* Grow to rest of container */
-    background: lightgreen;
-    /* Just so it's visible */
+    // background: lightgreen;
+
+    .search {
+      padding-left: 10px;
+      padding-top: 10px;
+      padding-right: 10px;
+    }
+
+    .search-button {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
   }
 
   .fridge {
-    background: lightcoral;
+    // background: lightcoral;
+
   }
+
+  .card {
+    padding: 3px;
+    margin: 3px;
+    background: lightyellow;
+  }
+
+  .page {
+    margin-right: 85px;
+    margin-top: 15px;
+  }
+  .page-item {
+    cursor: pointer;
+    user-select: none;
+  }
+  .page-item.disabled {
+    cursor: auto;
+  }
+  .page-item.active {
+    cursor: auto;
+  }
+
 }

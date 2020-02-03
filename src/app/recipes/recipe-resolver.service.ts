@@ -1,8 +1,8 @@
-import { RecipeResolved } from './../shared/interfaces';
 import { Injectable } from '@angular/core';
+import { RecipeResolved } from 'src/app/shared/interfaces';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
+import { DataService } from 'src/app/core/data.service';
 import { Observable, of } from 'rxjs';
-import { DataService } from './data.service';
 import { map, catchError } from 'rxjs/operators';
 
 @Injectable({

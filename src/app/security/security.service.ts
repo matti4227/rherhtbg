@@ -12,11 +12,15 @@ export class SecurityService {
   redirectUrl: string;
 
   get isLoggedIn(): boolean {
-    return !!localStorage.getItem('username');
+    return !!sessionStorage.getItem('username');
   }
 
   get getUsername(): string {
-    return JSON.parse(localStorage.getItem('username'));
+    return JSON.parse(sessionStorage.getItem('username'));
+  }
+
+  get getRole(): string {
+    return JSON.parse(sessionStorage.getItem('role'));
   }
 
   constructor(private httpClient: HttpClient) { }
@@ -26,8 +30,9 @@ export class SecurityService {
       .pipe(
         tap( response => {
           this.securityObject = { ...response };
-          localStorage.setItem('bearerToken', JSON.stringify(this.securityObject.bearerToken));
-          localStorage.setItem('username', JSON.stringify(this.securityObject.userName));
+          sessionStorage.setItem('bearerToken', JSON.stringify(this.securityObject.bearerToken));
+          sessionStorage.setItem('username', JSON.stringify(this.securityObject.userName));
+          sessionStorage.setItem('role', JSON.stringify(this.securityObject.role));
         })
       );
   }
@@ -37,6 +42,6 @@ export class SecurityService {
   }
 
   resetSecurityObject() {
-    localStorage.clear();
+    sessionStorage.clear();
   }
 }

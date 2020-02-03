@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeModule } from './home/home.module';
 import { MaterialModule } from './shared/material.module';
 import { CookbookModule } from './cookbook/cookbook.module';
+import { AdminModule } from './admin/admin.module';
 
 
 @NgModule({
@@ -31,9 +32,10 @@ import { CookbookModule } from './cookbook/cookbook.module';
     UserModule,
     BrowserAnimationsModule,
     CookbookModule,
+    AdminModule,
     AppRoutingModule,
     HomeModule,
-    MaterialModule,
+    MaterialModule
   ],
   bootstrap: [AppComponent]
 })

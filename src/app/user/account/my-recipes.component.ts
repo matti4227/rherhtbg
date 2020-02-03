@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { RecipePage } from 'src/app/shared/interfaces';
 import { DataService } from 'src/app/core/data.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-my-recipes',
   template: `
-    <div class="recipes">
+    <div class="recipes container">
 
       <app-recipe-list [recipePage]="recipePage"></app-recipe-list>
 
@@ -27,14 +28,22 @@ export class MyRecipesComponent implements OnInit {
   page = 0;
   size = 12;
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.getOwnRecipes();
+    this.route.data.subscribe(data => {
+      const resolvedData: RecipePage = data['resolvedData'];
+      this.onRecipesRetrieved(resolvedData);
+    });
+  }
+
+  onRecipesRetrieved(recipePage: RecipePage): void {
+    this.recipePage = { ...recipePage };
   }
 
   getOwnRecipes(): void {
-    const username = JSON.parse(localStorage.getItem('username'));
+    const username = JSON.parse(sessionStorage.getItem('username'));
     this.dataService.getUserRecipes(username, this.page, this.size)
     .subscribe({
       next: response => {

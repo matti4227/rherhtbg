@@ -5,13 +5,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { RecipeEditComponent } from './recipe-edit/recipe-edit.component';
 import { RecipeComponent } from './recipe/recipe.component';
 import { AuthGuard } from '../core/auth.guard';
-import { RecipeResolver } from '../core/recipe-resolver.service';
+import { RecipeResolver } from './recipe-resolver.service';
 
 
 const routes: Routes = [
   {
     path: 'recipe/:id',
-    component: RecipeComponent
+    component: RecipeComponent,
+    resolve: { resolvedData: RecipeResolver }
   },
   {
     path: 'recipe/:id/edit',

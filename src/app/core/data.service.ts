@@ -1,4 +1,4 @@
-import { InfoChange, Category } from './../shared/interfaces';
+import { InfoChange, Category, UserPage } from './../shared/interfaces';
 import { concatMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -9,6 +9,18 @@ import { User, RecipePage, Recipe, Fridge, Ingredient } from '../shared/interfac
 export class DataService {
 
   constructor(private httpClient: HttpClient) { }
+
+  getAllUsers(page: number): Observable<UserPage> {
+    return this.httpClient.get<UserPage>(`/api/users?page=${page}`)
+    .pipe(
+      concatMap(response => {
+        for (let i = 0; i < response.content.length; i++) {
+          response.content[i] = this.setAvatar(response.content[i]);
+        }
+        return of(response);
+      })
+    );
+  }
 
   getUser(): Observable<User> {
     return this.httpClient.get<User>(`/api/user`)
@@ -48,6 +60,10 @@ export class DataService {
 
   updateInfo(info: InfoChange): Observable<any> {
     return this.httpClient.post(`/api/user/info`, info);
+  }
+
+  deleteUser(username: string): Observable<any> {
+    return this.httpClient.delete<any>(`/api/user/${username}`);
   }
 
   getUserRecipes(username: string, page: number, size: number): Observable<RecipePage> {
@@ -109,16 +125,48 @@ export class DataService {
     return this.httpClient.post<any>(`/api/recipes/${recipeId}/rate`, score);
   }
 
+  deleteRecipe(recipeId: number): Observable<any> {
+    return this.httpClient.delete<any>(`/api/recipes/${recipeId}`);
+  }
+
   getIngredients(): Observable<any> {
     return this.httpClient.get<any>(`/api/ingredients`);
+  }
+
+  getIngredientsPage(page: number): Observable<any> {
+    return this.httpClient.get<any>(`/api/ingredients/page?page=${page}`);
+  }
+
+  addIngredient(ingredient: Ingredient): Observable<Ingredient> {
+    return this.httpClient.post<Ingredient>(`/api/ingredients`, ingredient);
+  }
+
+  deleteIngredient(id: number): Observable<any> {
+    return this.httpClient.delete<any>(`/api/ingredients/${id}`);
   }
 
   getCategories(): Observable<Category[]> {
     return this.httpClient.get<Category[]>(`/api/recipeCategories`);
   }
 
+  addCategory(category: Category): Observable<Category> {
+    return this.httpClient.post<Category>(`/api/recipeCategories`, category);
+  }
+
+  deleteCategory(name: string): Observable<any> {
+    return this.httpClient.delete<any>(`/api/recipeCategories/${name}`);
+  }
+
   getCookbook(page: number): Observable<RecipePage> {
     return this.httpClient.get<RecipePage>(`/api/cookbook?page=${page}`);
+  }
+
+  addRecipeToCookbook(id: number): Observable<any> {
+    return this.httpClient.post<any>(`/api/recipes/${id}`, null);
+  }
+
+  removeRecipeFromCookbook(recipeId: number): Observable<any> {
+    return this.httpClient.delete<any>(`/api/cookbook/${recipeId}`);
   }
 
   getFridge(): Observable<Fridge> {

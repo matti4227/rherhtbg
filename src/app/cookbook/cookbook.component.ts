@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../core/data.service';
 import { RecipePage } from '../shared/interfaces';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-cookbook',
@@ -12,10 +13,18 @@ export class CookbookComponent implements OnInit {
   recipePage: RecipePage;
   page = 0;
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.getCookbook();
+    this.route.data.subscribe(data => {
+      const resolvedData: RecipePage = data['resolvedData'];
+      this.onRecipesRetrieved(resolvedData);
+    });
+  }
+
+  onRecipesRetrieved(recipePage: RecipePage): void {
+    this.recipePage = { ...recipePage };
   }
 
   getCookbook(): void {

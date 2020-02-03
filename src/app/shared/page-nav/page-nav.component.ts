@@ -22,12 +22,16 @@ export class PageNavComponent {
     this.changePage.emit(this.page);
   }
 
+  goToPage(page: number): void {
+    this.page = this.page + page;
+    this.changePage.emit(this.page);
+  }
+
   checkPreviousPage(): boolean {
     return !(this.page > 0);
   }
 
   checkNextPage(): boolean {
-    console.log(this.totalPages + this.page)
     return !(this.page < this.totalPages - 1);
   }
 }

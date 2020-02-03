@@ -6,13 +6,17 @@ import { MaterialModule } from './material.module';
 import { StarComponent } from './star/star.component';
 import { PageNavComponent } from './page-nav/page-nav.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { OwnRecipeDirective } from './own-recipe.directive';
+import { ArraySortPipe } from './array-sort.pipe';
 
 
 @NgModule({
   declarations: [
   EnumToArrayPipe,
   StarComponent,
-  PageNavComponent
+  PageNavComponent,
+  OwnRecipeDirective,
+  ArraySortPipe
   ],
   imports: [
     CommonModule,
@@ -26,7 +30,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MaterialModule,
     StarComponent,
     PageNavComponent,
-    NgbModule
+    NgbModule,
+    OwnRecipeDirective,
+    ArraySortPipe
   ]
 })
 export class SharedModule { }

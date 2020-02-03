@@ -93,7 +93,7 @@ export class FilterComponent implements OnInit {
       this.filterData.sort = 0;
     }
     if (this.sort === this.sorts[1]) {
-      this.filterData.sort = 1;
+      this.filterData.sort = 2;
     }
     if (this.sort === this.sorts[2]) {
       this.filterData.sort = 4;

@@ -1,5 +1,5 @@
 <mat-spinner class="loader" *ngIf="loading"></mat-spinner>
-<nav class="navbar navbar-expand navbar-light" style="background-color:bisque;">
+<nav class="navbar navbar-expand navbar-dark" style="background-color: dimgray;">
   <a class="navbar-brand"><b>{{ pageTitle }}</b></a>
   <ul class="navbar-nav">
 
@@ -29,18 +29,25 @@
          routerLinkActive="active">Książka kucharska</a>
     </li>
 
+    <li class="nav-item"
+        *ngIf="isAdmin">
+      <a class="nav-link"
+         [routerLink]="['/admin']"
+         routerLinkActive="active">Panel admina</a>
+    </li>
+
   </ul>
   <ul class="navbar-nav ml-auto">
 
-    <li class="nav-item"
-        *ngIf="isLoggedIn">
-      <a class="nav-link"
-        [routerLink]="['/account']">Edytuj konto</a>
+    <li class="user" *ngIf="isLoggedIn">
+      <h3>Witaj {{ username }}</h3>
     </li>
 
     <li class="nav-item"
         *ngIf="isLoggedIn">
-      <a class="nav-link">Witaj {{ username }}</a>
+      <a class="nav-link"
+        [routerLink]="['/account']"
+        routerLinkActive="active">Edytuj konto</a>
     </li>
 
     <li class="nav-item"
@@ -58,4 +65,7 @@
   </ul>
 </nav>
 
-<router-outlet *ngIf="!loading"></router-outlet>
+<div class="content">
+  <router-outlet *ngIf="!loading"></router-outlet>
+</div>
+

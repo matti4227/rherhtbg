@@ -1,0 +1,14 @@
+.page {
+  margin-right: 70px;
+  margin-top: 15px;
+}
+.page-item {
+  cursor: pointer;
+  user-select: none;
+}
+.page-item.disabled {
+  cursor: auto;
+}
+.page-item.active {
+  cursor: auto;
+}

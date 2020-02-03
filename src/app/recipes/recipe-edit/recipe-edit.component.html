@@ -122,7 +122,7 @@
         <span *ngFor="let category of recipe.categories; let i = index">
           <button class="btn btn-outline-secondary"
                   style="font-size:smaller;margin-bottom:12px;margin-right:2px"
-                  title="Kliknij, aby usunąć tą kategorię"
+                  title="Kliknij, aby usunąć kategorię"
                   (click)="removeCategory(i)">
             {{ category.name }}
             <span>x</span>
@@ -149,7 +149,7 @@
             [matAutocomplete]="autoIng">
           <mat-autocomplete #autoIng="matAutocomplete">
             <mat-option *ngFor="let option of filteredIngredientOptions | async" [value]="option">
-              {{ option }}
+              {{ option | titlecase }}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
@@ -187,15 +187,16 @@
 
       <div class="form-group row mb-2">
         <mat-list>
-          <mat-list-item *ngFor="let ingredient of recipe.recipeIngredients;let i = index">
+          <mat-list-item *ngFor="let ingredient of recipe.recipeIngredients | sort:'name';let i = index">
             <div>
-              <span style="text-align: left;">{{ ingredient.name }}&nbsp;&nbsp;</span>
+              <span style="text-align: left;">{{ ingredient.name | titlecase }}&nbsp;&nbsp;</span>
               <span>{{ ingredient.amount }}</span>
               <button
-                class="btn btn-primary mr-3"
-                style="width:100px;"
+                style="margin-left: 5px;"
+                class="btn btn-danger mr-3 btn-sm"
+                title="Kliknij, aby usunąć składnik"
                 (click)="removeSelectedIngredient(i)">
-                Usuń wybrane
+                x
               </button>
             </div>
           </mat-list-item>
@@ -245,14 +246,31 @@
     </div>
 
     <div class="form-group row mb-2">
-      <div class="offset-md-5 col-md-4">
-        <button class="btn btn-primary mr-3"
-                style="width:90px;"
+      <div class="offset-md-3 col-md-3" *ngIf="currentRecipe?.id !== 0">
+        <button class="btn btn-primary"
                 (click)="saveRecipe()">
-          Utwórz!
+          Zapisz przepis
         </button>
       </div>
+      <div class="offset-md-5" *ngIf="currentRecipe?.id === 0">
+        <button class="btn btn-primary"
+                (click)="saveRecipe()">
+          Zapisz przepis
+        </button>
+      </div>
+
+      <div class="col-md-4" *ngIf="currentRecipe?.id !== 0">
+        <div *appOwnRecipe="recipe?.username">
+          <button
+            style="margin-left: 15px;"
+            class="btn btn-danger"
+            (click)="deleteRecipe()">
+            Usuń przepis
+          </button>
+        </div>
+      </div>
     </div>
+
   </div>
 </div>
 

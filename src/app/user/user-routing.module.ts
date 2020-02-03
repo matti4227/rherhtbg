@@ -6,6 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { AccountComponent } from './account/account.component';
 import { AuthGuard } from '../core/auth.guard';
 import { ProfileComponent } from './profile/profile.component';
+import { UserResolver } from './account/user-resolver.service';
+import { UserRecipesResolver } from './account/user-recipes-resolver.service';
 
 
 const routes: Routes = [
@@ -15,8 +17,8 @@ const routes: Routes = [
     component: AccountComponent,
     children: [
       { path: '', redirectTo: 'my-recipes', pathMatch: 'full' },
-      { path: 'my-recipes', component: MyRecipesComponent },
-      { path: 'edit', component: EditComponent }
+      { path: 'my-recipes', component: MyRecipesComponent, resolve: { resolvedData: UserRecipesResolver} },
+      { path: 'edit', component: EditComponent, resolve: { resolvedData: UserResolver } }
     ]
   },
   {

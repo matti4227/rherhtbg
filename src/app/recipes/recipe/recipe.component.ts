@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from 'src/app/core/data.service';
-import { Recipe, RecipeIngredient } from 'src/app/shared/interfaces';
+import { Recipe, RecipeIngredient, RecipeResolved } from 'src/app/shared/interfaces';
 
 @Component({
   selector: 'app-recipe',
@@ -28,26 +28,38 @@ export class RecipeComponent implements OnInit {
               private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      const id = Number.parseInt(params['id']);
+    this.route.data.subscribe(data => {
+      const resolvedData: RecipeResolved = data['resolvedData'];
+      this.onRecipeRetrieved(resolvedData.recipe);
+    });
+    console.log(this.recipe)
+  //   this.route.params.subscribe(params => {
+  //     const id = Number.parseInt(params['id']);
 
-      this.dataService.getRecipe(id)
-      .subscribe({
-        next: response => {
-          this.recipe = { ...response };
-          this.currentRate = this.recipe.userRate;
-          this.difficulty = this.getDifficultyName(this.recipe.difficulty);
-          this.prepTime = this.getPrepTimeName(this.recipe.preparationTime);
-          console.log(this.recipe)
-        },
-        error: error => {
-          console.error(error);
-        }
-      });
+  //     this.dataService.getRecipe(id)
+  //     .subscribe({
+  //       next: response => {
+  //         this.recipe = { ...response };
+  //         this.currentRate = this.recipe.userRate;
+  //         this.difficulty = this.getDifficultyName(this.recipe.difficulty);
+  //         this.prepTime = this.getPrepTimeName(this.recipe.preparationTime);
+  //         console.log(this.recipe)
+  //       },
+  //       error: error => {
+  //         console.error(error);
+  //       }
+  //     });
 
-   });
+  //  });
 
   //  this.starConfig.max = 5;
+  }
+
+  onRecipeRetrieved(recipe: Recipe): void {
+    this.recipe = { ...recipe };
+    this.currentRate = this.recipe.userRate;
+    this.difficulty = this.getDifficultyName(this.recipe.difficulty);
+    this.prepTime = this.getPrepTimeName(this.recipe.preparationTime);
   }
 
   getDifficultyName(difficulty: number): string {
@@ -61,11 +73,11 @@ export class RecipeComponent implements OnInit {
   }
 
   getPrepTimeName(prepTime: number): string {
-    if (prepTime === 30) {
+    if (prepTime === 1) {
       return 'do 30 min';
-    } else if (prepTime === 3060) {
+    } else if (prepTime === 2) {
       return '30 do 60 min';
-    } else if (prepTime === 60) {
+    } else if (prepTime === 3) {
       return 'powyżej 60 min';
     }
   }
@@ -116,8 +128,33 @@ export class RecipeComponent implements OnInit {
       });
   }
 
+  addToCookbook(): void {
+    this.dataService.addRecipeToCookbook(this.recipe.id)
+    .subscribe({
+      next: response => {
+        console.log(response);
+        window.location.reload();
+      },
+      error: error => {
+        console.error(error);
+      }
+    });
+  }
+
+  removeFromCookbook(): void {
+    this.dataService.removeRecipeFromCookbook(this.recipe.id)
+    .subscribe({
+      next: response => {
+        console.log(response);
+        window.location.reload();
+      },
+      error: error => {
+        console.error(error);
+      }
+    });
+  }
+
   recipeExists(): boolean {
     return typeof this.recipe === 'undefined';
   }
-
 }

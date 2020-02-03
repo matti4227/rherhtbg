@@ -5,7 +5,7 @@ import { RecipePage } from 'src/app/shared/interfaces';
 @Component({
   selector: 'app-user-recipes',
   template: `
-    <div class="recipes">
+    <div class="recipes container">
 
       <app-recipe-list [recipePage]="recipePage"></app-recipe-list>
 
@@ -32,7 +32,6 @@ export class UserRecipesComponent implements OnInit {
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
-    console.log(this.username)
     this.getUserRecipes();
   }
 

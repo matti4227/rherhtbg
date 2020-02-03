@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class HttpTokenInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = JSON.parse(localStorage.getItem('bearerToken'));
+    const token = JSON.parse(sessionStorage.getItem('bearerToken'));
 
     if (token) {
       const headers = req.headers.set('Authorization', 'Bearer ' + token);

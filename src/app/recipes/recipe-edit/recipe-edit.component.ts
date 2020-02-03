@@ -1,7 +1,7 @@
 import { Category } from './../../shared/interfaces';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Recipe, RecipeResolved, RecipeIngredient } from 'src/app/shared/interfaces';
 import { DataService } from 'src/app/core/data.service';
@@ -90,10 +90,10 @@ export class RecipeEditComponent implements OnInit {
   }
 
   constructor(private dataService: DataService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit() {
-    // this.buildForm();
     this.route.data.subscribe(data => {
       const resolvedData: RecipeResolved = data['resolvedData'];
       this.errorMessage = resolvedData.errorMessage;
@@ -164,22 +164,22 @@ export class RecipeEditComponent implements OnInit {
   }
 
   getPrepTimeName(prepTime: number): string {
-    if (prepTime === 30) {
+    if (prepTime === 1) {
       return 'do 30 min';
-    } else if (prepTime === 3060) {
+    } else if (prepTime === 2) {
       return '30 do 60 min';
-    } else if (prepTime === 60) {
+    } else if (prepTime === 3) {
       return 'powyżej 60 min';
     }
   }
 
   getPrepTimeNumber(prepTime: string): number {
     if (prepTime === 'do 30 min') {
-      return 30;
+      return 1;
     } else if (prepTime === '30 do 60 min') {
-      return 3060;
+      return 2;
     } else if (prepTime === 'powyżej 60 min') {
-      return 60;
+      return 3;
     }
   }
 
@@ -244,7 +244,7 @@ export class RecipeEditComponent implements OnInit {
     this.currentRecipe = null;
     this.originalRecipe = null;
     this.ingCatFlag = false;
-    // this.router.navigate(['/recipes']);
+    this.router.navigate(['/recipes']);
   }
 
   addCategory(): void {
@@ -344,6 +344,19 @@ export class RecipeEditComponent implements OnInit {
       this.recipe.picture = reader.result as string;
     };
     reader.readAsDataURL(file);
+  }
+
+  deleteRecipe(): void {
+    this.dataService.deleteRecipe(this.recipe.id)
+      .subscribe({
+        next: response => {
+          console.log(response);
+          this.router.navigate(['/recipes']);
+        },
+        error: error => {
+          console.error(error);
+        }
+      });
   }
 
   private startFiltering(): void {

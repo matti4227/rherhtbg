@@ -2,12 +2,21 @@
   <nav>
     <ul class="pagination justify-content-center">
 
+      <div class="firstPage">
+        <li class="page-item" *ngIf="!checkPreviousPage()">
+          <a class="page-link" (click)="selectPage(0)"><i class="fa fa-lg fa-angle-double-left"></i></a>
+        </li>
+        <li class="page-item disabled" *ngIf="checkPreviousPage()">
+          <a class="page-link" (click)="selectPage(0)"><i class="fa fa-lg fa-angle-double-left"></i></a>
+        </li>
+      </div>
+
       <div class="previousPage">
         <li class="page-item disabled" *ngIf="checkPreviousPage()">
-          <a class="page-link" href="#" tabindex="-1">Poprzednia</a>
+          <a class="page-link" href="#" tabindex="-1"><i class="fa fa-lg fa-angle-left"></i></a>
         </li>
         <li class="page-item" *ngIf="!checkPreviousPage()">
-          <a class="page-link" (click)="previousPage()" tabindex="-1">Poprzednia</a>
+          <a class="page-link" (click)="previousPage()" tabindex="-1"><i class="fa fa-lg fa-angle-left"></i></a>
         </li>
       </div>
 
@@ -43,10 +52,18 @@
 
       <div class="nextPage">
         <li class="page-item disabled" *ngIf="checkNextPage()">
-          <a class="page-link" href="#" tabindex="-1">Następna</a>
+          <a class="page-link" href="#" tabindex="-1"><i class="fa fa-lg fa-angle-right"></i></a>
         </li>
         <li class="page-item" *ngIf="!checkNextPage()">
-          <a class="page-link" (click)="nextPage()" tabindex="-1">Następna</a>
+          <a class="page-link" (click)="nextPage()" tabindex="-1"><i class="fa fa-lg fa-angle-right"></i></a>
+        </li>
+      </div>
+      <div class="lastPage">
+        <li class="page-item" *ngIf="!checkNextPage()">
+          <a class="page-link" (click)="selectPage(totalPages - 1)"><i class="fa fa-lg fa-angle-double-right"></i></a>
+        </li>
+        <li class="page-item disabled" *ngIf="checkNextPage()">
+          <a class="page-link" (click)="selectPage(totalPages - 1)"><i class="fa fa-lg fa-angle-double-right"></i></a>
         </li>
       </div>
 

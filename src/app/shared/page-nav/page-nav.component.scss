@@ -5,10 +5,20 @@
 .page-item {
   cursor: pointer;
   user-select: none;
+  .fa {
+    -webkit-text-stroke: 1px;
+    color: black;
+  }
 }
 .page-item.disabled {
   cursor: auto;
+  .fa {
+    color: rgb(173, 170, 170);
+  }
 }
 .page-item.active {
   cursor: auto;
+}
+.page-link {
+  font-weight: 700;
 }

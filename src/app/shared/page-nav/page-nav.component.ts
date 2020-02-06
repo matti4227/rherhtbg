@@ -27,6 +27,11 @@ export class PageNavComponent {
     this.changePage.emit(this.page);
   }
 
+  selectPage(page: number): void {
+    this.page = page;
+    this.changePage.emit(this.page);
+  }
+
   checkPreviousPage(): boolean {
     return !(this.page > 0);
   }

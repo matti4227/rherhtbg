@@ -1,0 +1,32 @@
+<div class="modal-header" style="background-color: lightgrey;">
+  <h3>Potwierdzenie</h3>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.close('Close click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body" style="background-color: lavender;">
+  <h5 class="modal-title">{{ message }}</h5>
+</div>
+
+<div class="modal-footer" style="background-color: lightgrey">
+  <div style="margin: auto;">
+    <button
+      style="margin-right: 10px;"
+      type="button"
+      class="btn btn-success"
+      (click)="confirm()">
+      Tak
+    </button>
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="activeModal.close('Close click')">
+      Nie
+    </button>
+  </div>
+</div>

@@ -6,8 +6,17 @@ import { SecurityService } from '../security/security.service';
 })
 export class HasRoleDirective {
 
-  @Input() set appHasRole(role: string) {
-    if (this.securityService.getRole === role) {
+  @Input() set appHasRole(roles: string) {
+    const rolesSplitted = roles.split(',');
+    let flag = false;
+
+    for (let role of rolesSplitted) {
+      if (this.securityService.getRole === role) {
+        flag = true;
+        break;
+      }
+    }
+    if (flag) {
       this.viewContainer.createEmbeddedView(this.templateRef);
     } else {
       this.viewContainer.clear();

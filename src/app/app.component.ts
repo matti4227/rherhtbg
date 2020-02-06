@@ -43,7 +43,12 @@ export class AppComponent {
 
   logout(): void {
     this.securityService.logout();
-    this.router.navigate(['/recipes']);
+
+    if (location.pathname === '/recipes') {
+      window.location.reload();
+    } else {
+      this.router.navigate(['/recipes']);
+    }
   }
 
   get isAdmin(): boolean {

@@ -44,6 +44,11 @@ export interface UserPage {
   totalResults: number;
 }
 
+export interface UserProfile {
+  user: User;
+  recipePage: RecipePage;
+}
+
 export interface RecipeIngredient {
   id?: number;
   name: string;

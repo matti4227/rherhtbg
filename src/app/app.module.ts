@@ -15,6 +15,8 @@ import { HomeModule } from './home/home.module';
 import { MaterialModule } from './shared/material.module';
 import { CookbookModule } from './cookbook/cookbook.module';
 import { AdminModule } from './admin/admin.module';
+import { ToastrModule } from 'ngx-toastr';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -31,6 +33,8 @@ import { AdminModule } from './admin/admin.module';
     RouterModule,
     UserModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot(),
+    NgbModule,
     CookbookModule,
     AdminModule,
     AppRoutingModule,

@@ -2,6 +2,14 @@
 
   <label>Lodówka</label>
 
+  <button
+    class="btn btn-outline-danger btn-sm"
+    style="margin-right: 0;float: right;"
+    type="button"
+    (click)="showFridgeInfo()">
+    <i class="fa fa-lg fa-question-circle"></i>
+  </button>
+
   <div class="form">
     <mat-form-field class="full-width">
       <input
@@ -21,7 +29,6 @@
     <button
       [disabled]="selectedIngredientDisabled()"
       class="btn btn-primary mr-3"
-      style="width:100px;"
       (click)="addIngredientToFridge()">
       Dodaj składnik
     </button>
@@ -32,20 +39,23 @@
       {{ ingredient.name | titlecase }}
     </mat-list-option>
 
-    <button
-      [disabled]="ingredientsSelectedDisabled()"
-      class="btn btn-primary mr-3"
-      style="width:100px;"
-      (click)="removeSelected()">
-      Usuń wybrane
-    </button>
-    <button
-      [disabled]="ingredientsDisabled()"
-      class="btn btn-primary mr-3"
-      style="width:100px;"
-      (click)="saveFridge()">
-      Zapisz lodówkę
-    </button>
+    <div class="fridge-buttons" style="margin-top: 5px;">
+      <button
+        [disabled]="ingredientsSelectedDisabled()"
+        class="btn btn-primary mr-3"
+        style="width:100px;"
+        (click)="removeSelected()">
+        Usuń wybrane
+      </button>
+      <button
+        [disabled]="ingredientsDisabled()"
+        class="btn btn-primary mr-3"
+        style="width:100px;"
+        (click)="saveFridge()">
+        Zapisz lodówkę
+      </button>
+    </div>
+
   </mat-selection-list>
 
 </div>

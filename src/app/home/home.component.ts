@@ -100,6 +100,11 @@ export class HomeComponent implements OnInit {
     this.getRecipes();
   }
 
+  selectPage(page: number): void {
+    this.page = page;
+    this.getRecipes();
+  }
+
   checkPreviousPage(): boolean {
     return !(this.page > 0);
   }

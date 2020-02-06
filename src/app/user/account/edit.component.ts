@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { DataService } from 'src/app/core/data.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit',
@@ -30,12 +31,12 @@ export class EditComponent implements OnInit {
 
   constructor(private dataService: DataService,
               private formBuilder: FormBuilder,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private toastr: ToastrService) { }
 
   ngOnInit() {
 
     this.buildInfoForm();
-
     this.buildPasswordForm();
 
     this.route.data.subscribe(data => {
@@ -99,18 +100,30 @@ export class EditComponent implements OnInit {
       this.dataService.updateAvatar(uploadData)
         .subscribe({
           next: response => {
-            console.log(response);
+            this.toastr.success('Zapisano avatar!', '', {
+              timeOut: 3000,
+              positionClass: 'toast-bottom-right'
+            });
           },
           error: error => {
             console.error(error);
           }
         });
+    } else {
+      this.toastr.success('Zapisano avatar!', '', {
+        timeOut: 3000,
+        positionClass: 'toast-bottom-right'
+      });
     }
     if (!this.imageURL) {
       this.dataService.removeAvatar()
         .subscribe({
           next: response => {
             console.log(response);
+            this.toastr.success('Zapisano avatar!', '', {
+              timeOut: 3000,
+              positionClass: 'toast-bottom-right'
+            });
           },
           error: error => {
             console.error(error);
@@ -145,26 +158,34 @@ export class EditComponent implements OnInit {
       this.dataService.updatePassword(passwords.oldPassword, passwords.newPassword)
       .subscribe({
         next: response => {
-          console.log(response);
+          this.toastr.success('Poprawnie zmieniono hasło!', '', {
+            timeOut: 3000,
+            positionClass: 'toast-bottom-right'
+          });
+          this.passwordForm.reset();
         },
         error: error => {
-          console.error(error);
+          this.toastr.error('Niepoprawne stare hasło!', '', {
+            timeOut: 3000,
+            positionClass: 'toast-top-right'
+          });
         }
       });
     } else {
-      console.error('hasła się różnią')
+      this.toastr.error('Hasła się różnią!', '', {
+        timeOut: 3000,
+        positionClass: 'toast-top-right'
+      });
     }
   }
 
   private buildInfoForm(): void {
     this.infoForm = this.formBuilder.group({
       firstName: ['', [
-        Validators.minLength(6),
-        Validators.maxLength(24)
+        Validators.maxLength(50)
       ]],
       lastName: ['', [
-        Validators.minLength(6),
-        Validators.maxLength(24)
+        Validators.maxLength(50)
       ]]
     });
   }
@@ -174,7 +195,10 @@ export class EditComponent implements OnInit {
     this.dataService.updateInfo(info)
     .subscribe({
       next: response => {
-        console.log(response);
+        this.toastr.success('Zapisano informacje!', '', {
+          timeOut: 3000,
+          positionClass: 'toast-bottom-right'
+        });
       },
       error: error => {
         console.error(error);

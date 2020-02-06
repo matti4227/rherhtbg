@@ -10,11 +10,18 @@
               for="nameId">Nazwa przepisu</label>
       <div class="col-md-8">
         <input
+          required
+          maxlength="100"
           class="form-control"
           id="nameId"
           type="text"
           placeholder="Podaj nazwę przepisu"
-          [(ngModel)]="currentRecipe.name" />
+          [(ngModel)]="currentRecipe.name"
+          #name="ngModel"
+          [ngClass]="{'is-invalid': (name.touched || name.dirty) && !name.valid }" />
+      <span class="invalid-feedback">
+          Wymagana nazwa (do 100 znaków).
+      </span>
       </div>
     </div>
 
@@ -27,13 +34,19 @@
           for="difficultyId">Trudność wykonania</label>
         <div class="col-md-2">
           <select
+            required
             class="form-control"
             id="difficultyId"
-            [(ngModel)]="currentRecipe.difficulty">
+            [(ngModel)]="currentRecipe.difficulty"
+            #difficulty="ngModel"
+            [ngClass]="{'is-invalid': (difficulty.touched || difficulty.dirty) && !difficulty.valid }">
             <option
               *ngFor="let option of difficulties"
               [value]="option">{{ option | titlecase }}</option>
           </select>
+          <span class="invalid-feedback">
+            Wymagane.
+          </span>
         </div>
 
         <label class="col-md-3 col-form-label"
@@ -41,13 +54,19 @@
 
         <div class="col-md-3">
           <select
+            required
             class="form-control"
             id="preparationTimeid"
-            [(ngModel)]="currentRecipe.preparationTime">
+            [(ngModel)]="currentRecipe.preparationTime"
+            #preparationTime="ngModel"
+            [ngClass]="{'is-invalid': (preparationTime.touched || preparationTime.dirty) && !preparationTime.valid }">
             <option
               *ngFor="let option of prepTimes"
               [value]="option">{{ option }}</option>
           </select>
+          <span class="invalid-feedback">
+            Wymagane.
+          </span>
         </div>
 
     </div>
@@ -59,11 +78,18 @@
               for="recipeDescriptionId">Opis</label>
       <div class="col-md-8">
         <textarea
+          required
+          maxlength="1000"
           class="form-control"
           id="recipeDescriptionId"
           rows="3"
           placeholder="Krótki opis przepisu"
-          [(ngModel)]="currentRecipe.description" ></textarea>
+          [(ngModel)]="currentRecipe.description"
+          #description="ngModel"
+          [ngClass]="{'is-invalid': (description.touched || description.dirty) && !description.valid }" ></textarea>
+      <span class="invalid-feedback">
+        Wymagany opis (do 1000 znaków).
+      </span>
       </div>
     </div>
 
@@ -75,11 +101,18 @@
 
       <div class="col-md-8">
         <textarea
+          required
+          maxlength="10000"
           class="form-control"
           id="preparationId"
           rows="9"
           placeholder="Etapy przygotowania przepisu"
-          [(ngModel)]="currentRecipe.preparation" ></textarea>
+          [(ngModel)]="currentRecipe.preparation"
+          #preparation="ngModel"
+          [ngClass]="{'is-invalid': (preparation.touched || preparation.dirty) && !preparation.valid }" ></textarea>
+      <span class="invalid-feedback">
+          Wymagany opis przygotowania (do 10000 znaków).
+      </span>
       </div>
     </div>
 
@@ -209,31 +242,25 @@
     <div class="form-group row mb-3">
         <label class="col-md-3 col-form-label"
               for="pictureId">Wybierz zdjęcie</label>
-        <!-- <div class="col-md-8">
-          <input
-            class="form-control"
-            id="pictureId"
-            type="file"
-            accept="image/*"
-            (change)="selectPicture($event)" />
-          <div class="imagePreview" *ngIf="recipe.picture">
-            <img class="image" [src]="recipe.picture">
-          </div>
-        </div> -->
+
         <div class="col-md-8 input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text">Wybierz zdjęcie</span>
           </div>
+
           <div class="custom-file">
             <input
+              required
               class="form-control"
               type="file"
               class="custom-file-input"
               id="inputGroupFile01"
               accept="image/*"
-              (change)="selectPicture($event)">
+              (change)="selectPicture($event)"
+              [(ngModel)]="selectedImage"
+              #image="ngModel"
+              [ngClass]="{'is-invalid': (image.touched || image.dirty) && !image.valid }" >
             <label class="custom-file-label" for="inputGroupFile01">Wybierz plik</label>
-
           </div>
         </div>
     </div>
@@ -264,7 +291,7 @@
           <button
             style="margin-left: 15px;"
             class="btn btn-danger"
-            (click)="deleteRecipe()">
+            (click)="openConfirmation()">
             Usuń przepis
           </button>
         </div>
@@ -273,46 +300,3 @@
 
   </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-<!-- <div class="card">
-  <div class="card-header">
-    <b>{{pageTitle}}</b>
-  </div>
-
-  <div class="card-body">
-    <form (ngSubmit)="saveRecipe()"
-          [formGroup]="recipeForm">
-
-    <mat-card>
-      <mat-form-field>
-        <mat-label>Nazwa przepisu</mat-label>
-        <input
-          matInput
-          placeholder="Input"
-          [(ngModel)]="currentRecipe.name">
-      </mat-form-field>
-    </mat-card>
-    </form>
-</div> -->
-
-
-
-
-<!-- <mat-form-field>
-  <mat-label>Favorite food</mat-label>
-  <mat-select [(ngModel)]="selectedType">
-    <mat-option *ngFor="let type of amountTypes" [value]="type" >
-      {{ type }}
-    </mat-option>
-  </mat-select>
-</mat-form-field> -->

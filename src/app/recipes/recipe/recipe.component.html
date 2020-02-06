@@ -9,14 +9,14 @@
 
       <mat-card-title [routerLink]="['/profile', recipe?.username]" class="username">
         <div class="user">
-          {{ recipe?.username }}
+          <b>{{ recipe?.username }}</b>
         </div>
       </mat-card-title>
 
     </mat-card-header>
 
     <div style="text-align: center; margin-bottom: 15px;">
-      <mat-card-title>{{ recipe?.name }}</mat-card-title>
+      <mat-card-title><b>{{ recipe?.name }}</b></mat-card-title>
       <mat-label>{{ recipe?.description }}</mat-label>
     </div>
 
@@ -59,7 +59,7 @@
         <div class="col-sm" style="text-align: center;">
           <mat-card class="info">
             <div>
-              <span>Ocena: </span>
+              <h5 style="font-weight: 600;">Ocena: </h5 >
             </div>
             <div>
               <app-star [rating]="recipe?.rating"></app-star>
@@ -70,20 +70,20 @@
         <div class="col-sm" style="text-align: center;">
           <mat-card class="info">
             <div>
-              <span>Trudność wykonania: </span>
+              <h5 style="font-weight: 600;">Trudność wykonania: </h5 >
             </div>
             <div>
-              {{ difficulty }}
+              <b>{{ difficulty }}</b>
             </div>
           </mat-card>
         </div>
         <div class="col-sm" style="text-align: center;">
           <mat-card class="info">
             <div>
-              <span>Czas przygotowania: </span>
+              <h5 style="font-weight: 600;">Czas przygotowania: </h5 >
             </div>
             <div>
-              {{ prepTime }}
+              <b>{{ prepTime }}</b>
             </div>
           </mat-card>
         </div>
@@ -101,7 +101,7 @@
             <li
               class="list-group-item"
               *ngFor="let ingredient of recipe?.recipeIngredients | sort: 'name'">
-              <div style="display: inline-block;">{{ ingredient?.name | titlecase }}&nbsp;&nbsp;</div>
+              <div style="display: inline-block;"><b>{{ ingredient?.name | titlecase }}</b>&nbsp;&nbsp;</div>
               <div style="display: inline-block;">{{ ingredient?.amount }}</div>
             </li>
           </ul>

@@ -21,19 +21,16 @@ import { RecipePage } from 'src/app/shared/interfaces';
   `,
   styles: []
 })
-export class UserRecipesComponent implements OnInit {
+export class UserRecipesComponent {
 
-  recipePage: RecipePage;
+  @Input() recipePage: RecipePage;
+
   page = 0;
   size = 3;
 
   @Input() username: string;
 
   constructor(private dataService: DataService) { }
-
-  ngOnInit() {
-    this.getUserRecipes();
-  }
 
   getUserRecipes(): void {
     this.dataService.getUserRecipes(this.username, this.page, this.size)

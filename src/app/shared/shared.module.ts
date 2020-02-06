@@ -8,6 +8,8 @@ import { PageNavComponent } from './page-nav/page-nav.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { OwnRecipeDirective } from './own-recipe.directive';
 import { ArraySortPipe } from './array-sort.pipe';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { HasRoleDirective } from './has-role.directive';
 
 
 @NgModule({
@@ -16,7 +18,9 @@ import { ArraySortPipe } from './array-sort.pipe';
   StarComponent,
   PageNavComponent,
   OwnRecipeDirective,
-  ArraySortPipe
+  ArraySortPipe,
+  ConfirmationDialogComponent,
+  HasRoleDirective
   ],
   imports: [
     CommonModule,
@@ -32,7 +36,11 @@ import { ArraySortPipe } from './array-sort.pipe';
     PageNavComponent,
     NgbModule,
     OwnRecipeDirective,
-    ArraySortPipe
+    ArraySortPipe,
+    HasRoleDirective
+  ],
+  entryComponents: [
+    ConfirmationDialogComponent
   ]
 })
 export class SharedModule { }

@@ -7,6 +7,9 @@ import { Recipe, RecipeResolved, RecipeIngredient } from 'src/app/shared/interfa
 import { DataService } from 'src/app/core/data.service';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -14,6 +17,8 @@ import { startWith, map } from 'rxjs/operators';
   styleUrls: ['./recipe-edit.component.scss']
 })
 export class RecipeEditComponent implements OnInit {
+
+  selectedImage: any;
 
   name: string;
   description: string;
@@ -57,7 +62,6 @@ export class RecipeEditComponent implements OnInit {
       difficulty: this.getDifficultyName(value.difficulty),
       preparationTime: this.getPrepTimeName(value.preparationTime)
     };
-    // Clone the object to retain a copy
     this.originalRecipe = {
       ...value,
       difficulty: this.getDifficultyName(value.difficulty),
@@ -91,7 +95,9 @@ export class RecipeEditComponent implements OnInit {
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private toastr: ToastrService,
+              private modalService: NgbModal) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -131,6 +137,7 @@ export class RecipeEditComponent implements OnInit {
   onRecipeRetrieved(recipe: Recipe): void {
     recipe.avatar = null;
     this.recipe = recipe;
+    this.selectedImage = '';
 
     if (!this.recipe) {
       this.pageTitle = 'Nie znaleziono przepisu';
@@ -184,15 +191,13 @@ export class RecipeEditComponent implements OnInit {
   }
 
   saveRecipe(): void {
-    // if (this.recipeForm.valid) {
+    if (this.validateForm()) {
       const recipe: Recipe = {
         ...this.recipe,
         difficulty: this.getDifficultyNumber(this.recipe.difficulty),
         preparationTime: this.getPrepTimeNumber(this.recipe.preparationTime),
         picture: null
        };
-       console.log(this.getPrepTimeNumber(this.recipe.preparationTime))
-       console.log(recipe)
 
       if (this.recipe.id === 0) {
         this.dataService.createRecipe(recipe)
@@ -221,7 +226,12 @@ export class RecipeEditComponent implements OnInit {
             }
           });
       }
-    // }
+    } else {
+      this.toastr.warning('Wypełnij wszystkie pola.', '', {
+        timeOut: 2000
+      });
+    }
+
   }
 
   updateImage(id: number): void {
@@ -244,6 +254,10 @@ export class RecipeEditComponent implements OnInit {
     this.currentRecipe = null;
     this.originalRecipe = null;
     this.ingCatFlag = false;
+    this.toastr.success('Przepis pomyślnie zapisany.', 'Sukces!', {
+      timeOut: 3000,
+      positionClass: 'toast-bottom-right'
+    });
     this.router.navigate(['/recipes']);
   }
 
@@ -254,10 +268,14 @@ export class RecipeEditComponent implements OnInit {
         this.selectedCategory = '';
         this.ingCatFlag = true;
       } else {
-        console.log('kategoria jest już wybrana');
+        this.toastr.error('Kategoria została już wybrana.', '', {
+          timeOut: 2000
+        });
       }
     } else {
-      console.log('nie ma takiej kategorii');
+      this.toastr.error('Nie ma takiej kategorii.', '', {
+        timeOut: 2000
+      });
     }
   }
 
@@ -290,16 +308,26 @@ export class RecipeEditComponent implements OnInit {
   addIngredient(): void {
     if (this.ingredientValid()) {
       if (this.ingredientAlreadyInRecipe()) {
-        this.recipe.recipeIngredients.push({ name: this.selectedIngredient, amount: `${this.selectedAmount} ${this.selectedType}` });
-        this.selectedIngredient = '';
-        this.selectedType = '';
-        this.selectedAmount = '';
-        this.ingCatFlag = true;
+        if (!this.amountAndTypeChosen()) {
+          this.recipe.recipeIngredients.push({ name: this.selectedIngredient, amount: `${this.selectedAmount} ${this.selectedType}` });
+          this.selectedIngredient = '';
+          this.selectedType = '';
+          this.selectedAmount = '';
+          this.ingCatFlag = true;
+        } else {
+          this.toastr.error('Wypełnij wszystkie pola.', '', {
+            timeOut: 2000
+          });
+        }
       } else {
-        console.log('składnik jest już w lodówce');
+        this.toastr.error('Składnik został już wybrany.', '', {
+          timeOut: 2000
+        });
       }
     } else {
-      console.log('nie ma takiego składnika w bazie');
+      this.toastr.error('Nie ma takiego składnika w bazie.', '', {
+        timeOut: 2000
+      });
     }
   }
 
@@ -307,34 +335,8 @@ export class RecipeEditComponent implements OnInit {
     this.recipe.recipeIngredients.splice(index, 1);
   }
 
-  ingredientValid(): boolean {
-    let flag = false;
-    for (let i of this.arrayIngredients) {
-      if (this.selectedIngredient === i) {
-
-        flag = true;
-      }
-    }
-    return flag;
-  }
-
-  ingredientAlreadyInRecipe(): boolean {
-    let flag = true;
-    for (let i of this.recipe.recipeIngredients) {
-      if (this.selectedIngredient === i.name) {
-        flag = false;
-      }
-    }
-    return flag;
-  }
-
   selectPicture(event: any): void {
-    // const file = (event.target as HTMLInputElement).files[0];
     this.selectedFile = event.target.files[0];
-    // this.recipeForm.patchValue({
-    //   picture: this.selectedFile
-    // });
-    // this.recipeForm.get('picture').updateValueAndValidity();
     this.showPreview(this.selectedFile);
   }
 
@@ -350,13 +352,33 @@ export class RecipeEditComponent implements OnInit {
     this.dataService.deleteRecipe(this.recipe.id)
       .subscribe({
         next: response => {
-          console.log(response);
-          this.router.navigate(['/recipes']);
+          this.toastr.success('Pomyślnie usunięto przepis.', '', {
+            positionClass: 'toast-top-center'
+          });
         },
         error: error => {
           console.error(error);
+        },
+        complete: () => {
+          setTimeout(() => this.router.navigate(['/recipes']), 1000);
         }
       });
+  }
+
+  openConfirmation(): void {
+    const modalRef = this.modalService.open(ConfirmationDialogComponent, {
+        centered: true,
+        backdrop: 'static',
+        keyboard: false
+      });
+
+    modalRef.componentInstance.message = 'Czy jesteś pewien, aby usunąć przepis: ' + this.recipe.name;
+
+    modalRef.result.then((result) => {
+      if (result === 'Confirm') {
+        this.deleteRecipe();
+      }
+    });
   }
 
   private startFiltering(): void {
@@ -370,5 +392,55 @@ export class RecipeEditComponent implements OnInit {
       startWith(''),
       map(value => this._ifilter(value))
     );
+  }
+
+  private ingredientValid(): boolean {
+    let flag = false;
+    for (let i of this.arrayIngredients) {
+      if (this.selectedIngredient === i) {
+
+        flag = true;
+      }
+    }
+    return flag;
+  }
+
+  private ingredientAlreadyInRecipe(): boolean {
+    let flag = true;
+    for (let i of this.recipe.recipeIngredients) {
+      if (this.selectedIngredient === i.name) {
+        flag = false;
+      }
+    }
+    return flag;
+  }
+
+  private amountAndTypeChosen(): boolean {
+    return this.selectedAmount === undefined || this.selectedType === undefined ;
+  }
+
+  private validateForm(): boolean {
+    let flag = true;
+
+    if (this.recipe.name === null || this.recipe.name === '') {
+      flag = false;
+    }
+    if (this.recipe.preparation === null || this.recipe.preparation === '') {
+      flag = false;
+    }
+    if (this.recipe.description === null || this.recipe.description === '') {
+      flag = false;
+    }
+    if (this.recipe.preparationTime === undefined) {
+      flag = false;
+    }
+    if (this.recipe.difficulty === undefined) {
+      flag = false;
+    }
+    if (this.selectedFile === undefined && this.recipe.id === 0) {
+      flag = false;
+    }
+
+    return flag;
   }
 }

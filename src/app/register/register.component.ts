@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { RegisterService } from './register.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -16,7 +17,8 @@ export class RegisterComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private registerService: RegisterService,
-              private router: Router) { }
+              private router: Router,
+              private toastr: ToastrService) { }
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
@@ -43,7 +45,9 @@ export class RegisterComponent implements OnInit {
       this.registerService.register(userRegister)
         .subscribe({
           next: response => {
-            console.log(response);
+            this.toastr.success('Utworzono konto!', '', {
+              positionClass: 'toast-top-center'
+            });
             this.router.navigate(['/authenticate']);
           },
           error: error => {

@@ -8,6 +8,7 @@ import { AuthGuard } from '../core/auth.guard';
 import { ProfileComponent } from './profile/profile.component';
 import { UserResolver } from './account/user-resolver.service';
 import { UserRecipesResolver } from './account/user-recipes-resolver.service';
+import { UserProfileResolver } from './profile/user-profile-resolver.service';
 
 
 const routes: Routes = [
@@ -24,7 +25,8 @@ const routes: Routes = [
   {
     path: 'profile/:username',
     canActivate: [AuthGuard],
-    component: ProfileComponent
+    component: ProfileComponent,
+    resolve: { resolvedData: UserProfileResolver }
   }
 ];
 

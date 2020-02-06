@@ -5,6 +5,9 @@ import { AdminUsersComponent } from './admin-users/admin-users.component';
 import { AdminIngredientsComponent } from './admin-ingredients/admin-ingredients.component';
 import { AdminCategoriesComponent } from './admin-categories/admin-categories.component';
 import { AdminGuard } from '../core/admin.guard';
+import { AdminUsersResolver } from './admin-users/admin-users-resolver.service';
+import { AdminIngredientsResolver } from './admin-ingredients/admin-ingredients-resolver.service';
+import { AdminCategoriesResolver } from './admin-categories/admin-categories-resolver.service';
 
 
 const routes: Routes = [{
@@ -13,9 +16,21 @@ const routes: Routes = [{
   component: AdminComponent,
   children: [
     { path: '', redirectTo: 'users', pathMatch: 'full' },
-    { path: 'users', component:  AdminUsersComponent},
-    { path: 'ingredients', component: AdminIngredientsComponent },
-    { path: 'categories', component: AdminCategoriesComponent }
+    {
+      path: 'users',
+      component:  AdminUsersComponent,
+      resolve: { resolvedData: AdminUsersResolver }
+    },
+    {
+      path: 'ingredients',
+      component: AdminIngredientsComponent,
+      resolve: { resolvedData: AdminIngredientsResolver }
+    },
+    {
+      path: 'categories',
+      component: AdminCategoriesComponent,
+      resolve: { resolvedData: AdminCategoriesResolver }
+    }
   ]
 }];
 

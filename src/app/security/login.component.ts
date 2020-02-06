@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { SecurityService } from './security.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private securityService: SecurityService,
-              private router: Router) { }
+              private router: Router,
+              private toastr: ToastrService) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -39,7 +41,6 @@ export class LoginComponent implements OnInit {
       this.securityService.authenticate(userLogin)
         .subscribe({
           next: response => {
-            console.log(response);
             if (this.securityService.redirectUrl) {
               this.router.navigateByUrl(this.securityService.redirectUrl);
             } else {
@@ -47,10 +48,15 @@ export class LoginComponent implements OnInit {
             }
           },
           error: error => {
-            console.error(error);
+            this.toastr.error('Niepoprawne dane logowania.', '', {
+              positionClass: 'toast-top-center'
+            });
           }
         });
+    } else {
+      this.toastr.error('Niepoprawne dane logowania.', '', {
+        positionClass: 'toast-top-center'
+      });
     }
   }
-
 }

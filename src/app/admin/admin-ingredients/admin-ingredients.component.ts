@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/core/data.service';
 import { IngredientPage, Ingredient } from 'src/app/shared/interfaces';
+import { ToastrService } from 'ngx-toastr';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-admin-ingredients',
@@ -14,10 +18,20 @@ export class AdminIngredientsComponent implements OnInit {
   ingredientPage: IngredientPage;
   page = 0;
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService,
+              private toastr: ToastrService,
+              private modalService: NgbModal,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.getIngredientPage();
+    this.route.data.subscribe(data => {
+      const resolvedData: IngredientPage = data['resolvedData'];
+      this.onIngredientsRetrieved(resolvedData);
+    });
+  }
+
+  onIngredientsRetrieved(resolvedData: IngredientPage): void {
+    this.ingredientPage = { ...resolvedData };
   }
 
   getIngredientPage(): void {
@@ -39,29 +53,35 @@ export class AdminIngredientsComponent implements OnInit {
     this.dataService.addIngredient(ingredient)
     .subscribe({
       next: response => {
-        console.log(response);
+        this.toastr.success('Dodano nowy składnik!', '', {
+          positionClass: 'toast-top-center'
+        });
+        this.ingredientText = null;
       },
       error: error => {
         console.error(error);
+      },
+      complete: () => {
+        setTimeout(() => window.location.reload(), 1000);
       }
     });
-
-    this.ingredientText = null;
-    window.location.reload();
   }
 
   deleteIngredient(ingredient: Ingredient): void {
     this.dataService.deleteIngredient(ingredient.id)
     .subscribe({
       next: response => {
-        console.log(response);
+        this.toastr.success('Pomyślnie usunięto składnik.', '', {
+          positionClass: 'toast-top-center'
+        });
       },
       error: error => {
         console.error(error);
+      },
+      complete: () => {
+        setTimeout(() => window.location.reload(), 1000);
       }
     });
-
-    // window.location.reload();
   }
 
   changePage(page: number): void {
@@ -73,4 +93,19 @@ export class AdminIngredientsComponent implements OnInit {
     return typeof this.ingredientPage === 'undefined' || this.ingredientPage.totalPages < 2;
   }
 
+  openConfirmation(ingredient: Ingredient): void {
+    const modalRef = this.modalService.open(ConfirmationDialogComponent, {
+        centered: true,
+        backdrop: 'static',
+        keyboard: false
+      });
+
+    modalRef.componentInstance.message = 'Czy jesteś pewien, aby usunąć składnik: ' + ingredient.name;
+
+    modalRef.result.then((result) => {
+      if (result === 'Confirm') {
+        this.deleteIngredient(ingredient);
+      }
+    });
+  }
 }

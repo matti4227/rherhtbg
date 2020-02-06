@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Fridge, Ingredient } from '../shared/interfaces';
 import { DataService } from '../core/data.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-fridge',
@@ -19,7 +20,10 @@ export class FridgeComponent implements OnInit {
   myControl = new FormControl();
   arrayIngredients = [];
 
-  constructor(private dataService: DataService) { }
+  fridgeChanged = false;
+
+  constructor(private dataService: DataService,
+              private toastr: ToastrService) { }
 
   filteredOptions: Observable<string[]>;
   private _filter(value: string): string[] {
@@ -69,7 +73,11 @@ export class FridgeComponent implements OnInit {
       next: response => {
         this.fridge = response;
         this.ingredients = this.fridge.ingredients;
-        console.log(this.ingredients);
+        this.fridgeChanged = false;
+        this.toastr.success('Pomyślnie zapisano lodówkę.', 'Sukces!', {
+          timeOut: 3000,
+          positionClass: 'toast-bottom-right'
+        });
       },
       error: error => {
         console.log(error);
@@ -81,11 +89,19 @@ export class FridgeComponent implements OnInit {
     if (this.ingredientValid()) {
       if (this.ingredientAlreadyInFridge()) {
         this.ingredients.push({ name: this.selectedIngredient });
+        this.selectedIngredient = '';
+        this.fridgeChanged = true;
       } else {
-        console.log('składnik jest już w lodówce');
+        this.selectedIngredient = '';
+        this.toastr.error('Składnik jest już w lodówce.', '', {
+          timeOut: 2000
+        });
       }
     } else {
-      console.log('nie ma takiego składnika w bazie');
+      this.selectedIngredient = '';
+      this.toastr.error('Nie ma takiego składnika w bazie.', '', {
+        timeOut: 2000
+      });
     }
   }
 
@@ -119,7 +135,7 @@ export class FridgeComponent implements OnInit {
   }
 
   ingredientsDisabled(): boolean {
-    return typeof this.ingredients === 'undefined' || this.ingredients.length === 0;
+    return typeof this.ingredients === 'undefined' || this.ingredients.length === 0 || this.fridgeChanged === false;
   }
 
   removeSelected(): void {
@@ -134,6 +150,7 @@ export class FridgeComponent implements OnInit {
     for (let i of ingToRemove) {
       this.ingredients.splice(i, 1);
     }
+    this.fridgeChanged = true;
   }
 
   getSelectedIngredients(): Ingredient[] {
@@ -143,6 +160,18 @@ export class FridgeComponent implements OnInit {
       ingredients.push({ name: ing });
     }
     return ingredients;
+  }
+
+  showFridgeInfo(): void {
+    this.toastr.info(
+      `Aby wyszukać przepisy po składnikach dodaj je do swojej lodówki, a następnie zaznacz.
+      Zapisz swoją lodówkę, aby trzymać w niej swoje ulubione składniki na kolejny raz!`, '', {
+        timeOut: 10000,
+        extendedTimeOut: 3000,
+        positionClass: 'toast-bottom-right',
+        closeButton: true,
+        progressBar: true
+      });
   }
 
   private startFiltering(): void {

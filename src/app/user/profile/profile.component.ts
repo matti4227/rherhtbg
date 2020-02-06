@@ -1,7 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { User } from 'src/app/shared/interfaces';
-import { DataService } from 'src/app/core/data.service';
+import { User, UserProfile, RecipePage } from 'src/app/shared/interfaces';
 
 @Component({
   selector: 'app-profile',
@@ -14,22 +13,19 @@ export class ProfileComponent implements OnInit {
   user: User;
 
   username = this.route.snapshot.paramMap.get('username');
+  recipePage: RecipePage;
 
-  constructor(private dataService: DataService,
-              private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.dataService.getUserByName(this.username)
-    .subscribe({
-      next: response => {
-        console.log(response);
-        this.user = { ...response };
-        this.username = response.username;
-      },
-      error: error => {
-        console.error(error);
-      }
+    this.route.data.subscribe(data => {
+      const resolvedData: UserProfile = data['resolvedData'];
+      this.onUserProfileRetrieved(resolvedData);
     });
-    console.log(this.username)
+  }
+
+  onUserProfileRetrieved(resolvedData: UserProfile): void {
+    this.user = resolvedData.user;
+    this.recipePage = resolvedData.recipePage;
   }
 }

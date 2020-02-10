@@ -9,7 +9,7 @@ import { RecipePage } from 'src/app/shared/interfaces';
 
       <app-recipe-list [recipePage]="recipePage"></app-recipe-list>
 
-      <div class="page-nav" *ngIf="!pageNav()">
+      <div class="page-nav" *ngIf="!pageNav()" style="margin-left: 8%;">
         <app-page-nav
           [page]="recipePage?.currentPage"
           [totalPages]="recipePage?.totalPages"

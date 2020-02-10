@@ -5,13 +5,29 @@
 
     <li class="nav-item">
       <a class="nav-link"
+        *ngIf="isLoggedIn"
          [routerLink]="['/recipes']"
          routerLinkActive="active">Strona główna</a>
     </li>
 
     <li class="nav-item">
       <a class="nav-link"
+        *ngIf="isLoggedIn"
          [routerLink]="['/recipes']"
+         routerLinkActive="active">Przepisy</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link"
+        *ngIf="!isLoggedIn"
+         [routerLink]="['/welcome']"
+         routerLinkActive="active">Strona główna</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link"
+        *ngIf="!isLoggedIn"
+         [routerLink]="['/welcome']"
          routerLinkActive="active">Przepisy</a>
     </li>
 

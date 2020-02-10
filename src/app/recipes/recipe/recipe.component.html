@@ -61,8 +61,11 @@
             <div>
               <h5 style="font-weight: 600;">Ocena: </h5 >
             </div>
-            <div>
+            <div *ngIf="recipe?.rating">
               <app-star [rating]="recipe?.rating"></app-star>
+            </div>
+            <div *ngIf="!recipe?.rating">
+              Brak ocen
             </div>
 
           </mat-card>

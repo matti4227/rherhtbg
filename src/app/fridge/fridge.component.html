@@ -34,28 +34,28 @@
     </button>
   </div>
 
-  <mat-selection-list [(ngModel)]="selectedIngredients">
-    <mat-list-option *ngFor="let ingredient of ingredients" [value]="ingredient.name">
-      {{ ingredient.name | titlecase }}
-    </mat-list-option>
+  <div style="margin-bottom: 7px;">
+    <mat-selection-list [(ngModel)]="selectedIngredients">
+      <mat-list-option *ngFor="let ingredient of ingredients" [value]="ingredient.name">
+        {{ ingredient.name | titlecase }}
+      </mat-list-option>
+    </mat-selection-list>
+  </div>
 
-    <div class="fridge-buttons" style="margin-top: 5px;">
-      <button
-        [disabled]="ingredientsSelectedDisabled()"
-        class="btn btn-primary mr-3"
-        style="width:100px;"
-        (click)="removeSelected()">
-        Usuń wybrane
-      </button>
-      <button
-        [disabled]="ingredientsDisabled()"
-        class="btn btn-primary mr-3"
-        style="width:100px;"
-        (click)="saveFridge()">
-        Zapisz lodówkę
-      </button>
-    </div>
-
-  </mat-selection-list>
-
+  <div class="fridge-buttons" style="margin-top: 5px;">
+    <button
+      [disabled]="ingredientsSelectedDisabled()"
+      class="btn btn-primary mr-3"
+      style="width:100px;"
+      (click)="removeSelected()">
+      Usuń wybrane
+    </button>
+    <button
+      [disabled]="ingredientsDisabled()"
+      class="btn btn-primary mr-3"
+      style="width:100px;"
+      (click)="saveFridge()">
+      Zapisz lodówkę
+    </button>
+  </div>
 </div>

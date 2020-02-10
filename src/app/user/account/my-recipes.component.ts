@@ -8,15 +8,17 @@ import { ActivatedRoute } from '@angular/router';
   template: `
     <div class="recipes container">
 
-      <app-recipe-list [recipePage]="recipePage"></app-recipe-list>
+    <div class="card">
+      <app-recipe-list style="margin-left: 9%" [recipePage]="recipePage"></app-recipe-list>
 
-      <div class="page-nav" *ngIf="!pageNav()">
+      <div class="page-nav" *ngIf="!pageNav()" style="margin-left: 6%">
         <app-page-nav
           [page]="recipePage?.currentPage"
           [totalPages]="recipePage?.totalPages"
           (changePage)="changePage($event)">
         </app-page-nav>
       </div>
+    </div>
 
     </div>
   `,

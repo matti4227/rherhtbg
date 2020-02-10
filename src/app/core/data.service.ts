@@ -67,7 +67,16 @@ export class DataService {
   }
 
   getUserRecipes(username: string, page: number, size: number): Observable<RecipePage> {
-    return this.httpClient.get<RecipePage>(`/api/recipes/user/${username}?page=${page}&size=${size}`);
+    return this.httpClient.get<RecipePage>(`/api/recipes/user/${username}?page=${page}&size=${size}`)
+    .pipe(
+      concatMap(response => {
+        for (let i = 0; i < response.content.length; i++) {
+          response.content[i].difficulty = this.setDifficulty(response.content[i].difficulty);
+          response.content[i].preparationTime = this.setPrepTime(response.content[i].preparationTime);
+        }
+        return of(response);
+      })
+    );
   }
 
   getRecipesByParameters(
@@ -81,7 +90,16 @@ export class DataService {
     ): Observable<RecipePage> {
     return this.httpClient.post<RecipePage>(
       `/api/recipes?text=${search}&category=${category}&diff=${difficulty}&prepTime=${prepTime}&sort=${sort}&page=${page}`
-      , ingredients);
+      , ingredients)
+        .pipe(
+          concatMap(response => {
+            for (let i = 0; i < response.content.length; i++) {
+              response.content[i].difficulty = this.setDifficulty(response.content[i].difficulty);
+              response.content[i].preparationTime = this.setPrepTime(response.content[i].preparationTime);
+            }
+            return of(response);
+          })
+        );
   }
 
   getRecipesBySearch(name: string, page: number): Observable<RecipePage> {
@@ -158,7 +176,16 @@ export class DataService {
   }
 
   getCookbook(page: number): Observable<RecipePage> {
-    return this.httpClient.get<RecipePage>(`/api/cookbook?page=${page}`);
+    return this.httpClient.get<RecipePage>(`/api/cookbook?page=${page}`)
+    .pipe(
+      concatMap(response => {
+        for (let i = 0; i < response.content.length; i++) {
+          response.content[i].difficulty = this.setDifficulty(response.content[i].difficulty);
+          response.content[i].preparationTime = this.setPrepTime(response.content[i].preparationTime);
+        }
+        return of(response);
+      })
+    );
   }
 
   addRecipeToCookbook(id: number): Observable<any> {
@@ -197,6 +224,26 @@ export class DataService {
       return { ...data, avatar: 'assets/blank_portrait.png' };
     } else {
       return { ...data, avatar: 'data:image/jpeg;base64,' + data.avatar };
+    }
+  }
+
+  private setDifficulty(difficulty: any): any {
+    if (difficulty === 1) {
+      return 'łatwe';
+    } else if (difficulty === 2) {
+      return 'średnie';
+    } else if (difficulty === 3) {
+      return 'trudne';
+    }
+  }
+
+  private setPrepTime(prepTime: any): any {
+    if (prepTime === 1) {
+      return 'do 30 min';
+    } else if (prepTime === 2) {
+      return '30 do 60 min';
+    } else if (prepTime === 3) {
+      return 'powyżej 60 min';
     }
   }
 }

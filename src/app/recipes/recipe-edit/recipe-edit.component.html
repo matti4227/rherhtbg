@@ -11,7 +11,7 @@
       <div class="col-md-8">
         <input
           required
-          maxlength="100"
+          maxlength="60"
           class="form-control"
           id="nameId"
           type="text"
@@ -20,7 +20,7 @@
           #name="ngModel"
           [ngClass]="{'is-invalid': (name.touched || name.dirty) && !name.valid }" />
       <span class="invalid-feedback">
-          Wymagana nazwa (do 100 znaków).
+          Wymagana nazwa (do 60 znaków).
       </span>
       </div>
     </div>

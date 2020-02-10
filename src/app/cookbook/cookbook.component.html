@@ -1,9 +1,11 @@
 <div class="parent container">
 
-  <h2 style="margin: 20px">Twoje ulubione przepisy</h2>
+  <div class="card-header" style="margin-top: 10px;">
+    <h2 style="margin: 10px">Twoje ulubione przepisy</h2>
+  </div>
 
-  <div class="recipes">
-    <app-recipe-list [recipePage]="recipePage"></app-recipe-list>
+  <div class="card recipes">
+    <app-recipe-list style="margin-left: 9%;margin-bottom: 25px;" [recipePage]="recipePage"></app-recipe-list>
   </div>
 
   <div class="page-nav" *ngIf="!pageNav()">

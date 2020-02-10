@@ -44,10 +44,10 @@ export class AppComponent {
   logout(): void {
     this.securityService.logout();
 
-    if (location.pathname === '/recipes') {
+    if (location.pathname === '/welcome') {
       window.location.reload();
     } else {
-      this.router.navigate(['/recipes']);
+      this.router.navigate(['/welcome']);
     }
   }
 

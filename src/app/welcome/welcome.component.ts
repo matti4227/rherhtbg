@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { RecipePage, Ingredient } from '../shared/interfaces';
 import { FilterData } from '../filter/filter-data';
 import { DataService } from '../core/data.service';
-import { RecipePage, Ingredient } from '../shared/interfaces';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: 'app-welcome',
+  templateUrl: './welcome.component.html',
+  styleUrls: ['./welcome.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class WelcomeComponent implements OnInit {
 
   recipePage: RecipePage;
   filterData: FilterData;
@@ -67,13 +67,10 @@ export class HomeComponent implements OnInit {
     this.searchText = '';
   }
 
-  searchRecipes(filter: any, fridge: any): void {
+  searchRecipes(filter: any): void {
     this.filterData = { ...filter.getData() };
     this.filterData.search = this.searchText;
     this.selectedIngredients = [];
-    for (let data of fridge.getData()) {
-      this.selectedIngredients.push(data);
-    }
     this.getRecipes();
   }
 
@@ -113,4 +110,5 @@ export class HomeComponent implements OnInit {
   pageNav(): boolean {
     return typeof this.recipePage === 'undefined' || this.recipePage.totalPages < 2;
   }
+
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from 'src/app/core/data.service';
 import { Recipe, RecipeIngredient, RecipeResolved } from 'src/app/shared/interfaces';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-recipe',
@@ -25,7 +26,8 @@ export class RecipeComponent implements OnInit {
   defaultImage = 'assets/blank_portrait.png';
 
   constructor(private dataService: DataService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private toastr: ToastrService) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -78,8 +80,10 @@ export class RecipeComponent implements OnInit {
     this.dataService.rateRecipe({ score: this.currentRate }, this.recipe.id)
       .subscribe({
         next: response => {
-          console.log(response);
-          console.log(this.recipe);
+          this.toastr.success('Oceniono!', '', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
         },
         error: error => {
           console.error(error);

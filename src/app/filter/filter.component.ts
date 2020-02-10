@@ -78,13 +78,13 @@ export class FilterComponent implements OnInit {
       this.filterData.prepTime = 0;
     }
     if (this.prepTime === this.prepTimes[1]) {
-      this.filterData.prepTime = 30;
+      this.filterData.prepTime = 1;
     }
     if (this.prepTime === this.prepTimes[2]) {
-      this.filterData.prepTime = 3060;
+      this.filterData.prepTime = 2;
     }
     if (this.prepTime === this.prepTimes[3]) {
-      this.filterData.prepTime = 60;
+      this.filterData.prepTime = 3;
     }
   }
 

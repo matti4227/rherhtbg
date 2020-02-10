@@ -3,7 +3,7 @@
     <app-filter #filter ></app-filter>
   </div>
 
-  <div class="recipes card">
+  <div class="recipes card container">
     <div class="search">
       <div style="text-align: center;cursor: default;">
         <h1>Wyszukiwarka przepisów</h1>
@@ -15,22 +15,24 @@
           placeholder="Wpisz szukaną frazę"
           [(ngModel)]="searchText">
       </div>
+
     </div>
     <div class="search-button">
       <button
         style="width: 100%;"
         class="btn btn-primary"
         type="button"
-        (click)="searchRecipes(filter, fridge)">
+        (click)="searchRecipes(filter)">
         Szukaj
       </button>
     </div>
 
-    <div style="margin-left: 3%;">
+    <div style="margin-left: 11%;">
       <app-recipe-list [recipePage]="recipePage"></app-recipe-list>
     </div>
 
-    <div class="page">
+
+    <div class="page"  style="margin-left: 5%;">
       <nav>
         <ul class="pagination justify-content-center">
 
@@ -103,9 +105,5 @@
       </nav>
     </div>
 
-  </div>
-
-  <div class="fridge card">
-    <app-fridge #fridge></app-fridge>
   </div>
 </div>

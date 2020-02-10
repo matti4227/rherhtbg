@@ -17,6 +17,7 @@ import { CookbookModule } from './cookbook/cookbook.module';
 import { AdminModule } from './admin/admin.module';
 import { ToastrModule } from 'ngx-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { WelcomeModule } from './welcome/welcome.module';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CoreModule,
     SecurityModule,
     RecipesModule,
+    WelcomeModule,
     RouterModule,
     UserModule,
     BrowserAnimationsModule,

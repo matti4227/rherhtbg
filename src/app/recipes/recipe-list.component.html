@@ -1,5 +1,5 @@
-<div class="items-block row" *ngIf="recipePage && recipePage.content.length">
-  <div class="card recipe" *ngFor="let recipe of recipePage.content" [routerLink]="['/recipe', recipe.id]">
+<div *ngIf="recipePage && recipePage.content.length">
+  <div class="card recipe mb-4" *ngFor="let recipe of recipePage.content" [routerLink]="['/recipe', recipe.id]">
 
     <div class="card-header" style="height: 80px;border-radius: 1%;">
       <h6 style="text-align: center;"><b>{{ recipe.name }}</b></h6>
@@ -23,6 +23,3 @@
   </div>
 
 </div>
-
-
-

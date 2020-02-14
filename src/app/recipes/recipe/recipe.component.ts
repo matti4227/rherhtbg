@@ -67,8 +67,11 @@ export class RecipeComponent implements OnInit {
     this.dataService.commentRecipe({ comment: this.comment }, this.recipe.id)
       .subscribe({
         next: response => {
-          console.log(response);
-          console.log(this.recipe);
+          this.toastr.success('Skomentowano!', '', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 2000
+          });
+          window.location.reload();
         },
         error: error => {
           console.error(error);
@@ -95,7 +98,10 @@ export class RecipeComponent implements OnInit {
     this.dataService.addRecipeToCookbook(this.recipe.id)
     .subscribe({
       next: response => {
-        console.log(response);
+        this.toastr.success('Dodano do ulubionych!', '', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
         window.location.reload();
       },
       error: error => {
@@ -108,7 +114,10 @@ export class RecipeComponent implements OnInit {
     this.dataService.removeRecipeFromCookbook(this.recipe.id)
     .subscribe({
       next: response => {
-        console.log(response);
+        this.toastr.success('Usunięto z ulubionych!', '', {
+          positionClass: 'toast-bottom-right',
+          timeOut: 2000
+        });
         window.location.reload();
       },
       error: error => {

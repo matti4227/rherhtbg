@@ -100,7 +100,7 @@ export class AdminIngredientsComponent implements OnInit {
         keyboard: false
       });
 
-    modalRef.componentInstance.message = 'Czy jesteś pewien, aby usunąć składnik: ' + ingredient.name;
+    modalRef.componentInstance.message = 'Czy jesteś pewien, aby usunąć składnik: ' + ingredient.name + ' ?';
 
     modalRef.result.then((result) => {
       if (result === 'Confirm') {

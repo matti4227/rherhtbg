@@ -372,7 +372,7 @@ export class RecipeEditComponent implements OnInit {
         keyboard: false
       });
 
-    modalRef.componentInstance.message = 'Czy jesteś pewien, aby usunąć przepis: ' + this.recipe.name;
+    modalRef.componentInstance.message = 'Czy jesteś pewien, aby usunąć ten przepis?';
 
     modalRef.result.then((result) => {
       if (result === 'Confirm') {

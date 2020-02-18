@@ -78,7 +78,7 @@ export class AdminUsersComponent implements OnInit {
         keyboard: false
       });
 
-    modalRef.componentInstance.message = 'Czy jesteś pewien, aby usunąć użytkownika: ' + user.username;
+    modalRef.componentInstance.message = 'Czy jesteś pewien, aby usunąć użytkownika: ' + user.username + ' ?';
 
     modalRef.result.then((result) => {
       if (result === 'Confirm') {

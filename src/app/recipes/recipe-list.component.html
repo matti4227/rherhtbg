@@ -1,25 +1,25 @@
-<div *ngIf="recipePage && recipePage.content.length">
-  <div class="card recipe mb-4" *ngFor="let recipe of recipePage.content" [routerLink]="['/recipe', recipe.id]">
+<div style="text-align: center;">
+  <div *ngIf="recipePage && recipePage.content.length" style="margin-top: 10px;">
+    <div class="card recipe text-center" *ngFor="let recipe of recipePage.content" [routerLink]="['/recipe', recipe.id]">
 
-    <div class="card-header" style="height: 80px;border-radius: 1%;">
-      <h6 style="text-align: center;"><b>{{ recipe.name }}</b></h6>
-    </div>
-
-    <div class="card-body picture"
-      [ngStyle]="{ 'background-image': 'url(' + 'data:image/jpeg;base64,' + recipe.picture + ')'}">
-
-    </div>
-
-    <div class="card-footer" style="height: 50px;border-radius: 1%;">
-      <div *ngIf="recipe?.rating">
-        <app-star [rating]="recipe?.rating" style="float: left;"></app-star>
+      <div class="card-header d-flex flex-column" style="height: 80px;border-radius: 1%;">
+        <h6 style="text-align: center;"><b>{{ recipe.name }}</b></h6>
       </div>
-      <div *ngIf="!recipe?.rating">
-        <span style="float: left;font-size: 16px;">Brak ocen</span>
-      </div>
-      <span style="float: right;font-size: 16px;">{{ recipe.difficulty | titlecase }}, {{ recipe.preparationTime | titlecase }}</span>
-    </div>
 
+      <div class="card-body picture"
+        [ngStyle]="{ 'background-image': 'url(' + 'data:image/jpeg;base64,' + recipe.picture + ')'}">
+
+      </div>
+
+      <div class="card-footer" style="height: 50px;border-radius: 1%;">
+        <div *ngIf="recipe?.rating">
+          <app-star [rating]="recipe?.rating" style="float: left;"></app-star>
+        </div>
+        <div *ngIf="!recipe?.rating">
+          <span style="float: left;font-size: 16px;">Brak ocen</span>
+        </div>
+        <span style="float: right;font-size: 16px;">{{ recipe.difficulty | titlecase }}, {{ recipe.preparationTime | titlecase }}</span>
+      </div>
+    </div>
   </div>
-
 </div>

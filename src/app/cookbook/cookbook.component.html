@@ -5,15 +5,14 @@
   </div>
 
   <div class="card recipes">
-    <app-recipe-list style="margin-left: 9%;margin-bottom: 25px;" [recipePage]="recipePage"></app-recipe-list>
-  </div>
+    <app-recipe-list style="margin-bottom: 25px;" [recipePage]="recipePage"></app-recipe-list>
 
-  <div class="page-nav" *ngIf="!pageNav()">
-    <app-page-nav
-      [page]="recipePage?.currentPage"
-      [totalPages]="recipePage?.totalPages"
-      (changePage)="changePage($event)">
-    </app-page-nav>
+    <div class="page-nav">
+      <app-page-nav
+        [page]="recipePage?.currentPage"
+        [totalPages]="recipePage?.totalPages"
+        (changePage)="changePage($event)">
+      </app-page-nav>
+    </div>
   </div>
-
 </div>

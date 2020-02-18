@@ -9,9 +9,9 @@ import { ActivatedRoute } from '@angular/router';
     <div class="recipes container">
 
     <div class="card">
-      <app-recipe-list style="margin-left: 9%" [recipePage]="recipePage"></app-recipe-list>
+      <app-recipe-list style="margin-bottom: 25px;" [recipePage]="recipePage"></app-recipe-list>
 
-      <div class="page-nav" *ngIf="!pageNav()" style="margin-left: 6%">
+      <div class="page-nav">
         <app-page-nav
           [page]="recipePage?.currentPage"
           [totalPages]="recipePage?.totalPages"

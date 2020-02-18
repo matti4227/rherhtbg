@@ -6,17 +6,15 @@ import { RecipePage } from 'src/app/shared/interfaces';
   selector: 'app-user-recipes',
   template: `
     <div class="recipes container">
-
       <app-recipe-list [recipePage]="recipePage"></app-recipe-list>
 
-      <div class="page-nav" *ngIf="!pageNav()" style="margin-left: 8%;">
+      <div class="page-nav" style="margin-top: 25px;" *ngIf="!pageNav()">
         <app-page-nav
           [page]="recipePage?.currentPage"
           [totalPages]="recipePage?.totalPages"
           (changePage)="changePage($event)">
         </app-page-nav>
       </div>
-
     </div>
   `,
   styles: []

@@ -22,13 +22,13 @@
 
 
       <div class="additionalPrevious">
-        <li class="page-item" *ngIf="checkNextPage()">
+        <li class="page-item" *ngIf="checkNextPage() && totalPages > 2">
           <a class="page-link" (click)="goToPage(-2)">{{ page - 1 }}</a>
         </li>
       </div>
 
       <div class="previous">
-        <li class="page-item" *ngIf="!checkPreviousPage()">
+        <li class="page-item" *ngIf="!checkPreviousPage() && totalPages > 1">
           <a class="page-link" (click)="goToPage(-1)">{{ page }}</a>
         </li>
       </div>
@@ -38,13 +38,13 @@
         </li>
       </div>
       <div class="next">
-        <li class="page-item" *ngIf="!checkNextPage()">
+        <li class="page-item" *ngIf="!checkNextPage() && totalPages > 1">
           <a class="page-link" (click)="goToPage(1)">{{ page + 2 }}</a>
         </li>
       </div>
 
       <div class="additionalNext">
-        <li class="page-item" *ngIf="checkPreviousPage()">
+        <li class="page-item" *ngIf="checkPreviousPage() && totalPages > 2">
           <a class="page-link" (click)="goToPage(2)">{{ page + 3 }}</a>
         </li>
       </div>

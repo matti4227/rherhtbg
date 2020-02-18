@@ -28,7 +28,7 @@
 
     <button
       [disabled]="selectedIngredientDisabled()"
-      class="btn btn-primary mr-3"
+      class="btn btn-primary"
       (click)="addIngredientToFridge()">
       Dodaj składnik
     </button>
@@ -46,14 +46,14 @@
     <button
       [disabled]="ingredientsSelectedDisabled()"
       class="btn btn-primary mr-3"
-      style="width:100px;"
+      style="width:110px;"
       (click)="removeSelected()">
       Usuń wybrane
     </button>
     <button
       [disabled]="ingredientsDisabled()"
       class="btn btn-primary mr-3"
-      style="width:100px;"
+      style="width:110px;margin-left: 20px;"
       (click)="saveFridge()">
       Zapisz lodówkę
     </button>

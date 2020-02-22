@@ -37,24 +37,21 @@ export class FridgeComponent implements OnInit {
         next: response => {
           this.fridge = response;
           this.ingredients = this.fridge.ingredients;
-          console.log('składniki w lodówce - ' + this.ingredients);
         },
         error: error => {
-          console.log(error);
+          this.toastr.error('Wystąpił problem!', 'Nie udało się pobrać lodówki!', {
+            positionClass: 'toast-top-center'
+          });
         }
       });
 
     this.dataService.getIngredients()
       .subscribe({
         next: response => {
-          console.log(response);
           for (let ingredient of response) {
             this.arrayIngredients.push(ingredient.name);
           }
           this.startFiltering();
-        },
-        error: error => {
-          console.error(error);
         }
       });
   }
@@ -80,7 +77,9 @@ export class FridgeComponent implements OnInit {
         });
       },
       error: error => {
-        console.log(error);
+        this.toastr.error('Nie udało się zapisać lodówki.', 'Wystąpił problem!', {
+          positionClass: 'toast-top-center'
+        });
       }
     });
   }
@@ -154,7 +153,6 @@ export class FridgeComponent implements OnInit {
   }
 
   getSelectedIngredients(): Ingredient[] {
-    console.log('wybrane składniki - ' + this.selectedIngredients)
     let ingredients: Ingredient[] = [];
     for (let ing of this.selectedIngredients) {
       ingredients.push({ name: ing });

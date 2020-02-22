@@ -51,7 +51,9 @@ export class RegisterComponent implements OnInit {
             this.router.navigate(['/authenticate']);
           },
           error: error => {
-            console.error(error);
+            this.toastr.error('Nie udało się utworzyć konta.', 'Wystąpił problem!', {
+              positionClass: 'toast-top-center'
+            });
           }
         });
     }

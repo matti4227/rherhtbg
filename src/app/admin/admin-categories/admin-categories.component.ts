@@ -37,11 +37,7 @@ export class AdminCategoriesComponent implements OnInit {
     this.dataService.getCategories()
     .subscribe({
       next: response => {
-        console.log(response);
         this.categories = response;
-      },
-      error: error => {
-        console.error(error);
       }
     });
   }
@@ -58,7 +54,9 @@ export class AdminCategoriesComponent implements OnInit {
         this.categoryText = null;
       },
       error: error => {
-        console.error(error);
+        this.toastr.error('Wystąpił problem z dodaniem kategorii!', '', {
+          positionClass: 'toast-top-center'
+        });
       },
       complete: () => {
         setTimeout(() => window.location.reload(), 1000);
@@ -75,7 +73,9 @@ export class AdminCategoriesComponent implements OnInit {
         });
       },
       error: error => {
-        console.error(error);
+        this.toastr.error('Wystąpił problem z usunięciem kategorii!', '', {
+          positionClass: 'toast-top-center'
+        });
       },
       complete: () => {
         setTimeout(() => window.location.reload(), 1000);

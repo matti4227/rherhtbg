@@ -26,13 +26,9 @@ export class FilterComponent implements OnInit {
     this.dataService.getCategories()
       .subscribe({
         next: response => {
-          console.log(response);
           for (let category of response) {
             this.categories.push(category.name);
           }
-        },
-        error: error => {
-          console.error(error);
         }
       });
   }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../core/data.service';
 import { RecipePage } from '../shared/interfaces';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cookbook',
@@ -14,7 +15,8 @@ export class CookbookComponent implements OnInit {
   page = 0;
 
   constructor(private dataService: DataService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private toastr: ToastrService) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -32,10 +34,11 @@ export class CookbookComponent implements OnInit {
       .subscribe({
         next: response => {
           this.recipePage = { ...response };
-          console.log(response);
         },
         error: error => {
-          console.error(error);
+          this.toastr.error('Wystąpił problem!', 'Nie udało się pobrać książki kucharskiej!', {
+            positionClass: 'toast-top-center'
+          });
         }
       });
   }

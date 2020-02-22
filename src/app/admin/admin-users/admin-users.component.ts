@@ -36,11 +36,7 @@ export class AdminUsersComponent implements OnInit {
     this.dataService.getAllUsers(this.page)
     .subscribe({
       next: response => {
-        console.log(response);
         this.userPage = { ...response };
-      },
-      error: error => {
-        console.error(error);
       }
     });
   }
@@ -54,7 +50,9 @@ export class AdminUsersComponent implements OnInit {
         });
       },
       error: error => {
-        console.error(error);
+        this.toastr.error('Wystąpił problem z usunięciem użytkownika kategorii!', '', {
+          positionClass: 'toast-top-center'
+        });
       },
       complete: () => {
         setTimeout(() => window.location.reload(), 1000);

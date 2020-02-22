@@ -38,11 +38,7 @@ export class AdminIngredientsComponent implements OnInit {
     this.dataService.getIngredientsPage(this.page)
     .subscribe({
       next: response => {
-        console.log(response);
         this.ingredientPage = { ...response };
-      },
-      error: error => {
-        console.error(error);
       }
     });
   }
@@ -59,7 +55,9 @@ export class AdminIngredientsComponent implements OnInit {
         this.ingredientText = null;
       },
       error: error => {
-        console.error(error);
+        this.toastr.error('Wystąpił problem z dodaniem składnika!', '', {
+          positionClass: 'toast-top-center'
+        });
       },
       complete: () => {
         setTimeout(() => window.location.reload(), 1000);
@@ -76,7 +74,9 @@ export class AdminIngredientsComponent implements OnInit {
         });
       },
       error: error => {
-        console.error(error);
+        this.toastr.error('Wystąpił problem z usunięciem składnika!', '', {
+          positionClass: 'toast-top-center'
+        });
       },
       complete: () => {
         setTimeout(() => window.location.reload(), 1000);

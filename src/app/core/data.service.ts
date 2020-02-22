@@ -219,7 +219,6 @@ export class DataService {
   }
 
   private setAvatar(data: any): any {
-    console.log(data)
     if (data.avatar === null) {
       return { ...data, avatar: 'assets/blank_portrait.png' };
     } else {

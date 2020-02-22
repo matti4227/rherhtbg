@@ -74,7 +74,9 @@ export class RecipeComponent implements OnInit {
           window.location.reload();
         },
         error: error => {
-          console.error(error);
+          this.toastr.error('Nie udało się skomentować przepisu.', 'Wystąpił problem!', {
+            positionClass: 'toast-top-center'
+          });
         }
       });
   }
@@ -89,7 +91,9 @@ export class RecipeComponent implements OnInit {
           });
         },
         error: error => {
-          console.error(error);
+          this.toastr.error('Nie udało się ocenić przepisu.', 'Wystąpił problem!', {
+            positionClass: 'toast-top-center'
+          });
         }
       });
   }
@@ -98,14 +102,16 @@ export class RecipeComponent implements OnInit {
     this.dataService.addRecipeToCookbook(this.recipe.id)
     .subscribe({
       next: response => {
-        this.toastr.success('Dodano do ulubionych!', '', {
+        this.toastr.success('Dodano do książki kucharskiej!', '', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
         window.location.reload();
       },
       error: error => {
-        console.error(error);
+        this.toastr.error('Nie udało się dodać do książki kuchaskiej.', 'Wystąpił problem!', {
+          positionClass: 'toast-top-center'
+        });
       }
     });
   }
@@ -114,14 +120,16 @@ export class RecipeComponent implements OnInit {
     this.dataService.removeRecipeFromCookbook(this.recipe.id)
     .subscribe({
       next: response => {
-        this.toastr.success('Usunięto z ulubionych!', '', {
+        this.toastr.success('Usunięto z książki kucharskiej!', '', {
           positionClass: 'toast-bottom-right',
           timeOut: 2000
         });
         window.location.reload();
       },
       error: error => {
-        console.error(error);
+        this.toastr.error('Nie udało się usunąć z książki kucharskiej.', 'Wystąpił problem!', {
+          positionClass: 'toast-top-center'
+        });
       }
     });
   }

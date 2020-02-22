@@ -41,6 +41,9 @@
       </mat-list-option>
     </mat-selection-list>
   </div>
+  <div *ngIf="ingredients?.length === 0" style="text-align: center;margin: 15px;">
+    W lodówce pusto!
+  </div>
 
   <div class="fridge-buttons" style="margin-top: 5px;">
     <button

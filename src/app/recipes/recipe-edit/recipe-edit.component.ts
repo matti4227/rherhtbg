@@ -109,27 +109,19 @@ export class RecipeEditComponent implements OnInit {
     this.dataService.getCategories()
       .subscribe({
         next: response => {
-          console.log(response);
           for (let category of response) {
             this.categories.push(category.name);
           }
-        },
-        error: error => {
-          console.error(error);
         }
       });
 
     this.dataService.getIngredients()
       .subscribe({
         next: response => {
-          console.log(response);
           for (let ingredient of response) {
             this.arrayIngredients.push(ingredient.name);
           }
           this.startFiltering();
-        },
-        error: error => {
-          console.error(error);
         }
       });
   }
@@ -203,26 +195,28 @@ export class RecipeEditComponent implements OnInit {
         this.dataService.createRecipe(recipe)
           .subscribe({
             next: response => {
-              console.log(response);
               const id = response.id;
               this.updateImage(id);
               this.onSaveComplete();
             },
             error: error => {
-              console.error(error);
+              this.toastr.error('Nie udało się stworzyć przepisu.', 'Wystąpił problem!', {
+                positionClass: 'toast-top-center'
+              });
             }
           });
       } else {
         this.dataService.updateRecipe(this.recipe.id, recipe)
           .subscribe({
             next: response => {
-              console.log(response);
               const id = response.id;
               this.updateImage(id);
               this.onSaveComplete();
             },
             error: error => {
-              console.error(error);
+              this.toastr.error('Nie udało się zedytować przepisu.', 'Wystąpił problem!', {
+                positionClass: 'toast-top-center'
+              });
             }
           });
       }
@@ -240,11 +234,10 @@ export class RecipeEditComponent implements OnInit {
       uploadData.append('image', this.selectedFile, this.selectedFile.name);
       this.dataService.updateRecipeImage(id, uploadData)
         .subscribe({
-          next: response => {
-            console.log(response);
-          },
           error: error => {
-            console.error(error);
+            this.toastr.error('Nie udało się dodać zdjęcia.', 'Wystąpił problem!', {
+              positionClass: 'toast-top-center'
+            });
           }
         });
     }
@@ -355,12 +348,13 @@ export class RecipeEditComponent implements OnInit {
           this.toastr.success('Pomyślnie usunięto przepis.', '', {
             positionClass: 'toast-top-center'
           });
+
+          setTimeout(() => this.router.navigate(['/recipes']), 1000);
         },
         error: error => {
-          console.error(error);
-        },
-        complete: () => {
-          setTimeout(() => this.router.navigate(['/recipes']), 1000);
+          this.toastr.error('Nie udało się usunąć przepisu.', 'Wystąpił problem!', {
+            positionClass: 'toast-top-center'
+          });
         }
       });
   }

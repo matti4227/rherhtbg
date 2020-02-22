@@ -35,7 +35,6 @@ export class EditComponent implements OnInit {
               private toastr: ToastrService) { }
 
   ngOnInit() {
-
     this.buildInfoForm();
     this.buildPasswordForm();
 
@@ -43,22 +42,6 @@ export class EditComponent implements OnInit {
       const resolvedData: User = data['resolvedData'];
       this.onUserRetrieved(resolvedData);
     });
-
-    // this.dataService.getUser()
-    //   .subscribe({
-    //     next: response => {
-    //       this.imageURL = response.avatar;
-    //       this.infoForm.patchValue({
-    //         firstName: response.firstName,
-    //         lastName: response.lastName
-    //       });
-    //       this.username = response.username;
-    //       this.email = response.email;
-    //     },
-    //     error: error => {
-    //       console.error(error);
-    //     }
-      // });
   }
 
   onUserRetrieved(user: User): void {
@@ -106,7 +89,9 @@ export class EditComponent implements OnInit {
             });
           },
           error: error => {
-            console.error(error);
+            this.toastr.error('Nie udało się zmienić avatara.', 'Wystąpił problem!', {
+              positionClass: 'toast-top-center'
+            });
           }
         });
     } else {
@@ -119,14 +104,15 @@ export class EditComponent implements OnInit {
       this.dataService.removeAvatar()
         .subscribe({
           next: response => {
-            console.log(response);
             this.toastr.success('Zapisano avatar!', '', {
               timeOut: 3000,
               positionClass: 'toast-bottom-right'
             });
           },
           error: error => {
-            console.error(error);
+            this.toastr.error('Nie udało się usunąć avatara.', 'Wystąpił problem!', {
+              positionClass: 'toast-top-center'
+            });
           }
         });
     }
@@ -201,7 +187,9 @@ export class EditComponent implements OnInit {
         });
       },
       error: error => {
-        console.error(error);
+        this.toastr.error('Nie udało się zmienić informacji.', 'Wystąpił problem!', {
+          positionClass: 'toast-top-center'
+        });
       }
     });
   }

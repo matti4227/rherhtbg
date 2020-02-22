@@ -3,6 +3,7 @@ import { FilterData } from '../filter/filter-data';
 import { DataService } from '../core/data.service';
 import { RecipePage, Ingredient } from '../shared/interfaces';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +20,8 @@ export class HomeComponent implements OnInit {
   searchText: string;
 
   constructor(private dataService: DataService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private toastr: ToastrService) { }
 
   ngOnInit() {
     this.setDefaultParameters();
@@ -49,7 +51,9 @@ export class HomeComponent implements OnInit {
           this.totalPages = this.recipePage.totalPages;
         },
         error: error => {
-          console.error(error);
+          this.toastr.error('Nie udało się pobrać przepisów.', 'Wystąpił problem!', {
+            positionClass: 'toast-top-center'
+          });
         }
       });
   }

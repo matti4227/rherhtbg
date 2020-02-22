@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataService } from 'src/app/core/data.service';
 import { RecipePage } from 'src/app/shared/interfaces';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-recipes',
@@ -8,7 +9,11 @@ import { RecipePage } from 'src/app/shared/interfaces';
     <div class="recipes container">
       <app-recipe-list [recipePage]="recipePage"></app-recipe-list>
 
-      <div class="page-nav" style="margin-top: 25px;" *ngIf="!pageNav()">
+      <div *ngIf="recipePage.totalResults === 0" style="margin: 20px;">
+        <legend style="text-align: center;">Brak przepisów użytkownika</legend>
+      </div>
+
+      <div class="page-nav" style="margin-top: 20px;" *ngIf="recipePage.totalResults !== 0">
         <app-page-nav
           [page]="recipePage?.currentPage"
           [totalPages]="recipePage?.totalPages"
@@ -28,17 +33,19 @@ export class UserRecipesComponent {
 
   @Input() username: string;
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService,
+              private toastr: ToastrService) { }
 
   getUserRecipes(): void {
     this.dataService.getUserRecipes(this.username, this.page, this.size)
     .subscribe({
       next: response => {
-        console.log(response);
         this.recipePage = { ...response };
       },
       error: error => {
-        console.error(error);
+        this.toastr.error('Nie udało się pobrać przepisów.', 'Wystąpił problem!', {
+          positionClass: 'toast-top-center'
+        });
       }
     });
   }

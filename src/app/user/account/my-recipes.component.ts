@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RecipePage } from 'src/app/shared/interfaces';
 import { DataService } from 'src/app/core/data.service';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-my-recipes',
@@ -9,9 +10,13 @@ import { ActivatedRoute } from '@angular/router';
     <div class="recipes container">
 
     <div class="card">
-      <app-recipe-list style="margin-bottom: 25px;" [recipePage]="recipePage"></app-recipe-list>
+      <app-recipe-list [recipePage]="recipePage"></app-recipe-list>
 
-      <div class="page-nav">
+      <div *ngIf="recipePage.totalResults === 0" style="margin: 20px;">
+        <legend style="text-align: center;">Nie utworzyłeś żadnego przepisu</legend>
+      </div>
+
+      <div class="page-nav" style="margin-top: 20px;" *ngIf="recipePage.totalResults !== 0">
         <app-page-nav
           [page]="recipePage?.currentPage"
           [totalPages]="recipePage?.totalPages"
@@ -31,7 +36,8 @@ export class MyRecipesComponent implements OnInit {
   size = 12;
 
   constructor(private dataService: DataService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private toastr: ToastrService) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -49,11 +55,12 @@ export class MyRecipesComponent implements OnInit {
     this.dataService.getUserRecipes(username, this.page, this.size)
     .subscribe({
       next: response => {
-        console.log(response);
         this.recipePage = { ...response };
       },
       error: error => {
-        console.error(error);
+        this.toastr.error('Nie udało się pobrać przepisów.', 'Wystąpił problem!', {
+          positionClass: 'toast-top-center'
+        });
       }
     });
   }

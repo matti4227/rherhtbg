@@ -17,8 +17,7 @@ export class RecipeResolver implements Resolve<RecipeResolved> {
     const id = route.paramMap.get('id');
 
     if (isNaN(+id)) {
-      const message = `Product id was not a number: ${id}`;
-      console.error(message);
+      const message = `Recipe id was not a number: ${id}`;
       return of({ recipe: null, errorMessage: message });
     }
 
@@ -27,7 +26,6 @@ export class RecipeResolver implements Resolve<RecipeResolved> {
         map(next => ({ recipe: next })),
         catchError(error => {
           const message = `Retrieval error: ${error}`;
-          console.error(message);
           return of({ recipe: null, errorMessage: message });
         })
       );

@@ -31,7 +31,7 @@ export class SecurityService {
         tap( response => {
           this.securityObject = { ...response };
           sessionStorage.setItem('bearerToken', JSON.stringify(this.securityObject.bearerToken));
-          sessionStorage.setItem('username', JSON.stringify(this.securityObject.userName));
+          sessionStorage.setItem('username', JSON.stringify(this.securityObject.username));
           sessionStorage.setItem('role', JSON.stringify(this.securityObject.role));
         })
       );

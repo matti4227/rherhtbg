@@ -5,8 +5,7 @@ export interface UserRegister {
 }
 
 export interface UserAuth {
-  id: number;
-  userName: string;
+  username: string;
   bearerToken: string;
   role: string;
 }

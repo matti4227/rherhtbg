@@ -8,7 +8,6 @@ export class OwnRecipeDirective {
 
   @Input() set appOwnRecipe(username: string) {
     if (this.securityService.getUsername === username) {
-
       this.viewContainer.createEmbeddedView(this.templateRef);
     } else {
       this.viewContainer.clear();

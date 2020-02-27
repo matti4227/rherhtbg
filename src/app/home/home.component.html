@@ -30,7 +30,11 @@
       <app-recipe-list [recipePage]="recipePage"></app-recipe-list>
     </div>
 
-    <div class="page">
+    <div *ngIf="recipePage.totalResults === 0" style="margin: 20px;">
+      <legend style="text-align: center;">Nie znaleziono przepisów</legend>
+    </div>
+
+    <div class="page" *ngIf="recipePage.totalResults !== 0">
       <nav>
         <ul class="pagination justify-content-center">
 

@@ -188,7 +188,7 @@
 
 
     <legend class="container">Komentarze</legend>
-    <div class="comments container">
+    <div class="comments container" *ngIf="recipe?.comments.length > 0">
       <mat-card class="card1" *ngFor="let comment of recipe?.comments">
         <mat-card-header>
           <div mat-card-avatar class="header-image">
@@ -210,9 +210,10 @@
         </mat-card-footer>
       </mat-card>
     </div>
-
+    <div *ngIf="recipe?.comments.length === 0">
+      <legend style="text-align: center;">Brak komentarzy</legend>
+    </div>
 
   </mat-card>
-
 
 </div>

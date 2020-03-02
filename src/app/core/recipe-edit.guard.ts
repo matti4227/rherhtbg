@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot } from '@angular/router';
+import { CanDeactivate } from '@angular/router';
 import { Observable } from 'rxjs';
 import { RecipeEditComponent } from '../recipes/recipe-edit/recipe-edit.component';
 
@@ -8,13 +8,10 @@ import { RecipeEditComponent } from '../recipes/recipe-edit/recipe-edit.componen
 })
 export class RecipeEditGuard implements CanDeactivate<RecipeEditComponent> {
 
-  canDeactivate(component: RecipeEditComponent,
-                currentRoute: ActivatedRouteSnapshot,
-                currentState: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+  canDeactivate(component: RecipeEditComponent): Observable<boolean> | Promise<boolean> | boolean {
 
     if (component.isDirty) {
-      const recipeName = component.recipe.name || 'New Product';
-      return confirm(`Navigate away and lose all changes to ${recipeName}?`);
+      return confirm(`Czy jesteś pewien opuszczenia strony? Niezapisane zmiany zostaną utracone.`);
     }
     return true;
   }

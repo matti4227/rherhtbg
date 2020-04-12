@@ -22,3 +22,7 @@
     border-radius: 50%;
   }
 }
+
+.custom-file-input ~ .custom-file-label::after {
+  content: "Przeglądaj";
+}

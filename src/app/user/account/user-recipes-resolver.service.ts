@@ -12,7 +12,7 @@ export class UserRecipesResolver implements Resolve<RecipePage> {
   constructor(private dataService: DataService) { }
 
   resolve(): Observable<RecipePage> | Promise<RecipePage> | RecipePage {
-    return this.dataService.getUserRecipes(JSON.parse(sessionStorage.getItem('username')), 0, 12);
+    return this.dataService.getUserRecipes(JSON.parse(sessionStorage.getItem('username')), 0, 6);
   }
 
 }

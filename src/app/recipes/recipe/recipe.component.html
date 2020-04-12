@@ -95,38 +95,36 @@
 
     <hr>
 
-    <div class="container">
-      <mat-card-content>
+    <div style="display: flex">
 
-        <mat-card-title>Składniki</mat-card-title>
-        <div class="ingredients">
-          <ul class="list-group list-group-flush">
-            <li
-              class="list-group-item"
-              *ngFor="let ingredient of recipe?.recipeIngredients | sort: 'name'">
-              <div style="display: inline-block;"><b>{{ ingredient?.name | titlecase }}</b>&nbsp;&nbsp;</div>
-              <div style="display: inline-block;">{{ ingredient?.amount }}</div>
-            </li>
-          </ul>
-        </div>
+      <div class="container" style="width: 40%;">
+        <mat-card-content>
+          <mat-card-title>Składniki</mat-card-title>
+          <div class="ingredients">
+            <ul class="list-group list-group-flush">
+              <li
+                class="list-group-item"
+                *ngFor="let ingredient of recipe?.recipeIngredients | sort: 'name'">
+                <div style="display: inline-block;"><b>{{ ingredient?.name | titlecase }}</b>&nbsp;&nbsp;</div>
+                <div style="display: inline-block;">{{ ingredient?.amount }}</div>
+              </li>
+            </ul>
+          </div>
+        </mat-card-content>
+      </div>
 
-
-
-
-      </mat-card-content>
-    </div>
-
-    <hr>
-
-    <div class="container">
-      <mat-card-content>
-        <mat-card-title>Przygotowanie</mat-card-title>
-        <div class="preparation">
-          <p>{{ recipe?.preparation }}</p>
-        </div>
-      </mat-card-content>
+      <div class="container" style="flex: 1;">
+        <mat-card-content>
+          <mat-card-title>Przygotowanie</mat-card-title>
+          <div class="preparation">
+            <h5>{{ recipe?.preparation }}</h5>
+          </div>
+        </mat-card-content>
+      </div>
 
     </div>
+
+
 
     <div class="container" *appHasRole="'[ADMIN],[USER]'">
       <mat-card-actions>

@@ -33,7 +33,7 @@ export class MyRecipesComponent implements OnInit {
 
   recipePage: RecipePage;
   page = 0;
-  size = 12;
+  size = 6;
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,

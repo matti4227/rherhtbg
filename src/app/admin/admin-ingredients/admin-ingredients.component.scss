@@ -1,0 +1,11 @@
+.ingredients {
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, 0);
+
+    .page-nav {
+      margin-right: 25px;
+    }
+}

@@ -32,6 +32,7 @@ export class AdminIngredientsComponent implements OnInit {
 
   onIngredientsRetrieved(resolvedData: IngredientPage): void {
     this.ingredientPage = { ...resolvedData };
+    console.log(this.ingredientPage)
   }
 
   getIngredientPage(): void {

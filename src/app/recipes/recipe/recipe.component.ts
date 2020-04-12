@@ -39,6 +39,7 @@ export class RecipeComponent implements OnInit {
   onRecipeRetrieved(recipe: Recipe): void {
     this.recipe = { ...recipe };
     this.currentRate = this.recipe.userRate;
+    console.log(this.recipe.userRate)
     this.difficulty = this.getDifficultyName(this.recipe.difficulty);
     this.prepTime = this.getPrepTimeName(this.recipe.preparationTime);
   }

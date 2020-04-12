@@ -12,13 +12,13 @@ export class FilterComponent implements OnInit {
   categories = ['wszystkie'];
   difficulties = ['wszystkie', 'łatwe', 'średnie', 'trudne'];
   prepTimes = ['wszystkie', 'do 30 min', '30 do 60 min', 'powyżej 60 min'];
-  sorts = ['wszystkie', 'najnowsze', 'najwyżej oceniane'];
+  sorts = ['najnowsze', 'najstarsze', 'najwyżej oceniane'];
 
   filterData: FilterData;
   category = 'wszystkie';
   difficulty = 'wszystkie';
   prepTime = 'wszystkie';
-  sort = 'wszystkie';
+  sort = 'najnowsze';
 
   constructor(private dataService: DataService) { }
 
@@ -86,10 +86,10 @@ export class FilterComponent implements OnInit {
 
   private setSort(): void {
     if (this.sort === this.sorts[0] || typeof this.sort === 'undefined') {
-      this.filterData.sort = 0;
+      this.filterData.sort = 2;
     }
     if (this.sort === this.sorts[1]) {
-      this.filterData.sort = 2;
+      this.filterData.sort = 1;
     }
     if (this.sort === this.sorts[2]) {
       this.filterData.sort = 4;

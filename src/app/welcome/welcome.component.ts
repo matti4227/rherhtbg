@@ -72,6 +72,7 @@ export class WelcomeComponent implements OnInit {
   }
 
   searchRecipes(filter: any): void {
+    this.page = 0;
     this.filterData = { ...filter.getData() };
     this.filterData.search = this.searchText;
     this.selectedIngredients = [];

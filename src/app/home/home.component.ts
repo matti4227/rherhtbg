@@ -72,6 +72,7 @@ export class HomeComponent implements OnInit {
   }
 
   searchRecipes(filter: any, fridge: any): void {
+    this.page = 0;
     this.filterData = { ...filter.getData() };
     this.filterData.search = this.searchText;
     this.selectedIngredients = [];
